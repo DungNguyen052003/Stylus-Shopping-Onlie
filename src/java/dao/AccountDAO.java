@@ -1,11 +1,11 @@
 package dao;
 
 import model.Account;
-
-public class AccountDAO extends DBContext {
+import context.DBContext;
+public class AccountDAO extends DBContext  {
 
     public Account findAccount(Account account) {
-        connection = getConnection();
+       
         String sql = "SELECT *\n"
                 + "  FROM [dbo].[Account]\n"
                 + "  WHERE [Account].Email = ? AND [Account].Password = ?";
