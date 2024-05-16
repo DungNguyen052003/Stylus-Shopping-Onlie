@@ -204,7 +204,7 @@
                                             <div class="form-group">
                                                 <span class="input-icon"><i class="fa fa-user"></i></span>
                                                 <input type="text" class="form-control" placeholder="User  Name" name="username">
-                                                <div style="color:red;padding-block:5px">${error}</div>
+                                                
                                             </div>
                                             <div class="form-group">
                                                 <span class="input-icon"><i class="fa fa-user"></i></span>
@@ -214,7 +214,7 @@
                                             <div class="form-group">
                                                 <span class="input-icon"><i class="fas fa-key"></i></span>
                                                 <input type="password" class="form-control" placeholder="Password" name="pass">
-                                                <div style="color:red;padding-block:3px">${errorMessage}</div>
+                                                
 
                                             </div>
 
@@ -222,7 +222,8 @@
                                                 <span class="input-icon"><i class="fa fa-user"></i></span>
                                                 <input type="text " class="form-control" placeholder="Your Phone" name="phone">
                                             </div>
-
+                                                <div style="color:red;padding-block:5px">${error}</div>
+                                                <div style="color:red;padding-block:5px">${errorMessage}</div>
 
                                             <button class="btn">Register</button>
 
