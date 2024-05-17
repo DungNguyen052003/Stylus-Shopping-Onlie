@@ -6,13 +6,16 @@
 package controller;
 
 import dao.AccountDAO;
+import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Customer;
 
 /**
  *
@@ -20,6 +23,7 @@ import model.Account;
  */
 public class Login extends HttpServlet {
     AccountDAO accountDAO = new AccountDAO();
+    CustomerDAO customerDAO = new CustomerDAO();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -68,17 +72,30 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
         Account account = new Account();
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
         account.setEmail(email);
-        account.setPassword(pass);
+        account.setPassword( pass);
         Account findAccount = accountDAO.findAccount(account);
         if(findAccount != null){
-            request.getRequestDispatcher("index.html").forward(request, response);
+            // Nếu tài khoản tồn tại, kiểm tra xem có phải là khách hàng không
+            Customer customer = new Customer();
+            customer.setEmail(email);
+            customer.setPassword(pass);
+            Customer findCustomer = customerDAO.findCustomer(customer);
+            if(findCustomer != null){
+                System.out.println(customer.toString());
+                session.setAttribute("customer", findCustomer);
+            }else{
+                System.out.println(account.toString());
+                session.setAttribute("account", findAccount);
+            }
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }else{
-            request.setAttribute("error", "Username or password incorrect");
-            request.getRequestDispatcher("view/authen/login.jsp").forward(request, response);
+            session.setAttribute("error", "Username or password incorrect");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         
         
