@@ -1,5 +1,10 @@
 package dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
 import context.DBContext;
 public class AccountDAO extends DBContext  {
@@ -32,6 +37,7 @@ public class AccountDAO extends DBContext  {
         }
         return null;
     }
+
     public static void main(String[] args) {
         // Tạo một tài khoản mới để tìm kiếm
         Account accountToFind = new Account();
@@ -53,6 +59,82 @@ public class AccountDAO extends DBContext  {
             System.out.println("Role: " + foundAccount.getRole());
         } else {
             System.out.println("Account not found.");
+        }
+
+    }
+
+    public int getNumberAccounts() {
+        try {
+            String sql = "SELECT COUNT(*) FROM Users";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int number = rs.getInt(1);
+                return number;
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
+
+    public boolean checkUserNameDuplicate(String username) {
+        connection = getConnection();
+        String sql = "SELECT * FROM Account WHERE Username = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("ID");
+                String password = rs.getString("Password");
+                int roleID = rs.getInt("RoleID");
+                int phone = rs.getInt("Phone");
+                String email = rs.getString("Email");
+                String image = rs.getString("Image");
+                String name = rs.getString("Name");
+
+                Account account = new Account(id, username, password, roleID, phone, email, image, name);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Thay vì System.out.println(e); để in ra stack trace
+        }
+        return false;
+    }
+
+    public void insert(Account a) {
+        connection = getConnection();
+        String sql = "INSERT INTO [dbo].[Account]\n"
+                + "           ([UserName]\n"
+                + "           ,[Password]\n"
+                + "           ,[RoleID]\n"
+                + "           ,[Phone]\n"
+                + "           ,[Email]\n"
+                + "           ,[Image]\n"
+                + "           ,[Name])\n"
+                + "     VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setString(1, a.getUsername());
+            st.setString(2, a.getPassword());
+            st.setInt(3, a.getRole());
+            st.setInt(4, a.getPhone());
+            st.setString(5, a.getEmail());
+            st.setString(6, a.getImage());
+            st.setString(7, a.getName());
+
+            st.executeUpdate();
+
+            // Lấy ID của bản ghi vừa chèn vào
+//            ResultSet rs = st.getGeneratedKeys();
+//            if (rs.next()) {
+//                int generatedId = rs.getInt(1);
+//                // Sử dụng ID nếu cần thiết
+//            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 }

@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
+import validation.Validate;
+
 
 /**
  *
@@ -87,12 +89,10 @@ public class RegisterServlet extends HttpServlet {
         String message = "Something wrong";
         int slUPrev = ac.getNumberAccounts();
         boolean isDup = ac.checkUserNameDuplicate(uName);
-        boolean isValidPassword = isValidPassword(uPass);
-
+        boolean isValidPassword = Validate.isValidPassword(uPass);
+       
         if (isValidPassword) {
-            // Xử lý logic lưu thông tin tài khoản vào cơ sở dữ liệu
-            // Ví dụ: bạn có thể sử dụng JDBC để thực hiện việc này
-            // Sau đó chuyển hướng người dùng đến trang đăng nhập hoặc trang chính của ứng dụng
+            
             if (isDup) {
                 message = "Username already exists!";
                 request.setAttribute("error", message);
@@ -119,21 +119,7 @@ public class RegisterServlet extends HttpServlet {
         request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
     }
 
-    // Hàm kiểm tra tính hợp lệ của mật khẩu
-    private boolean isValidPassword(String password) {
-        // Kiểm tra độ dài
-        if (password.length() < 8 || password.length() > 16) {
-            return false;
-        }
 
-        // Kiểm tra chứa ít nhất một chữ cái thường, một chữ cái viết hoa, một chữ số và một ký tự đặc biệt
-        if (!password.matches(".*[a-z].*") && !password.matches(".*[A-Z].*")
-                && !password.matches(".*\\d.*") && !password.matches(".*[!@#$%^&*()-+=`~\\[\\]{}|;:'\",.<>?/\\\\].*")) {
-            return false;
-        }
-
-        return true;
-    }
 
     /**
      * Returns a short description of the servlet.
