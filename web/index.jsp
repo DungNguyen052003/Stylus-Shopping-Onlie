@@ -824,6 +824,15 @@
 
 
 
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const isError = urlParams.get('error');
+    if(isError){
+            const button = document.querySelector('#button_show');
+            button.click();
+        }
+        </script>
+
     </body>
 
 </html>
