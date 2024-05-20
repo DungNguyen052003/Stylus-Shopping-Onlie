@@ -53,7 +53,7 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <p style="cursor:pointer; font-weight: bold" data-toggle="modal" data-target="#myModal">Login</p>
+                <p style="cursor:pointer; font-weight: bold" data-toggle="modal" data-target="#myModal" id="button_show">Login</p>
                 <p style="cursor:pointer; font-weight: bold" href="#">Register</p>
             </div>
 
@@ -94,7 +94,7 @@
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                <span style="cursor:pointer" data-toggle="modal" data-target="#myModal">Login</span>
+                                <span style="cursor:pointer" data-toggle="modal" data-target="#myModal" id="button_show">Login</span>
                                 <span> / </span>
                                 <span style="cursor:pointer" href="#">Register</span>
                             </div>
@@ -809,6 +809,7 @@
             </div>
         </div>
         <!-- Search End -->
+        
         <%@include file="view/authen/login.jsp" %>
         <!-- Js Plugins -->
         <script src="asset/js/jquery-3.3.1.min.js"></script>
@@ -825,12 +826,12 @@
 
 
         <script>
-            const urlParams = new URLSearchParams(window.location.search);
-            const isError = urlParams.get('error');
-    if(isError){
-            const button = document.querySelector('#button_show');
-            button.click();
-        }
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const isError = urlParams.get('error');
+                                if (isError) {
+                                    const button = document.querySelector('#button_show');
+                                    button.click();
+                                }
         </script>
 
     </body>
