@@ -92,9 +92,11 @@ public class Login extends HttpServlet {
         Customer findCustomer = customerDAO.findCustomer(customer);
         System.out.println(findAccount);
         if (findAccount != null) {
+            session.removeAttribute("error");
             session.setAttribute("account", findAccount);
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         }else if(findCustomer != null){
+            session.removeAttribute("error");
             session.setAttribute("customer", findCustomer);
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         }else {
