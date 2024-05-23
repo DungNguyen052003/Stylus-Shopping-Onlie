@@ -14,6 +14,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 
 /**
@@ -71,34 +72,32 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String Username = request.getParameter("Username");
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
         String oldPass = request.getParameter("oldpass").trim();
         String newPass = request.getParameter("newpass").trim();
 
-        AccountDAO d = new AccountDAO();
-        Account account = new Account();
-        account.setEmail(Username);
-        account.setPassword(oldPass);
+        AccountDAO dao = new AccountDAO();
 
-        Account existingAccount = d.findAccount(account);
-        if (existingAccount != null) {
-            String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$";
-            if (!newPass.matches(passwordPattern)) {
-                request.setAttribute("mess", "Password must be 8-16 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character.");
-                request.getRequestDispatcher("view/authen/ChangePassword.jsp").forward(request, response);
-            } else {
-                Cookie cp = new Cookie("cpass", newPass);
-                cp.setMaxAge(7 * 60 * 60 * 24); // 7 days
-                response.addCookie(cp);
-                d.changePass(existingAccount.getEmail(), newPass);
-                response.sendRedirect("login");
-            }
-        } else {
+        // Kiểm tra xem mật khẩu cũ có đúng không
+        boolean check = dao.findExistUser(username, oldPass);
+        if (!check) {
             request.setAttribute("mess", "Old password not correct!");
             request.getRequestDispatcher("view/authen/ChangePassword.jsp").forward(request, response);
+            return;
         }
 
+        // Kiểm tra định dạng mật khẩu mới
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$";
+        if (!newPass.matches(passwordPattern)) {
+            request.setAttribute("mess", "Password must be 8-16 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character.");
+            request.getRequestDispatcher("view/authen/ChangePassword.jsp").forward(request, response);
+        } else {
+            // Cập nhật mật khẩu mới vào cơ sở dữ liệu
+            dao.changePass(username, newPass);
+            response.sendRedirect("login");
     }
+}
 
     /** 
      * Returns a short description of the servlet.

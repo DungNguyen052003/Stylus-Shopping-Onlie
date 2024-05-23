@@ -4,147 +4,246 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Change Password Page</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-        
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">  
        
         
     </head>
     <style>
         
 /* sign in FORM */
-#logreg-forms{
-    width:412px;
-    margin:10vh auto;
-    background-color:#f3f3f3;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-#logreg-forms form {
-    width: 100%;
-    max-width: 410px;
-    padding: 15px;
-    margin: auto;
-}
-#logreg-forms .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-}
-#logreg-forms .form-control:focus { z-index: 2; }
-#logreg-forms .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-#logreg-forms .form-signin input[type="password"] {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-#logreg-forms .social-login{
-    width:390px;
-    margin:0 auto;
-    margin-bottom: 14px;
-}
-#logreg-forms .social-btn{
-    font-weight: 100;
-    color:white;
-    width:190px;
-    font-size: 0.9rem;
-}
-
-#logreg-forms a{
-    display: block;
-    padding-top:10px;
-    color:#fff;
-}
-
-#logreg-form .lines{
-    width:200px;
-    border:1px solid red;
-}
-#logreg-form .btn-register{
-    color: #fff;
-}
-
-#logreg-forms button[type="submit"]{ margin-top:10px; }
-
-#logreg-forms .facebook-btn{  background-color:#3C589C; }
-
-#logreg-forms .google-btn{ background-color: #DF4B3B; }
-
-#logreg-forms .form-reset, #logreg-forms .form-signup{ display: none; }
-
-#logreg-forms .form-signup .social-btn{ width:210px; }
-
-#logreg-forms .form-signup input { margin-bottom: 2px;}
-
-.form-signup .social-login{
-    width:210px !important;
-    margin: 0 auto;
-}
-
-/* Mobile */
-
-@media screen and (max-width:500px){
-    #logreg-forms{
-        width:300px;
-    }
-    
-    #logreg-forms  .social-login{
-        width:200px;
-        margin:0 auto;
-        margin-bottom: 10px;
-    }
-    #logreg-forms  .social-btn{
-        font-size: 1.3rem;
-        font-weight: 100;
-        color:white;
-        width:200px;
-        height: 56px;
-        
-    }
-    #logreg-forms .social-btn:nth-child(1){
-        margin-bottom: 5px;
-    }
-    #logreg-forms .social-btn span{
-        display: none;
-    }
-    #logreg-forms  .facebook-btn:after{
-        content:'Facebook';
-    }
-  
-    #logreg-forms  .google-btn:after{
-        content:'Google+';
-    }
-    
-}
+      .modal-box{
+                font-family: 'Poppins', sans-serif;
+            }
+            .show-modal{
+                color: #fff;
+                background: linear-gradient(to right, #33a3ff, #0675cf, #49a6fd);
+                font-size: 18px;
+                font-weight: 600;
+                text-transform: capitalize;
+                padding: 10px 15px;
+                margin: 200px auto 0;
+                border: none;
+                outline: none;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                display: block;
+                transition: all 0.3s ease 0s;
+            }
+            .show-modal:hover,
+            .show-modal:focus{
+                color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+                outline: none;
+            }
+            .modal-dialog{
+                width: 400px;
+                margin: 70px auto 0;
+            }
+            .modal-dialog{
+                transform: scale(0.5);
+            }
+            .modal-dialog{
+                transform: scale(1);
+            }
+            .modal-dialog .modal-content{
+                text-align: center;
+                border: none;
+            }
+            .modal-content .close{
+                color: #fff;
+                background: linear-gradient(to right, #33a3ff, #0675cf, #4cd5ff);
+                font-size: 25px;
+                font-weight: 400;
+                text-shadow: none;
+                line-height: 27px;
+                height: 25px;
+                width: 25px;
+                border-radius: 50%;
+                overflow: hidden;
+                opacity: 1;
+                position: absolute;
+                left: auto;
+                right: 8px;
+                top: 8px;
+                z-index: 1;
+                transition: all 0.3s;
+            }
+            .modal-content .close:hover{
+                color: #fff;
+                box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            }
+            .close:focus{
+                outline: none;
+            }
+            .modal-body{
+                padding: 60px 40px 40px !important;
+            }
+            .modal-body .title{
+                color: #026fd4;
+                font-size: 33px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                margin: 0 0 10px;
+            }
+            .modal-body .description{
+                color: #9A9EA9;
+                font-size: 16px;
+                margin: 0 0 20px;
+            }
+            .modal-body .form-group{
+                text-align: left;
+                margin-bottom: 20px;
+                position: relative;
+            }
+            .modal-body .input-icon{
+                color: #777;
+                font-size: 18px;
+                transform: translateY(-50%);
+                position: absolute;
+                top: 50%;
+                left: 20px;
+            }
+            .modal-body .form-control{
+                font-size: 17px;
+                height: 45px;
+                width: 100%;
+                padding: 6px 0 6px 50px;
+                margin: 0 auto;
+                border: 2px solid #eee;
+                border-radius: 5px;
+                box-shadow: none;
+                outline: none;
+            }
+            .form-control::placeholder{
+                color: #AEAFB1;
+            }
+            .form-group.checkbox{
+                width: 130px;
+                margin-top: 0;
+                display: inline-block;
+            }
+            .form-group.checkbox label{
+                color: #9A9EA9;
+                font-weight: normal;
+            }
+            .form-group.checkbox input[type=checkbox]{
+                margin-left: 0;
+            }
+            .modal-body .forgot-pass{
+                color: #7F7FD5;
+                font-size: 13px;
+                text-align: right;
+                width: calc(100% - 135px);
+                margin: 2px 0;
+                display: inline-block;
+                vertical-align: top;
+                transition: all 0.3s ease 0s;
+            }
+            .forgot-pass:hover{
+                color: #9A9EA9;
+                text-decoration: underline;
+            }
+            .modal-content .modal-body .btn{
+                color: #fff;
+                background: linear-gradient(to right, #33a3ff, #0675cf, #4cd5ff);
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                line-height: 38px;
+                width: 100%;
+                height: 40px;
+                padding: 0;
+                border: none;
+                border-radius: 5px;
+                border: none;
+                display: inline-block;
+                transition: all 0.6s ease 0s;
+            }
+            .modal-content .modal-body .btn:hover{
+                color: #fff;
+                letter-spacing: 2px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            .modal-content .modal-body .btn:focus{
+                outline: none;
+            }
+            @media only screen and (max-width: 480px){
+                .modal-dialog{
+                    width: 95% !important;
+                }
+                .modal-content .modal-body{
+                    padding: 60px 20px 40px !important;
+                }
+            }
     </style>
-    <body>
-        <jsp:include page="../layout/header.jsp"></jsp:include><br>
-        <div id="logreg-forms">
-            <c:set var="cookie" value="${pageContext.request.cookies}"/>
-            <form class="form-signin" id="formChange" action="changePass" method="post">
-                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Change Password</h1>
-                <input name="Username"  type="text" id="inputEmail" class="form-control mb-2" readonly
-                       value="${cookie.cUsername.value}"   >
-                <input value="" name="cid" hidden/>
-                <input name="oldpass"  type="password" id="inputPasswordOld" class="form-control mb-2" placeholder="Old Password" required=""
-                       value="" >
-                <input name="newpass"  type="password" id="inputPasswordNew" class="form-control" placeholder="New Password" required=""
-                       value="" >
-                <p class="text-danger" id="mess">${requestScope.mess}</p>
+     <body>
+        <form method="POST" action="changepass">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="modal-box">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg show-modal" data-toggle="modal" data-target="#myModal">
+                                Change Password
+                            </button>
 
-                <button class="btn btn-success btn-block mt-2" type="submit"><i class="fa-regular fa-pen-to-square"></i>Change Password</button>
-            </form>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content clearfix">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <div class="modal-body">
+                                            <h3 class="title">Change Password</h3>
+                                            
+                                            <div class="form-group">
+                                                <span class="input-icon"><i class="fa fa-user"></i></span>
+                                                <input type="text" class="form-control" name="username" value="${sessionScope.username}" readonly > 
+                                            </div>
+                                            <div class="form-group">
+                                               
+                                                <input type="password" class="form-control" placeholder="Old Password" name="oldPass">
+                                            </div>
+                                            <div class="form-group">
+                                               
+                                                <input type="password" class="form-control" placeholder="New Password" name="newPass">
+                                            </div>
+                                          
+                                          
+                                            <div style="color:red;padding-block:5px">${error}</div>
+                                            <button class="btn">Change Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        </form>
+    </body>
+<!--    <body>
+         <div id="logreg-forms">
+        <form class="form-signin" id="formChange" action="changePass" method="post">
+            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Change Password</h1>
+          <input name="username" type="text" id="inputEmail" class="form-control mb-2" readonly
+                   value="${sessionScope.username}" > 
+            <input name="oldpass" type="password" id="inputPasswordOld" class="form-control mb-2" placeholder="Old Password" required=""
+                   value="" >
+            <input name="newpass" type="password" id="inputPasswordNew" class="form-control" placeholder="New Password" required=""
+                   value="" >
+            <p class="text-danger" id="mess">${requestScope.mess}</p>
 
-
-        </div>
+            <button class="btn btn-success btn-block mt-2" type="submit"><i class="fa-regular fa-pen-to-square"></i>Change Password</button>
+        </form>
+    </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
@@ -159,6 +258,6 @@
 //                }
 //            });
         </script>
-        <jsp:include page="../layout/footer.jsp"></jsp:include><br>
-    </body>
+        
+    </body>-->
 </html>
