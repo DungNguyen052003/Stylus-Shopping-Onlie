@@ -105,7 +105,7 @@
                                     <h4>Feature posts</h4>
                                 </div>
                                 <c:forEach var="feat" items="${featureBlogs}">
-                                    <a href="blog?mode=1&id=${feat.getBlogID()}" class="blog__feature__item" style="height: 200px">
+                                    <a href="blogdetail?mode=1&id=${feat.getBlogID()}" class="blog__feature__item" style="height: 200px">
                                         <div class="blog__feature__item__pic blog__feature__item__text">
                                             <img style="height: 50%; width: 50%" src="${feat.thumbNail}" >
                                             <h6 style="font-size: 10px">${feat.blogTitle}</h6>
