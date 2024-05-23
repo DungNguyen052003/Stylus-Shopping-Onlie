@@ -44,19 +44,7 @@ public class BlogServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BlogDAO d = new BlogDAO();
-        if (request.getParameter("mode") != null && request.getParameter("mode").equals("1")) {
-            String blogID = request.getParameter("id");
-
-            List<Blog> featureBlogs = d.getFeaturedBlogs();
-            Product p = d.getProductByID();
-            Blog b = d.getBlogByID(Integer.parseInt(blogID));
-            Product pro = d.getRelatedProducts(Integer.parseInt(blogID));
-            
-            request.setAttribute("featureBlogs", featureBlogs);
-            request.setAttribute("blogdetail", b);
-            request.setAttribute("pro", pro);
-            request.getRequestDispatcher("/view/customer/BlogDetail.jsp").forward(request, response);
-        }
+       
         List<Blog> list = d.getAllBlogs();
         request.setAttribute("list", list);
 
