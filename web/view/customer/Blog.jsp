@@ -36,7 +36,7 @@
                         <div class="blog__item">
                             <img src="${blog.thumbNail}">
                             <div class="blog__item__text">
-                                <h6><a href="blog?mode=1&id=${blog.getBlogID()}">${blog.blogTitle} </a></h6>
+                                <h6><a href="blogdetail?mode=1&id=${blog.getBlogID()}">${blog.blogTitle} </a></h6>
                                 <ul>
                                     <li>by <span>${blog.author}</span></li>
                                     <li>${blog.createDate}</li>
