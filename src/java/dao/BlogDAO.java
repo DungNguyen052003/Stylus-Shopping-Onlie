@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Blog;
+import model.Category;
 import model.Product;
 
 /**
@@ -28,7 +29,7 @@ public class BlogDAO extends DBContext {
         List<Blog> list = new ArrayList<>();
 
         try {
-            String sql = "Select * From Blog";
+            String sql = "Select * From Blog Order By CreateDate DESC";
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -42,7 +43,8 @@ public class BlogDAO extends DBContext {
                 String briefInformation = rs.getString(8);
                 String author = rs.getString(9);
                 boolean featured = rs.getBoolean(10);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
+                int CateID = rs.getInt(11);
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +69,8 @@ public class BlogDAO extends DBContext {
                 String briefInformation = rs.getString(8);
                 String author = rs.getString(9);
                 boolean featured = rs.getBoolean(10);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
+                int CateID = rs.getInt(11);
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +96,8 @@ public class BlogDAO extends DBContext {
                 String briefInformation = rs.getString(8);
                 String author = rs.getString(9);
                 boolean featured = rs.getBoolean(10);
-                return new Blog(id, title, thumbnail, description, createDate, productID, status, briefInformation, author, featured);
+                int CateID = rs.getInt(11);
+                return new Blog(id, title, thumbnail, description, createDate, productID, status, briefInformation, author, featured, CateID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +117,6 @@ public class BlogDAO extends DBContext {
                 String productName = rs.getString("ProductName");
                 int saleID = rs.getInt("SaleID");
                 int brandID = rs.getInt("BrandID");
-                int colorID = rs.getInt("ColorID");
                 int cateID = rs.getInt("CateID");
                 String thumbNail = rs.getString("ThumbNail");
                 BigDecimal price = rs.getBigDecimal("Price");
@@ -124,7 +127,7 @@ public class BlogDAO extends DBContext {
                 int starRating = rs.getInt("StarRating");
                 boolean saleStatus = rs.getBoolean("SaleStatus");
 
-                return new Product(productID, productName, saleID, brandID, colorID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
+                return new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
 
             }
         } catch (SQLException e) {
@@ -132,10 +135,32 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
-    public static void main(String[] args) {
-        BlogDAO d = new BlogDAO();
-        System.out.println(d.getRelatedProducts(1));
 
+    public List<Blog> getLastestBlog() {
+        List<Blog> list = new ArrayList<>();
+
+        try {
+            String sql = "Select top 1 * From Blog Order By CreateDate DESC";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int blogID = rs.getInt(1);
+                String blogTitle = rs.getString(2);
+                String thumbNail = rs.getString(3);
+                String description = rs.getString(4);
+                Date createDate = rs.getDate(5);
+                int productID = rs.getInt(6);
+                boolean status = rs.getBoolean(7);
+                String briefInformation = rs.getString(8);
+                String author = rs.getString(9);
+                boolean featured = rs.getBoolean(10);
+                int CateID = rs.getInt(11);
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public Product getProductByID() {
@@ -152,7 +177,6 @@ public class BlogDAO extends DBContext {
                 String productName = rs.getString("ProductName");
                 int saleID = rs.getInt("SaleID");
                 int brandID = rs.getInt("BrandID");
-                int colorID = rs.getInt("ColorID");
                 int cateID = rs.getInt("CateID");
                 String thumbNail = rs.getString("ThumbNail");
                 BigDecimal price = rs.getBigDecimal("Price");
@@ -162,8 +186,8 @@ public class BlogDAO extends DBContext {
                 String briefInformation = rs.getString("BriefInformation");
                 int starRating = rs.getInt("StarRating");
                 boolean saleStatus = rs.getBoolean("SaleStatus");
-                
-                product = new Product(productID, productName, saleID, brandID, colorID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
+
+                product = new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,28 +195,101 @@ public class BlogDAO extends DBContext {
         return product;
     }
 
-    
+    public List<Category> getAllRootCategories() {
+        List<Category> categories = new ArrayList<>();
+        try {
+            String sql = " SELECT *\n"
+                    + "FROM Category\n"
+                    + "WHERE ParentID IS NULL;";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int cateID = rs.getInt("CateID");
+                String name = rs.getString("Name");
+                boolean status = rs.getBoolean("Status");
+                int parentID = rs.getInt("ParentID");
+                categories.add(new Category(cateID, name, status, parentID));
+            }
 
-//   public static void main(String[] args) {
-//    // Tạo một đối tượng BlogDAO
-//    BlogDAO blogDAO = new BlogDAO();
-//    
-//    // Gọi phương thức getAllBlogs() để lấy danh sách các bài viết từ cơ sở dữ liệu
-//    List<Blog> blogs = blogDAO.getAllBlogs();
-//    
-//    // In thông tin của các bài viết
-//    for (Blog blog : blogs) {
-//        System.out.println("Blog ID: " + blog.getBlogID());
-//        System.out.println("Title: " + blog.getBlogTitle());
-//        System.out.println("Thumbnail: " + blog.getThumbNail());
-//        System.out.println("Description: " + blog.getDescription());
-//        System.out.println("Create Date: " + blog.getCreateDate());
-//        System.out.println("Product ID: " + blog.getProductID());
-//        System.out.println("Status: " + blog.isStatus());
-//        System.out.println("Brief Information: " + blog.getBriefInformation());
-//        System.out.println("Author: " + blog.getAuthor());
-//        System.out.println("Featured: " + blog.isFeatured());
-//        System.out.println("--------------------------------------");
-//    }
-//}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
+    }
+
+    public List<Blog> getBlogsByCategory(String cateID) {
+        List<Blog> list = new ArrayList<>();
+        try {
+            String sql = "select * from Blog where CateID = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, cateID);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int blogID = rs.getInt(1);
+                String blogTitle = rs.getString(2);
+                String thumbNail = rs.getString(3);
+                String description = rs.getString(4);
+                Date createDate = rs.getDate(5);
+                int productID = rs.getInt(6);
+                boolean status = rs.getBoolean(7);
+                String briefInformation = rs.getString(8);
+                String author = rs.getString(9);
+                boolean featured = rs.getBoolean(10);
+                int CateID = rs.getInt(11);
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+     public List<Blog> searchBlogsByTitle(String search) {
+        List<Blog> list = new ArrayList<>();
+        try {
+            String sql = "SELECT [BlogID]\n"
+                    + "      ,[BlogTitile]\n"
+                    + "      ,[ThumbNail]\n"
+                    + "      ,[Description]\n"
+                    + "      ,[CreateDate]\n"
+                    + "      ,[ProductID]\n"
+                    + "      ,[Status]\n"
+                    + "      ,[BrifInfomation]\n"
+                    + "      ,[Author]\n"
+                    + "      ,[Featured]\n"
+                    + "      ,[CateID]\n"
+                    + "  FROM [dbo].[Blog]\n"
+                    + "  Where BlogTitile LIKE ?";
+             stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + search + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                int blogID = rs.getInt(1);
+                String blogTitle = rs.getString(2);
+                String thumbNail = rs.getString(3);
+                String description = rs.getString(4);
+                Date createDate = rs.getDate(5);
+                int productID = rs.getInt(6);
+                boolean status = rs.getBoolean(7);
+                String briefInformation = rs.getString(8);
+                String author = rs.getString(9);
+                boolean featured = rs.getBoolean(10);
+                int CateID = rs.getInt(11);
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+   public static void main(String[] args) {
+        BlogDAO d = new BlogDAO();
+        String search = "example"; // Replace with your search term
+        List<Blog> list = d.searchBlogsByTitle(search);
+        for (Blog blog : list) {
+            System.out.println(blog);
+        }
+    }
 }

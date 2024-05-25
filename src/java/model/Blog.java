@@ -21,11 +21,12 @@ public class Blog {
     private String briefInformation;
     private String author;
     private boolean featured;
+    private int CateID; 
 
     public Blog() {
     }
 
-    public Blog(int blogID, String blogTitle, String thumbNail, String description, Date createDate, int productID, boolean status, String briefInformation, String author, boolean featured) {
+    public Blog(int blogID, String blogTitle, String thumbNail, String description, Date createDate, int productID, boolean status, String briefInformation, String author, boolean featured, int CateID) {
         this.blogID = blogID;
         this.blogTitle = blogTitle;
         this.thumbNail = thumbNail;
@@ -36,6 +37,7 @@ public class Blog {
         this.briefInformation = briefInformation;
         this.author = author;
         this.featured = featured;
+        this.CateID = CateID;
     }
 
     public int getBlogID() {
@@ -117,5 +119,19 @@ public class Blog {
     public void setFeatured(boolean featured) {
         this.featured = featured;
     }
+
+    public int getCateID() {
+        return CateID;
+    }
+
+    public void setCateID(int CateID) {
+        this.CateID = CateID;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" + "blogID=" + blogID + ", blogTitle=" + blogTitle + ", thumbNail=" + thumbNail + ", description=" + description + ", createDate=" + createDate + ", productID=" + productID + ", status=" + status + ", briefInformation=" + briefInformation + ", author=" + author + ", featured=" + featured + ", CateID=" + CateID + '}';
+    }
+    
     
 }

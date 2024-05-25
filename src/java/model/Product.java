@@ -15,7 +15,7 @@ public class Product {
     private String productName;
     private int saleID;
     private int brandID;
-    private int colorID;
+   
     private int cateID;
     private String thumbNail;
     private BigDecimal price;
@@ -29,12 +29,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productID, String productName, int saleID, int brandID, int colorID, int cateID, String thumbNail, BigDecimal price, int totalQuantity, boolean status, String description, String briefInformation, int starRating, boolean saleStatus) {
+    public Product(int productID, String productName, int saleID, int brandID, int cateID, String thumbNail, BigDecimal price, int totalQuantity, boolean status, String description, String briefInformation, int starRating, boolean saleStatus) {
         this.productID = productID;
         this.productName = productName;
         this.saleID = saleID;
         this.brandID = brandID;
-        this.colorID = colorID;
         this.cateID = cateID;
         this.thumbNail = thumbNail;
         this.price = price;
@@ -45,7 +44,6 @@ public class Product {
         this.starRating = starRating;
         this.saleStatus = saleStatus;
     }
-    
 
     public int getProductID() {
         return productID;
@@ -77,14 +75,6 @@ public class Product {
 
     public void setBrandID(int brandID) {
         this.brandID = brandID;
-    }
-
-    public int getColorID() {
-        return colorID;
-    }
-
-    public void setColorID(int colorID) {
-        this.colorID = colorID;
     }
 
     public int getCateID() {
@@ -161,8 +151,12 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "productID=" + productID + ", productName=" + productName + ", saleID=" + saleID + ", brandID=" + brandID + ", colorID=" + colorID + ", cateID=" + cateID + ", thumbNail=" + thumbNail + ", price=" + price + ", totalQuantity=" + totalQuantity + ", status=" + status + ", description=" + description + ", briefInformation=" + briefInformation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + '}';
+        return "Product{" + "productID=" + productID + ", productName=" + productName + ", saleID=" + saleID + ", brandID=" + brandID + ", cateID=" + cateID + ", thumbNail=" + thumbNail + ", price=" + price + ", totalQuantity=" + totalQuantity + ", status=" + status + ", description=" + description + ", briefInformation=" + briefInformation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + '}';
     }
+    
+    
+
+    
     
     
 }
