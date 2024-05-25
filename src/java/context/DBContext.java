@@ -32,7 +32,7 @@ public class DBContext {
     }
 
     private final String serverName = "localhost";
-    private final String dbName = "testforStylus";
+    private final String dbName = "stylus.6";
     private final String portNumber = "1433";
     private final String userID = "sa";
     private final String password = "Aqswdefr19";

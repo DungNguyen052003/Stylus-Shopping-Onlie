@@ -62,9 +62,8 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("index.jsp?error=true").forward(request, response);
-//        response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
+            throws ServletException, IOException {       
+        response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
     }
 
     /**
@@ -90,18 +89,21 @@ public class Login extends HttpServlet {
         customer.setEmail(email);
         customer.setPassword(pass);
         Customer findCustomer = customerDAO.findCustomer(customer);
-        System.out.println(findAccount);
+        
         if (findAccount != null) {
             session.removeAttribute("error");
+            session.setAttribute("email", email);
             session.setAttribute("account", findAccount);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            response.sendRedirect("Home");
         }else if(findCustomer != null){
+            Customer cs = customerDAO.findCustomer(findCustomer);
             session.removeAttribute("error");
-            session.setAttribute("customer", findCustomer);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            session.setAttribute("email", email);
+            session.setAttribute("account", cs);
+            response.sendRedirect("Home");
         }else {
             session.setAttribute("error", "Username or password incorrect");
-            response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
+            response.sendRedirect("Home?error=true");
         }
     }
 

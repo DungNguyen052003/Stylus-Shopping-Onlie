@@ -4,8 +4,7 @@
  */
 package controller;
 
-import dao.AccountDAO;
-import jakarta.servlet.RequestDispatcher;
+import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,9 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
-import validation.Validate;
-
+import model.Customer;
+import validation.EmailService;
 
 /**
  *
@@ -76,50 +74,35 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String fName = request.getParameter("name");
-        String uName = request.getParameter("username");
-        String uPass = request.getParameter("pass");
-        String uPho = request.getParameter("phone");
-        String uEmail = request.getParameter("email");
-
-        AccountDAO ac = new AccountDAO();
-        Account account;
-
+        CustomerDAO ac = new CustomerDAO();
+        String email = request.getParameter("email");
         String message = "Something wrong";
         int slUPrev = ac.getNumberAccounts();
-        boolean isDup = ac.checkUserNameDuplicate(uName);
-        boolean isValidPassword = Validate.isValidPassword(uPass);
-       
-        if (isValidPassword) {
-            
-            if (isDup) {
-                message = "Username already exists!";
-                request.setAttribute("error", message);
-               // request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
-            } else {
-                // Create an account object with the provided information
-                account = new Account(slUPrev, uName, uPass, 5, Integer.parseInt(uPho), uEmail, null, fName);
-                // Insert the account into the database
-                ac.insert(account);
-                int slUAfter = ac.getNumberAccounts();
-                if (slUAfter > slUPrev) {
-                    message = "Sign Up successful. Please Login!";
-                    request.setAttribute("error", message);
-                }
-                request.getRequestDispatcher("view/authen/login.jsp").forward(request, response);
-            }
+        boolean isDup = ac.checkEmailDuplicate(email);
 
+        if (isDup) {
+            message = "Email already exists!";
+            request.setAttribute("error", message);
+            request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
         } else {
-            // Nếu mật khẩu không hợp lệ, hiển thị thông báo lỗi
-            message = "8-16 characters at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character";
-            request.setAttribute("errorMessage", message);
-            
+            Customer cs = new Customer();
+            cs.setName(request.getParameter("name"));
+            cs.setEmail(email);
+            cs.setAddress(request.getParameter("address"));
+            cs.setPassword(request.getParameter("password"));
+            cs.setPhone(request.getParameter("phone"));
+            cs.setGender(Integer.parseInt(request.getParameter("gender")));
+            cs.setRoleID(5);
+            cs.setImage("asset/img/default_avatar.jpg");
+            cs.setVerifiedStatus(0); // Not verified           
+            ac.insert(cs);
+            EmailService es = new EmailService();   
+//          String verifyCode = es.generateOTP();
+            es.send(email, "register");
+            request.getSession().setAttribute("email", email);
+            request.getRequestDispatcher("view/authen/verifyRegistration.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
     }
-
-
 
     /**
      * Returns a short description of the servlet.

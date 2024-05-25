@@ -22,8 +22,7 @@ public class AccountDAO extends DBContext  {
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                account.setAccountID(resultSet.getInt("ID"));
-                account.setUsername(resultSet.getString("Username"));
+                account.setAccountID(resultSet.getInt("ID"));               
                 account.setPassword(resultSet.getString("Password"));
                 account.setEmail(resultSet.getString("Email"));
                 account.setRole(resultSet.getInt("RoleID"));
@@ -65,7 +64,7 @@ public class AccountDAO extends DBContext  {
 
     public int getNumberAccounts() {
         try {
-            String sql = "SELECT COUNT(*) FROM Users";
+            String sql = "SELECT COUNT(*) FROM Customer";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
@@ -77,23 +76,15 @@ public class AccountDAO extends DBContext  {
         return 1;
     }
 
-    public boolean checkUserNameDuplicate(String username) {
-        connection = getConnection();
-        String sql = "SELECT * FROM Account WHERE Username = ?";
+    public boolean checkEmailDuplicate(String email) {
+        
+        String sql = "SELECT * FROM Account WHERE Email = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, username);
+            st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                int id = rs.getInt("ID");
-                String password = rs.getString("Password");
-                int roleID = rs.getInt("RoleID");
-                int phone = rs.getInt("Phone");
-                String email = rs.getString("Email");
-                String image = rs.getString("Image");
-                String name = rs.getString("Name");
 
-                Account account = new Account(id, username, password, roleID, phone, email, image, name);
                 return true;
             }
         } catch (SQLException e) {
@@ -102,9 +93,8 @@ public class AccountDAO extends DBContext  {
         return false;
     }
 
-    public void insert(Account a) {
-        connection = getConnection();
-        String sql = "INSERT INTO [dbo].[Account]\n"
+    public void insert(Account a) {        
+        String sql = "INSERT INTO [dbo].[Customer]\n"
                 + "           ([UserName]\n"
                 + "           ,[Password]\n"
                 + "           ,[RoleID]\n"
@@ -115,15 +105,14 @@ public class AccountDAO extends DBContext  {
                 + "     VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-
-            st.setString(1, a.getUsername());
+            
             st.setString(2, a.getPassword());
             st.setInt(3, a.getRole());
             st.setInt(4, a.getPhone());
             st.setString(5, a.getEmail());
             st.setString(6, a.getImage());
             st.setString(7, a.getName());
-
+            
             st.executeUpdate();
 
             // Lấy ID của bản ghi vừa chèn vào
@@ -132,7 +121,6 @@ public class AccountDAO extends DBContext  {
 //                int generatedId = rs.getInt(1);
 //                // Sử dụng ID nếu cần thiết
 //            }
-
         } catch (SQLException e) {
             System.out.println(e);
         }

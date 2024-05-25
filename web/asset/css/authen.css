@@ -1,0 +1,286 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 15, 2024, 7:09:55 PM
+    Author     : TienP
+*/
+
+.customeModal{
+    .modal-box{
+        font-family: 'Poppins', sans-serif;
+    }
+    .show-modal{
+        color: #fff;
+        background: linear-gradient(to right, #33a3ff, #0675cf, #49a6fd);
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: capitalize;
+        padding: 10px 15px;
+        margin: 200px auto 0;
+        border: none;
+        outline: none;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        display: block;
+        transition: all 0.3s ease 0s;
+    }
+    .show-modal:hover,
+        .show-modal:focus{
+        color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        outline: none;
+    }
+    .modal-dialog{
+        width: 400px;
+        margin: 70px auto 0;
+    }
+    .modal-dialog{
+        transform: scale(0.5);
+    }
+    .modal-dialog{
+        transform: scale(1);
+    }
+    .modal-dialog .modal-content{
+        text-align: center;
+        border: none;
+    }
+    .modal-content .close{
+        color: #fff;
+        background: linear-gradient(to right, #33a3ff, #0675cf, #4cd5ff);
+        font-size: 25px;
+        font-weight: 400;
+        text-shadow: none;
+        line-height: 27px;
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        overflow: hidden;
+        opacity: 1;
+        position: absolute;
+        left: auto;
+        right: 8px;
+        top: 8px;
+        z-index: 1;
+        transition: all 0.3s;
+    }
+    .modal-content .close:hover{
+        color: #fff;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    .close:focus{
+        outline: none;
+    }
+    .modal-body{
+        padding: 60px 40px 40px !important;
+    }
+    .modal-body .title{
+        color: #026fd4;
+        font-size: 33px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin: 0 0 10px;
+    }
+    .modal-body .description{
+        color: #9A9EA9;
+        font-size: 16px;
+        margin: 0 0 20px;
+    }
+    .modal-body .form-group{
+        text-align: left;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .modal-body .input-icon{
+        color: #777;
+        font-size: 18px;
+        transform: translateY(-50%);
+        position: absolute;
+        top: 50%;
+        left: 20px;
+    }
+    .modal-body .form-control{
+        font-size: 17px;
+        height: 45px;
+        width: 100%;
+        padding: 6px 0 6px 50px;
+        margin: 0 auto;
+        border: 2px solid #eee;
+        border-radius: 5px;
+        box-shadow: none;
+        outline: none;
+    }
+    .form-control::placeholder{
+        color: #AEAFB1;
+    }
+    .form-group.checkbox{
+        width: 130px;
+        margin-top: 0;
+        display: inline-block;
+    }
+    .form-group.checkbox label{
+        color: #9A9EA9;
+        font-weight: normal;
+    }
+    .form-group.checkbox input[type=checkbox]{
+        margin-left: 0;
+    }
+    .modal-body .forgot-pass{
+        color: #7F7FD5;
+        font-size: 13px;
+        text-align: right;
+        width: calc(100% - 135px);
+        margin: 2px 0;
+        display: inline-block;
+        vertical-align: top;
+        transition: all 0.3s ease 0s;
+    }
+    .forgot-pass:hover{
+        color: #9A9EA9;
+        text-decoration: underline;
+    }
+    .modal-content .modal-body .btn{
+        color: #fff;
+        background: linear-gradient(to right, #33a3ff, #0675cf, #4cd5ff);
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        line-height: 38px;
+        width: 100%;
+        height: 40px;
+        padding: 0;
+        border: none;
+        border-radius: 5px;
+        border: none;
+        display: inline-block;
+        transition: all 0.6s ease 0s;
+    }
+    .modal-content .modal-body .btn:hover{
+        color: #fff;
+        letter-spacing: 2px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .modal-content .modal-body .btn:focus{
+        outline: none;
+    }
+    input[type=radio] {
+        visibility: hidden;
+    }
+
+
+    label.radio {
+        cursor: pointer;
+        text-indent: 35px;
+        overflow: visible;
+        display: inline-block;
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    label.radio:before {
+        background: #3a57af;
+        content: '';
+        position: absolute;
+        top: 55%; /* Căn giữa theo chiều dọc */
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        transform: translateY(-50%); /* Dịch chuyển lên để căn giữa */
+    }
+
+    label.radio:after {
+        opacity: 0;
+        content: '';
+        position: absolute;
+        width: 6px; /* Chiều rộng của dấu tích */
+        height: 12px; /* Chiều cao của dấu tích */
+        top: 4px; /* Khoảng cách từ đỉnh đến dấu tích */
+        left: 7px; /* Khoảng cách từ trái đến dấu tích */
+        border: solid white; /* Màu sắc của dấu tích */
+        border-width: 0 2px 2px 0; /* Độ dày của dấu tích */
+        transform: rotate(45deg); /* Xoay dấu tích để tạo hình chữ V */
+    }
+
+    input[type=radio]:checked + label:after {
+        opacity: 1;
+    }}
+    @media only screen and (max-width: 480px){
+        .customeModal .modal-dialog{
+            width: 95% !important;
+        }
+        .customeModal .modal-content .modal-body{
+            padding: 60px 20px 40px !important;
+        }
+    }
+    .customeModal .validation {
+        color: red;
+        font-size: 0.8em;
+    }
+
+.profile-container{
+    body {
+        margin: 0;
+        padding-top: 40px;
+        color: #2e323c;
+        background: #f5f6fa;
+        position: relative;
+        height: 100%;
+    }
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+    .account-settings .user-profile .user-avatar {
+        margin: 0 0 1rem 0;
+    }
+    .account-settings .user-profile .user-avatar img {
+        width: 90px;
+        height: 90px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+    }
+    .account-settings .user-profile h5.user-name {
+        margin: 0 0 0.5rem 0;
+    }
+    .account-settings .user-profile h6.user-email {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: #9fa8b9;
+    }
+    .account-settings .about {
+        margin: 2rem 0 0 0;
+        text-align: center;
+    }
+    .account-settings .about h5 {
+        margin: 0 0 15px 0;
+        color: #007ae1;
+    }
+    .account-settings .about p {
+        font-size: 0.825rem;
+    }
+    .form-control {
+        border: 1px solid #cfd1d8;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        font-size: .825rem;
+        background: #ffffff;
+        color: #2e323c;
+    }
+
+    .card {
+        background: #ffffff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        border: 0;
+        margin-bottom: 1rem;
+    }
+
+}
+
