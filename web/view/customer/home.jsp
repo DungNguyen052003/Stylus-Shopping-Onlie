@@ -10,6 +10,66 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            .customSlide{
+                .slider-container {
+                    position: relative;
+                    width: 100%;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    overflow: hidden;
+                }
+                .slide {
+                    display: none; /* Ẩn slide ban đầu */
+                    width: 100%;
+                }
+                .slide img {
+                    width: 100%;
+                    height: auto;
+                }
+                .slider-nav {
+                    position: absolute;
+                    bottom: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 1000;
+                }
+                .slider-nav button {
+                    background-color: #fff;
+                    border: 2px solid #333;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+                .slider-nav button.active {
+                    background-color: #333;
+                }
+            }
+            .hotPost .card {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .hotPost .card:hover {
+                transform: translateY(-10px);
+            }
+
+            .hotPost .card-img-top {
+                height: 200px;
+                object-fit: cover;
+            }
+
+            .hotPost .card-body {
+                padding: 20px;
+            }
+
+            .hotPost .card-footer {
+                background-color: #f8f9fa;
+                border-top: 1px solid rgba(0, 0, 0, 0.125);
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="../layout/header.jsp"/>
@@ -17,69 +77,50 @@
         <!--        <section class="categories">-->
         <section class="shop spad">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-3">
-                        <div class="shop__sidebar">
-                            <div class="sidebar__categories">
-                                <div class="section-title">
-                                    <h4>Categories</h4>
-                                </div>
-                                <div class="categories__accordion">
-                                    <div class="accordion" id="accordionExample">
-                                        <div class="card">
-                                            <div class="card-heading active">
-                                                <a data-toggle="collapse" data-target="#collapseOne">Women</a>
-                                            </div>
-                                            <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
+                <!--                <div class="row">-->
+                <div class="col-lg-3 col-md-3">
+                    <div class="shop__sidebar">
+                        <div class="sidebar__categories">
+                            <div class="section-title">
+                                <a href="#new-product"><h4>New Product</h4></a>
+                            </div>
+                            <div class="section-title">
+                                <a href="#hot-trend"><h4>Hot Trend</h4></a>
+                            </div>
+                            <div class="section-title">
+                                <a href="#feature-products"><h4>Feature Products</h4></a>
+                            </div>
+                            <div class="section-title">
+                                <a href="#sale-product"><h4>Sale Product</h4></a>
+                            </div>
+                            <div class="section-title">
+                                <a href="#contact"><h4>Contact</h4></a>
+                            </div>
+                            <div class="section-title">
+                                <a href="#new-post"><h4>New Post</h4></a>
+                            </div>
+                            <div class="new-posts">
 
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-heading">
-                                                <a data-toggle="collapse" data-target="#collapseTwo">Men</a>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    <ul>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
+                                <div class="new-post-item">
+                                    <img src="${blog.thumbNail}" alt="${blog.blogTitle}">
+                                    <div class="new-post-content">
+                                        <h5>${blog.blogTitle}</h5>
+                                        <p>${blog.briefInformation}</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="sidebar__filter">
-                                <div class="section-title">
-                                    <h4>Shop by price</h4>
-                                </div>
-                                <div class="filter-range-wrap">
-                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                         data-min="33" data-max="99"></div>
-                                    <div class="range-slider">
-                                        <div class="price-input">
-                                            <p>Price:</p>
-                                            <input type="text" id="minamount">
-                                            <input type="text" id="maxamount">
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#">Filter</a>
-                            </div>
 
+
+                            </div>
                         </div>
 
+
                     </div>
+
                 </div>
+                <!--                </div>-->
                 <div class="col-lg-9 col-md-9">
                     <div class="categories__item categories__large__item set-bg"
-                         data-setbg="asset/img/categories/category-1.jpg">
+                         data-setbg="asset/image/categories/category-1.jpg" style="background-image: url('asset/image/categories/category-1.jpg');">
                         <div class="categories__text">
                             <h1>Women’s fashion</h1>
                             <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
@@ -87,46 +128,6 @@
                             <a href="#">Shop now</a>
                         </div>
                     </div>
-                    <!--                    <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                                                    <div class="categories__item set-bg" data-setbg="asset/img/categories/category-2.jpg">
-                                                        <div class="categories__text">
-                                                            <h4>Men’s fashion</h4>
-                                                            <p>358 items</p>
-                                                            <a href="#">Shop now</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                                                    <div class="categories__item set-bg" data-setbg="asset/img/categories/category-3.jpg">
-                                                        <div class="categories__text">
-                                                            <h4>Kid’s fashion</h4>
-                                                            <p>273 items</p>
-                                                            <a href="#">Shop now</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                                                    <div class="categories__item set-bg" data-setbg="asset/image/categories/category-4.jpg">
-                                                        <div class="categories__text">
-                                                            <h4>Cosmetics</h4>
-                                                            <p>159 items</p>
-                                                            <a href="#">Shop now</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                                                    <div class="categories__item set-bg" data-setbg="asset/image/categories/category-5.jpg">
-                                                        <div class="categories__text">
-                                                            <h4>Accessories</h4>
-                                                            <p>792 items</p>
-                                                            <a href="#">Shop now</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->               
                     <!--        </section>-->
                     <!-- Categories Section End -->
 
@@ -144,230 +145,73 @@
                                     <li class="active" data-filter="*">All</li>
                                     <li data-filter=".women">Women’s</li>
                                     <li data-filter=".men">Men’s</li>
-                                    <li data-filter=".kid">Kid’s</li>
-                                    <li data-filter=".accessories">Accessories</li>
-                                    <li data-filter=".cosmetic">Cosmetics</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="row property__gallery">
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix women">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="asset/img/product/product-1.jpg">
-                                        <div class="label new">New</div>
-                                        <ul class="product__hover">
-                                            <li><a href="asset/img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Buttons tweed blazer</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                            <c:forEach items="${requestScope.listbyAll}" var="pd" varStatus="loop">
+                                <a href="ProductDetail?productId=${pd.productID}" class="trend__item">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+                                        <div class="product__item">
+                                            <div class="product__item__pic set-bg" data-setbg="${pd.thumbnail}"
+                                                 style="background-image: url(${pd.thumbnail});">
+
+                                                <div class="label new">New</div>
+                                                <ul class="product__hover">
+                                                    <li><a href="${pd.thumbnail}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="product__item__text">
+                                                <h6><a href="#">${pd.productName}</a></h6>
+                                                <div class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <c:choose>
+                                                    <c:when test="${pd.saleStatus eq 1}">
+                                                        <div class="product__price">$ ${pd.salePrice} <span>$ ${pd.price}</span></div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="product__price">$ ${pd.price}</div>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </div>
                                         </div>
-                                        <div class="product__price">$ 59.0</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix men">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                                        <ul class="product__hover">
-                                            <li><a href="img/product/product-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Flowy striped skirt</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 49.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                                        <div class="label stockout">out of stock</div>
-                                        <ul class="product__hover">
-                                            <li><a href="img/product/product-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Cotton T-Shirt</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix cosmetic">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                                        <ul class="product__hover">
-                                            <li><a href="img/product/product-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Slim striped pocket shirt</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix kid">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="asset/img/product/product-5.jpg">
-                                        <ul class="product__hover">
-                                            <li><a href="asset/img/product/product-5.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Fit micro corduroy shirt</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
-                                <div class="product__item sale">
-                                    <div class="product__item__pic set-bg" data-setbg="asset/img/product/product-6.jpg">
-                                        <div class="label sale">Sale</div>
-                                        <ul class="product__hover">
-                                            <li><a href="asset/img/product/product-6.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Tropical Kimono</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 49.0 <span>$ 59.0</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
-                                        <ul class="product__hover">
-                                            <li><a href="img/product/product-7.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Contrasting sunglasses</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 59.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix women men kid accessories cosmetic">
-                                <div class="product__item sale">
-                                    <div class="product__item__pic set-bg" data-setbg="img/product/product-8.jpg">
-                                        <div class="label">Sale</div>
-                                        <ul class="product__hover">
-                                            <li><a href="img/product/product-8.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="#">Water resistant backpack</a></h6>
-                                        <div class="rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product__price">$ 49.0 <span>$ 59.0</span></div>
-                                    </div>
-                                </div>
-                            </div>
+                                </a>
+                            </c:forEach> 
+
                         </div>
                     </div>
                     <!--        </section>-->
                     <!-- Product Section End -->
 
                     <!-- Banner Section Begin -->
-                    <section class="banner set-bg" data-setbg="img/banner/banner-1.jpg">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-xl-7 col-lg-8 m-auto">
-                                    <div class="banner__slider owl-carousel">
-                                        <div class="banner__item">
-                                            <div class="banner__text">
-                                                <span>The Chloe Collection</span>
-                                                <h1>The Project Jacket</h1>
-                                                <a href="#">Shop now</a>
-                                            </div>
-                                        </div>
-                                        <div class="banner__item">
-                                            <div class="banner__text">
-                                                <span>The Chloe Collection</span>
-                                                <h1>The Project Jacket</h1>
-                                                <a href="#">Shop now</a>
-                                            </div>
-                                        </div>
-                                        <div class="banner__item">
-                                            <div class="banner__text">
-                                                <span>The Chloe Collection</span>
-                                                <h1>The Project Jacket</h1>
-                                                <a href="#">Shop now</a>
-                                            </div>
-                                        </div>
+                    <div class='customeSlide'>
+                        <section class="slider-container">
+                            <!-- Các Slide -->
+                            <center>
+                                <c:forEach items="${requestScope.listSlider}" var="slide" varStatus="status">
+                                    <div class="slide">
+                                        <a href="/searchbyslide?id=${slide.id}">
+                                            <img src="${slide.image}" alt="${slide.title}">
+                                            <h3>${slide.title}</h3>
+                                        </a>
                                     </div>
+                                </c:forEach>
+                                <!-- Dấu chấm điều hướng -->
+                                <div class="slider-nav">
+                                    <c:forEach items="${requestScope.listSlider}" var="slide" varStatus="status">
+                                        <button class="dot"></button>
+                                    </c:forEach>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
+                            </center>
+                        </section>
+                    </div>
                     <!-- Banner Section End -->
 
                     <!-- Trend Section Begin -->
@@ -379,109 +223,68 @@
                                         <div class="section-title">
                                             <h4>Hot Trend</h4>
                                         </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/ht-1.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Chain bucket bag</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                        <c:forEach items="${requestScope.listFeature}" var="pd">
+                                            <a href="ProductDetail?productId=${pd.productID}" class="trend__item">
+                                                <div class="trend__item">
+                                                    <div class="trend__item__pic">
+                                                        <img src="${pd.thumbnail}" alt="lol">
+                                                    </div>
+                                                    <div class="trend__item__text">
+                                                        <h6>${pd.productName}</h6>
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <c:choose>
+                                                            <c:when test="${pd.saleStatus eq 1}">
+                                                                <div class="product__price">$ ${pd.salePrice} <span>$ ${pd.price}</span></div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="product__price">$ ${pd.price}</div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/ht-2.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Pendant earrings</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/ht-3.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Cotton T-Shirt</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
+                                            </a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-6">
                                     <div class="trend__content">
                                         <div class="section-title">
-                                            <h4>Best seller</h4>
+                                            <h4>Sale</h4>
                                         </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/bs-1.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Cotton T-Shirt</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                        <c:forEach items="${requestScope.listFeature}" var="pd">
+                                            <a href="ProductDetail?productId=${pd.productID}" class="trend__item">
+                                                <div class="trend__item">
+                                                    <div class="trend__item__pic">
+                                                        <img src="${pd.thumbnail}" alt="lol">
+                                                    </div>
+                                                    <br>
+                                                    <div class="trend__item__text">
+                                                        <h6>${pd.productName}</h6>
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <c:choose>
+                                                            <c:when test="${pd.saleStatus eq 1}">
+                                                                <div class="product__price">$ ${pd.salePrice} <span>$ ${pd.price}</span></div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="product__price">$ ${pd.price}</div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/bs-2.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Zip-pockets pebbled tote <br />briefcase</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/bs-3.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Round leather bag</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
+                                            </a>
+                                        </c:forEach>    
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-6">
@@ -489,54 +292,26 @@
                                         <div class="section-title">
                                             <h4>Feature</h4>
                                         </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/f-1.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Bow wrap skirt</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                        <c:forEach items="${requestScope.listSale}" var="pd">
+                                            <a href="ProductDetail?productId=${pd.productID}" class="trend__item">
+                                                <div class="trend__item">
+                                                    <div class="trend__item__pic">
+                                                        <img src="${pd.thumbnail}" alt="lol">
+                                                    </div>
+                                                    <div class="trend__item__text">
+                                                        <h6>${pd.productName}</h6>
+                                                        <div class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <div class="product__price">$ ${pd.price} <span>$ ${pd.salePrice}</span></div>
+                                                    </div>
                                                 </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/f-2.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Metallic earrings</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
-                                        <div class="trend__item">
-                                            <div class="trend__item__pic">
-                                                <img src="img/trend/f-3.jpg" alt="">
-                                            </div>
-                                            <div class="trend__item__text">
-                                                <h6>Flap cross-body bag</h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product__price">$ 59.0</div>
-                                            </div>
-                                        </div>
+                                            </a>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -546,48 +321,38 @@
 
                     <!-- Discount Section Begin -->
                     <section class="discount">
+                        <div class="section-title">
+                            <h4>Hot Post</h4>
+                        </div>
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-6 p-0">
-                                    <div class="discount__pic">
-                                        <img src="img/discount.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 p-0">
-                                    <div class="discount__text">
-                                        <div class="discount__text__title">
-                                            <span>Discount</span>
-                                            <h2>Summer 2019</h2>
-                                            <h5><span>Sale</span> 50%</h5>
-                                        </div>
-                                        <div class="discount__countdown" id="countdown-time">
-                                            <div class="countdown__item">
-                                                <span>22</span>
-                                                <p>Days</p>
-                                            </div>
-                                            <div class="countdown__item">
-                                                <span>18</span>
-                                                <p>Hour</p>
-                                            </div>
-                                            <div class="countdown__item">
-                                                <span>46</span>
-                                                <p>Min</p>
-                                            </div>
-                                            <div class="countdown__item">
-                                                <span>05</span>
-                                                <p>Sec</p>
+                                <c:forEach items="${requestScope.blogList}" var="blogs" varStatus="status">
+                                    <!-- Giới hạn hiển thị chỉ 3 bài blog -->
+                                    <c:if test="${status.index < 3}">
+                                        <div class="col-lg-4 col-md-6 mb-4">
+                                            <div class="card h-100">
+                                                <img src="${blogs.thumbNail}" class="card-img-top" alt="${blogs.blogTitle}">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${blogs.blogTitle}</h5>
+                                                    <p class="card-text">${blogs.description}</p>
+                                                    <a href="/blog/${blogs.blogID}" class="btn btn-primary">Read More</a>
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    <small>Posted on ${blogs.createDate} by ${blogs.author}</small>
+                                                </div>
                                             </div>
                                         </div>
-                                        <a href="#">Shop now</a>
-                                    </div>
-                                </div>
+                                    </c:if>
+                                </c:forEach>
                             </div>
                         </div>
                     </section>
+
                     <!-- Discount Section End -->
 
                     <!-- Services Section Begin -->
                     <section class="services spad">
+
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -624,11 +389,57 @@
                     <!-- Services Section End -->
 
                     <!-- Instagram Begin -->
-                    
+
                 </div>
         </section>
+
         <!-- Instagram End -->
         <jsp:include page="../layout/success.jsp"/>
         <jsp:include page="../layout/footer.jsp"/>
+        <script>
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+
+            let index = 0;
+
+            // Hiển thị slide đầu tiên và dấu chấm tương ứng
+            const showSlide = (slideIndex) => {
+                // Ẩn tất cả các slide
+                slides.forEach((slide) => {
+                    slide.style.display = 'none';
+                });
+
+                // Loại bỏ lớp active từ tất cả các dấu chấm
+                dots.forEach((dot) => {
+                    dot.classList.remove('active');
+                });
+
+                // Hiển thị slide và dấu chấm tương ứng
+                slides[slideIndex].style.display = 'block';
+                dots[slideIndex].classList.add('active');
+            };
+
+            // Tự động lướt qua các slide
+            const autoSlide = () => {
+                // Tăng chỉ số slide lên một đơn vị
+                index++;
+                // Nếu chỉ số vượt quá số lượng slide, quay lại slide đầu tiên
+                if (index >= slides.length) {
+                    index = 0;
+                }
+                showSlide(index);
+            };
+
+            // Tự động chuyển slide mỗi 3 giây
+            setInterval(autoSlide, 3000);
+
+            // Xác định slide khi người dùng click vào dấu chấm
+            dots.forEach((dot, dotIndex) => {
+                dot.addEventListener('click', () => {
+                    showSlide(dotIndex);
+                    index = dotIndex;
+                });
+            });
+        </script>
     </body>
 </html>
