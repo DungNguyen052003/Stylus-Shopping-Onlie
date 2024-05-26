@@ -4,21 +4,22 @@
  */
 package controller;
 
-import dao.CustomerDAO;
+import dao.BlogDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Customer;
+import java.util.List;
+import model.Blog;
+import model.Category;
 
 /**
  *
- * @author TienP
+ * @author ngock
  */
-public class NewPassword extends HttpServlet {
+public class LastestBlog extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +38,10 @@ public class NewPassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewPassword</title>");
+            out.println("<title>Servlet LastestBlog</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewPassword at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LastestBlog at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +59,30 @@ public class NewPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/authen/newPass.jsp").forward(request, response);
+        BlogDAO d = new BlogDAO();
+        List<Blog> list = null;
+        List<Category> listCate = d.getAllRootCategories();
+        String search = request.getParameter("search");
+
+// Check if the search parameter is present and not empty
+        if (search != null && !search.trim().isEmpty()) {
+            // Search for blogs by title
+            list = d.searchBlogsByTitle(search);
+        } else if (request.getParameter("category") != null && request.getParameter("category").equals("1")) {
+            // If category parameter is present, get blogs by category
+            String cateID = request.getParameter("id");
+            list = d.getBlogsByCategory(cateID);
+        } else {
+            // Default to getting the latest blogs
+            list = d.getLastestBlog();
+        }
+
+// Set the request attributes
+        request.setAttribute("listCate", listCate);
+        request.setAttribute("list", list);
+
+// Forward to the Blog.jsp page
+        request.getRequestDispatcher("/view/customer/Blog.jsp").forward(request, response);
     }
 
     /**
@@ -72,53 +96,14 @@ public class NewPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String password = request.getParameter("newPass");
-        HttpSession session = request.getSession();
-        String email = (String) request.getSession().getAttribute("email");
-        CustomerDAO cd = new CustomerDAO();
-        cd.updateCustomerPass(email, password);
-        cd.changeVerifyStatus(email, 1);
-        request.setAttribute("status", 6);
-        request.getRequestDispatcher("view/authen/verify.jsp").forward(request, response);
-//        Customer findbyPass = new Customer();
-//        if (password != null) {
-//            String email = (String) request.getSession().getAttribute("email");
-//            String newPass = request.getParameter("newPass");            
-//            findbyPass.setEmail(email);
-//            findbyPass.setPassword(password);
-//            Customer cs = cd.findCustomer(findbyPass);
-//            if (cs == null) {
-//                String message = "Your password not correct!";
-//                request.setAttribute("error", message);
-//                request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
-//            } else {
-//                cd.updateCustomerPass(email, newPass);
-//                request.setAttribute("status", 6);
-//                request.getRequestDispatcher("view/authen/verify.jsp");
-//            }
-//        }else{            
-//            String newPass = request.getParameter("newPass2");
-//            String email = (String) session.getAttribute("email");
-//            cd.updateCustomerPass(email, newPass);
-//            request.setAttribute("status", 6);
-//            request.getRequestDispatcher("view/authen/verify.jsp");
-//        }
+        processRequest(request, response);
     }
 
-    public static void main(String[] args){
-        String password="123";
-        String email = "tienpqhe176483@fpt.edu.vn";
-        CustomerDAO cd = new CustomerDAO();
-        cd.updateCustomerPass(email, password);
-        
-        
-    }
-        /**
+    /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
-
     @Override
     public String getServletInfo() {
         return "Short description";

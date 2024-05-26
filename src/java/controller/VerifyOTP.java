@@ -59,7 +59,7 @@ public class VerifyOTP extends HttpServlet {
     throws ServletException, IOException {
         String email = request.getParameter("email");
         CustomerDAO cs = new CustomerDAO();
-        if(cs.checkEmailDuplicate(email)){
+        if(cs.checkEmailRegister(email)){
             cs.changeVerifyStatus(email, 1);
             request.setAttribute("status",1 );
             HttpSession session = request.getSession();

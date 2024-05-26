@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,8 +91,7 @@ public class BlogDAO extends DBContext {
         return blog;
     }
 
-
-public List<Blog> getFeaturedBlogs() {
+    public List<Blog> getFeaturedBlogs() {
         List<Blog> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Blog WHERE Featured = 1";
@@ -151,22 +151,26 @@ public List<Blog> getFeaturedBlogs() {
             stm.setInt(1, blogID);
             rs = stm.executeQuery();
             while (rs.next()) {
-
-                int productID = rs.getInt("ProductID");
-                String productName = rs.getString("ProductName");
-                int saleID = rs.getInt("SaleID");
-                int brandID = rs.getInt("BrandID");
-                int cateID = rs.getInt("CateID");
-                String thumbNail = rs.getString("ThumbNail");
-                BigDecimal price = rs.getBigDecimal("Price");
-                int totalQuantity = rs.getInt("Total_Quantity");
-                boolean status = rs.getBoolean("Status");
-                String description = rs.getString("Description");
-                String briefInformation = rs.getString("BriefInformation");
-                int starRating = rs.getInt("StarRating");
-                boolean saleStatus = rs.getBoolean("SaleStatus");
-
-                return new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
+                Product p = new Product();
+                int productID = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                String thumbnail = resultSet.getString("ThumbNail");
+                double price = resultSet.getDouble("Price");
+                int star = resultSet.getInt("StarRating");
+                int sale = resultSet.getInt("SaleStatus");
+                int campainID = resultSet.getInt("CampainID");
+                p.setProductID(productID);
+                p.setProductName(productName);
+                p.setThumbnail(thumbnail);
+                p.setPrice(price);
+                p.setStarRating(star);
+                p.setSaleStatus(sale);
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    p.setSalePrice(salePrice);
+                }
+                return p;
 
             }
         } catch (SQLException e) {
@@ -174,7 +178,22 @@ public List<Blog> getFeaturedBlogs() {
         }
         return null;
     }
-
+    public int getDiscount(int campainID) {
+        String sql = "select * from Campain\n"
+                + "where CampainID = ?";
+        int a = 0;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, campainID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                a = rs.getInt("DiscountPercent");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
+    }
     public List<Blog> getLastestBlog() {
         List<Blog> list = new ArrayList<>();
 
@@ -212,21 +231,26 @@ public List<Blog> getFeaturedBlogs() {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             if (rs.next()) {
-                int productID = rs.getInt("ProductID");
-                String productName = rs.getString("ProductName");
-                int saleID = rs.getInt("SaleID");
-                int brandID = rs.getInt("BrandID");
-                int cateID = rs.getInt("CateID");
-                String thumbNail = rs.getString("ThumbNail");
-                BigDecimal price = rs.getBigDecimal("Price");
-                int totalQuantity = rs.getInt("Total_Quantity");
-                boolean status = rs.getBoolean("Status");
-                String description = rs.getString("Description");
-                String briefInformation = rs.getString("BriefInformation");
-                int starRating = rs.getInt("StarRating");
-                boolean saleStatus = rs.getBoolean("SaleStatus");
-
-                product = new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
+                Product p = new Product();
+                int productID = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                String thumbnail = resultSet.getString("ThumbNail");
+                double price = resultSet.getDouble("Price");
+                int star = resultSet.getInt("StarRating");
+                int sale = resultSet.getInt("SaleStatus");
+                int campainID = resultSet.getInt("CampainID");
+                p.setProductID(productID);
+                p.setProductName(productName);
+                p.setThumbnail(thumbnail);
+                p.setPrice(price);
+                p.setStarRating(star);
+                p.setSaleStatus(sale);
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    p.setSalePrice(salePrice);
+                }
+                return p;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -245,7 +269,7 @@ public List<Blog> getFeaturedBlogs() {
             while (rs.next()) {
                 int cateID = rs.getInt("CateID");
                 String name = rs.getString("Name");
-                boolean status = rs.getBoolean("Status");
+                int status = rs.getInt("Status");
                 int parentID = rs.getInt("ParentID");
                 categories.add(new Category(cateID, name, status, parentID));
             }

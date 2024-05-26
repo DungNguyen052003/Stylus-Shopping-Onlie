@@ -331,6 +331,7 @@
                                     <c:if test="${status.index < 3}">
                                         <div class="col-lg-4 col-md-6 mb-4">
                                             <div class="card h-100">
+                                                <a href="BlogDetail?id=${blogs.blogID}" class="trend__item">
                                                 <img src="${blogs.thumbNail}" class="card-img-top" alt="${blogs.blogTitle}">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${blogs.blogTitle}</h5>
@@ -340,6 +341,7 @@
                                                 <div class="card-footer text-muted">
                                                     <small>Posted on ${blogs.createDate} by ${blogs.author}</small>
                                                 </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </c:if>

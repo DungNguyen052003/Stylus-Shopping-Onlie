@@ -80,6 +80,7 @@
                 <br>
                 <input type="password" class="form-control" placeholder="Confirm new password" 
                        id="confirmPass2" name="confirmPass" style="width: 300px;" required>
+                
             </div>
              <p id="error-message-2" style="color: red; display: none;">Your password must be 8-16 characters long and include at least one lowercase letter,
                                                 one uppercase letter, one number, and one special character (@$!%*?&)</p> 
