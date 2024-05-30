@@ -20,8 +20,8 @@ import java.util.List;
 public class SizeDAO extends DBContext{
     public List<Size> get(int id) {
         List<Size> sizes = new ArrayList<>();
-        String sql = "SELECT s.* FROM ProductSizeColor ps  JOIN Product p ON ps.productID = p.ProductID \n" +
-"  Join Size s On s.ID = ps.sizeID\n" +
+        String sql = "SELECT s.* FROM ProductDetails ps  JOIN Product p ON ps.productID = p.ProductID \n" +
+"  Join Size s On s.sizeID = ps.sizeID\n" +
 "  WHERE p.ProductID = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -30,7 +30,7 @@ public class SizeDAO extends DBContext{
 
             while (rs.next()) {
                 Size size = new Size();
-                size.setId(rs.getInt("ID"));
+                size.setId(rs.getInt("SizeID"));
                 size.setName(rs.getString("Name"));
                 sizes.add(size);
             }
@@ -49,7 +49,7 @@ public class SizeDAO extends DBContext{
 
             while (rs.next()) {
                 Size size = new Size();
-                size.setId(rs.getInt("ID"));
+                size.setId(rs.getInt("SizeID"));
                 size.setName(rs.getString("Name"));
                 sizes.add(size);
             }

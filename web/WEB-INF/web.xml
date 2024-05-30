@@ -57,12 +57,20 @@
         <servlet-class>controller.BlogDetail</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LastestBlog</servlet-name>
+        <servlet-class>controller.LastestBlog</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>BlogServlet</servlet-name>
         <servlet-class>controller.BlogServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LastestBlog</servlet-name>
         <servlet-class>controller.LastestBlog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductServlet</servlet-name>
+        <servlet-class>controller.ProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -89,6 +97,10 @@
         <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>LastestBlog</servlet-name>
+        <url-pattern>/last</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
     </servlet-mapping>
@@ -106,7 +118,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogDetail</servlet-name>
-        <url-pattern>/BlogDetail</url-pattern>
+        <url-pattern>/blogdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogServlet</servlet-name>
@@ -115,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>LastestBlog</servlet-name>
         <url-pattern>/LastestBlog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductServlet</servlet-name>
+        <url-pattern>/ProductServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>

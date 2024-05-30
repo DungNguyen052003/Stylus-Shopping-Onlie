@@ -14,6 +14,15 @@ public class Slider {
     private String image;
     private int Status;
     private int CampainID;
+    private String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
     public int getId() {
         return id;
     }
@@ -26,7 +35,7 @@ public class Slider {
         return title;
     }
 
-    public void setTitle(String title) {
+        public void setTitle(String title) {
         this.title = title;
     }
 
@@ -46,12 +55,13 @@ public class Slider {
         this.Status = Status;
     }
 
-    public Slider(int id, String title, String image, int Status, int CampainID) {
+    public Slider(int id, String title, String image, int Status, int CampainID, String note) {
         this.id = id;
         this.title = title;
         this.image = image;
         this.Status = Status;
         this.CampainID = CampainID;
+        this.note = note;
     }
 
     public Slider() {

@@ -18,7 +18,7 @@ public class FeedBack {
     private int rateStar;
     private String comment;
     private boolean status;
-     private String customerName;
+    private String customerName;
 
     public FeedBack() {
     }

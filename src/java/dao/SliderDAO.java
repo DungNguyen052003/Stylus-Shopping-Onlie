@@ -20,7 +20,9 @@ public class SliderDAO extends DBContext {
     public List<Slider> listSlider() {
         List<Slider> listFound = new ArrayList<>();
 
-        String sql = "select top 3 * from Slider ";
+        String sql = "select * from Slider sl\n"
+                + "join Campain c on c.CampainID = sl.SliderCampainID\n"
+                + "where c.Status = 1 ";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -32,6 +34,7 @@ public class SliderDAO extends DBContext {
                 slider.setTitle(resultSet.getString("title"));
                 slider.setStatus(resultSet.getInt("Status"));
                 slider.setCampainID(resultSet.getInt("SliderCampainID"));
+                slider.setNote(resultSet.getString("Note"));
                 listFound.add(slider);
             }
         } catch (SQLException e) {

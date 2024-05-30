@@ -89,16 +89,16 @@ public class HomeController extends HttpServlet {
         
         ProductDAO pd = new ProductDAO();
         SliderDAO sd = new SliderDAO();
-        BlogDAO bd = new BlogDAO();
+//        BlogDAO bd = new BlogDAO();
         List<Product> listbyAll = pd.listTop8Cate(0);
         List<Product> listbyMen = pd.listTop8Cate(1);
         List<Product> listbyWomen = pd.listTop8Cate(2);
-        List<Product> listHot = pd.listHotTrend();
-        List<Product> listFeature = pd.listFeature();
-        List<Product> listSale = pd.listSale();
+//        List<Product> listHot = pd.listHotTrend();
+//        List<Product> listFeature = pd.listFeature();
+//        List<Product> listSale = pd.listSale();
         List<Slider> listSlider = sd.listSlider();
-        List<Blog> blogList = bd.getAllBlogs();
-         for(Product p : listbyAll){
+//        List<Blog> blogList = bd.getAllBlogs();
+        for(Product p : listbyAll){
             System.out.println(p.toString());
         }
     }
