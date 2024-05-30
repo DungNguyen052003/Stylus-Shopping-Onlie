@@ -79,7 +79,6 @@ public class ProductDetail extends HttpServlet {
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
             Product products = new ProductDAO().get(productId);
-            System.out.println(products.toString());
             Category category = new CategoryDAO().get(products.getCateID().getCateID());
             List<FeedBack> feedBack = new FeedBackDAO().getFeedbacksByProductId(products.getProductID());
             List<Size> size = new SizeDAO().get(products.getProductID());
@@ -136,6 +135,16 @@ public class ProductDetail extends HttpServlet {
         request.getRequestDispatcher("view/customer/productDetail.jsp").forward(request, response);
     }
 
+//    public ProductDetail() {
+//    }
+    public static void main(String[] args) {
+         Product products = new ProductDAO().get(1);
+        List<Product> latestProducts = new ProductDAO().getLatestProductsFromDatabase(products.getCateID().getCateID());
+        for(Product pd : latestProducts){
+            System.out.println(pd);
+        }
+    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -148,7 +157,7 @@ public class ProductDetail extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("./view/customer/productdetail.jsp").forward(request, response);
+        request.getRequestDispatcher("./view/customer/productDetail.jsp").forward(request, response);
     }
 
     /**

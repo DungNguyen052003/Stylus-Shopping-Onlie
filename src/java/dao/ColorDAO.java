@@ -19,33 +19,11 @@ import model.Color;
  */
 public class ColorDAO extends DBContext {
 
-//    public List<Color> get(int id) {
-//         List<Color> colors = new ArrayList<>();
-//        String sql = "SELECT c.* FROM ProductSizeColor ps  JOIN Product p ON ps.productID = p.ProductID \n"
-//                + "  Join Color c On c.id = ps.colorid\n"
-//                + "  WHERE p.ProductID = ?";
-//        
-//
-//        try {
-//            PreparedStatement ps = connection.prepareStatement(sql);
-//            ps.setInt(1, id);
-//            ResultSet rs = ps.executeQuery();
-//
-//            while (rs.next()) {
-//                Color color = new Color();
-//                color.setId(rs.getInt("id"));
-//                color.setName(rs.getString("Name"));
-//                colors.add(color);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return colors;
-//    }
+
     public List<Color> getColorsByProductID(int productID) {
         List<Color> colors = new ArrayList<>();
-        String sql = "SELECT c.* FROM ProductSizeColor ps  JOIN Product p ON ps.productID = p.ProductID \n"
-                + "Join Color c On c.ID = ps.sizeID\n"
+        String sql = "SELECT c.* FROM ProductDetails ps  JOIN Product p ON ps.productID = p.ProductID \n"
+                + "Join Color c On c.colorID = ps.sizeID\n"
                 + "WHERE p.ProductID = ?";
 
         try {
@@ -55,7 +33,7 @@ public class ColorDAO extends DBContext {
 
             while (rs.next()) {
                 Color color = new Color();
-                color.setId(rs.getInt("ID"));
+                color.setId(rs.getInt("ColorID"));
                 color.setName(rs.getString("Name"));
                 colors.add(color);
             }
@@ -74,7 +52,7 @@ public class ColorDAO extends DBContext {
 
             while (rs.next()) {
                 Color color = new Color();
-                color.setId(rs.getInt("ID"));
+                color.setId(rs.getInt("ColorID"));
                 color.setName(rs.getString("Name"));
                 colors.add(color);
             }

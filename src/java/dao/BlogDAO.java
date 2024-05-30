@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,24 +28,22 @@ public class BlogDAO extends DBContext {
 
     public List<Blog> getAllBlogs() {
         List<Blog> list = new ArrayList<>();
-
         try {
             String sql = "Select * From Blog Order By CreateDate DESC";
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                int blogID = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,24 +53,23 @@ public class BlogDAO extends DBContext {
 
     public Blog getLatestBlog() {
         Blog blog = null;
-
         try {
             String sql = "SELECT TOP 1 * FROM Blog ORDER BY CreateDate DESC";
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             if (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int cateID = rs.getInt(11);
-                blog = new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, cateID);
+                int blogID = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+
+                blog = new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,26 +88,25 @@ public class BlogDAO extends DBContext {
         return blog;
     }
 
-
-public List<Blog> getFeaturedBlogs() {
+    public List<Blog> getFeaturedBlogs() {
         List<Blog> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Blog WHERE Featured = 1";
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                int blogID = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,18 +122,17 @@ public List<Blog> getFeaturedBlogs() {
             rs = stm.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String title = rs.getString(2);
-                String thumbnail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                return new Blog(id, title, thumbnail, description, createDate, productID, status, briefInformation, author, featured, CateID);
+                int id = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+                return new Blog(id, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,28 +147,48 @@ public List<Blog> getFeaturedBlogs() {
             stm.setInt(1, blogID);
             rs = stm.executeQuery();
             while (rs.next()) {
-
+                Product p = new Product();
                 int productID = rs.getInt("ProductID");
                 String productName = rs.getString("ProductName");
-                int saleID = rs.getInt("SaleID");
-                int brandID = rs.getInt("BrandID");
-                int cateID = rs.getInt("CateID");
-                String thumbNail = rs.getString("ThumbNail");
-                BigDecimal price = rs.getBigDecimal("Price");
-                int totalQuantity = rs.getInt("Total_Quantity");
-                boolean status = rs.getBoolean("Status");
-                String description = rs.getString("Description");
-                String briefInformation = rs.getString("BriefInformation");
-                int starRating = rs.getInt("StarRating");
-                boolean saleStatus = rs.getBoolean("SaleStatus");
-
-                return new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
-
+                String thumbnail = rs.getString("ThumbNail");
+                double price = rs.getDouble("Price");
+                int star = rs.getInt("StarRating");
+                int sale = rs.getInt("SaleStatus");
+                int campainID = rs.getInt("CampainID");
+                p.setProductID(productID);
+                p.setProductName(productName);
+                p.setThumbnail(thumbnail);
+                p.setPrice(price);
+                p.setStarRating(star);
+                p.setSaleStatus(sale);
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    p.setSalePrice(salePrice);
+                }
+                return p;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getDiscount(int campainID) {
+        String sql = "select * from Campain\n"
+                + "where CampainID = ?";
+        int a = 0;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, campainID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                a = rs.getInt("DiscountPercent");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
     }
 
     public List<Blog> getLastestBlog() {
@@ -183,18 +199,17 @@ public List<Blog> getFeaturedBlogs() {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                 int blogID = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");;
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -205,28 +220,33 @@ public List<Blog> getFeaturedBlogs() {
     public Product getProductByID() {
         Product product = null;
         PreparedStatement stm = null;
-        ResultSet rs = null;
+        ResultSet resultSet = null;
 
         try {
             String sql = "SELECT * FROM Product WHERE ProductID = 2";
             stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
-            if (rs.next()) {
-                int productID = rs.getInt("ProductID");
-                String productName = rs.getString("ProductName");
-                int saleID = rs.getInt("SaleID");
-                int brandID = rs.getInt("BrandID");
-                int cateID = rs.getInt("CateID");
-                String thumbNail = rs.getString("ThumbNail");
-                BigDecimal price = rs.getBigDecimal("Price");
-                int totalQuantity = rs.getInt("Total_Quantity");
-                boolean status = rs.getBoolean("Status");
-                String description = rs.getString("Description");
-                String briefInformation = rs.getString("BriefInformation");
-                int starRating = rs.getInt("StarRating");
-                boolean saleStatus = rs.getBoolean("SaleStatus");
-
-                product = new Product(productID, productName, saleID, brandID, cateID, thumbNail, price, totalQuantity, status, description, briefInformation, starRating, saleStatus);
+            resultSet = stm.executeQuery();
+            if (resultSet.next()) {
+                Product p = new Product();
+                int productID = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                String thumbnail = resultSet.getString("ThumbNail");
+                double price = resultSet.getDouble("Price");
+                int star = resultSet.getInt("StarRating");
+                int sale = resultSet.getInt("SaleStatus");
+                int campainID = resultSet.getInt("CampainID");
+                p.setProductID(productID);
+                p.setProductName(productName);
+                p.setThumbnail(thumbnail);
+                p.setPrice(price);
+                p.setStarRating(star);
+                p.setSaleStatus(sale);
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    p.setSalePrice(salePrice);
+                }
+                return p;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -245,7 +265,7 @@ public List<Blog> getFeaturedBlogs() {
             while (rs.next()) {
                 int cateID = rs.getInt("CateID");
                 String name = rs.getString("Name");
-                boolean status = rs.getBoolean("Status");
+                int status = rs.getInt("Status");
                 int parentID = rs.getInt("ParentID");
                 categories.add(new Category(cateID, name, status, parentID));
             }
@@ -264,18 +284,17 @@ public List<Blog> getFeaturedBlogs() {
             stm.setString(1, cateID);
             rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                int id = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+                list.add(new Blog(id, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -287,34 +306,32 @@ public List<Blog> getFeaturedBlogs() {
         List<Blog> list = new ArrayList<>();
         try {
             String sql = "SELECT [BlogID]\n"
-                    + "      ,[BlogTitile]\n"
+                    + "      ,[BlogTitle]\n"
                     + "      ,[ThumbNail]\n"
                     + "      ,[Description]\n"
                     + "      ,[CreateDate]\n"
                     + "      ,[ProductID]\n"
                     + "      ,[Status]\n"
-                    + "      ,[BrifInfomation]\n"
+                    + "      ,[Brief_Info]\n"
                     + "      ,[Author]\n"
                     + "      ,[Featured]\n"
-                    + "      ,[CateID]\n"
                     + "  FROM [dbo].[Blog]\n"
-                    + "  Where BlogTitile LIKE ?";
+                    + "  Where BlogTitle LIKE ?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, "%" + search + "%");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                int blogID = rs.getInt("BlogID");
+                String blogTitle = rs.getString("BlogTitle");
+                String thumbNail = rs.getString("Thumbnail");
+                String description = rs.getString("Description");
+                LocalDateTime createDate = rs.getTimestamp("CreateDate").toLocalDateTime();
+                int productID = rs.getInt("ProductID");
+                boolean status = rs.getBoolean("Status");
+                String briefInformation = rs.getString("Brief_Info");
+                String author = rs.getString("Author");
+                boolean featured = rs.getBoolean("Featured");
+                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -322,12 +339,12 @@ public List<Blog> getFeaturedBlogs() {
         return list;
     }
 
-    public static void main(String[] args) {
-        BlogDAO d = new BlogDAO();
-        String search = "example"; // Replace with your search term
-        List<Blog> list = d.searchBlogsByTitle(search);
-        for (Blog blog : list) {
-            System.out.println(blog);
-        }
-    }
+//    public static void main(String[] args) {
+//        BlogDAO d = new BlogDAO();
+//        String search = "example"; // Replace with your search term
+//        List<Blog> list = d.searchBlogsByTitle(search);
+//        for (Blog blog : list) {
+//            System.out.println(blog);
+//        }
+//    }
 }

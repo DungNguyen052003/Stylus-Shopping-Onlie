@@ -65,8 +65,7 @@ public class ResetPass extends HttpServlet {
         session.setAttribute("email", email);
         CustomerDAO cs = new CustomerDAO();
         int veriStatus = cs.getVerifyStatus(email);
-        if (veriStatus != 1) {
-            
+        if (veriStatus != 1) {           
             request.getRequestDispatcher("view/authen/verifySuccess.jsp").forward(request, response);
         } else {
             request.setAttribute("status", 4);
@@ -90,12 +89,13 @@ public class ResetPass extends HttpServlet {
         request.setAttribute("status", 5);
         if (!cs.checkEmailDuplicate(email)) {
             request.getRequestDispatcher("view/authen/verify.jsp").forward(request, response);
-        } else {
+        }else {
             cs.changeVerifyStatus(email, 2);
             EmailService es = new EmailService();
             es.send(email, "reset");
             request.getRequestDispatcher("view/authen/verify.jsp").forward(request, response);
         }
+        
     }
 
     /**

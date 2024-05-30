@@ -21,14 +21,6 @@
 
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="./asset/css/bootstrap.min.css" type="text/css" >
-        <link rel="stylesheet" href="./asset/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="./asset/css/style.css" type="text/css">
         <style>
             .price_box {
                 float: left;
@@ -345,7 +337,7 @@
 
                                 <c:forEach var="product" items="${productList}">
                                     <a class="pt" href="#">
-                                        <img src="./${product.productImages}" alt="">
+                                        <img src="${product.productImages}" alt="">
                                     </a>
                                 </c:forEach>
                             </div>
@@ -353,10 +345,10 @@
                                 <div class="product__details__pic__slider owl-carousel">
 
                                     <c:forEach var="product" items="${productList}">
-                                        <img  class="product__big__img" src="./${product.productImages}" alt="">
+                                        <img  class="product__big__img" src="${product.productImages}" alt="">
 
                                     </c:forEach>
-                                </div>
+                                </div>  
                             </div>
                         </div>
 
@@ -387,7 +379,7 @@
                                     </c:forEach>
                                 </c:if>
                             </div>
-                            <p>${product.briefInformation}</p>
+                            <p>${product.briefInfomation}</p>
                             <div class="product__details__button">
                                 <div class="quantity">
                                     <span>Quantity:</span>
@@ -496,7 +488,7 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="related__title">
-                            <h5>LASTER PRODUCTS</h5>
+                            <h5>LASTEST PRODUCTS</h5>
                         </div>
                     </div>
 
@@ -507,12 +499,12 @@
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg"  >
                                         <a class="pt" href="#">
-                                            <img src="./${product.thumbNail}" alt="">
+                                            <img src="${product.thumbnail}" alt="">
                                         </a>
 
                                         <ul class="product__hover">
                                             <li>
-                                                <a href="./${product.thumbNail}" class="image-popup">
+                                                <a href=""${product.thumbnail}" class="image-popup">
                                                     <span class="arrow_expand"></span>
                                                 </a>
                                             </li>
@@ -694,20 +686,16 @@
                 return true;
             }
         </script>
-        <!-- Search End -->
-
-        <!-- Js Plugins -->
-        <script src="./asset/js/jquery-3.3.1.min.js"></script>
-        <script src="./asset/js/bootstrap.min.js"></script>
-        <script src="./asset/js/jquery.magnific-popup.min.js"></script>
-        <script src="./asset/js/jquery-ui.min.js"></script>
-        <script src="./asset/js/mixitup.min.js"></script>
-        <script src="./asset/js/jquery.countdown.min.js"></script>
-        <script src="./asset/js/jquery.slicknav.js"></script>
-        <script src="./asset/js/owl.carousel.min.js"></script>
-        <script src="./asset/js/jquery.nicescroll.min.js"></script>
-        <script src="./asset/js/main.js"></script>
-        <script src="main.js"></script>
+ 
     </body>
 
+        <script src="asset/js/bootstrap.min.js"></script>
+        <script src="asset/js/jquery.magnific-popup.min.js"></script>
+        <script src="asset/js/jquery-ui.min.js"></script>
+        <script src="asset/js/mixitup.min.js"></script>
+        <script src="asset/js/jquery.countdown.min.js"></script>
+        <script src="asset/js/jquery.slicknav.js"></script>
+        <script src="asset/js/owl.carousel.min.js"></script>
+        <script src="asset/js/jquery.nicescroll.min.js"></script>
+        <script src="asset/js/main.js"></script>
 </html>

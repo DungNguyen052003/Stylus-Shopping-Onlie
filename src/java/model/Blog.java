@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class Blog {
     private String blogTitle;
     private String thumbNail;
     private String description;
-    private Date createDate;
+    private LocalDateTime createDate;
     private int productID;
     private boolean status;
     private String briefInformation;
@@ -26,7 +27,7 @@ public class Blog {
     public Blog() {
     }
 
-    public Blog(int blogID, String blogTitle, String thumbNail, String description, Date createDate, int productID, boolean status, String briefInformation, String author, boolean featured, int CateID) {
+    public Blog(int blogID, String blogTitle, String thumbNail, String description, LocalDateTime createDate, int productID, boolean status, String briefInformation, String author, boolean featured) {
         this.blogID = blogID;
         this.blogTitle = blogTitle;
         this.thumbNail = thumbNail;
@@ -37,7 +38,7 @@ public class Blog {
         this.briefInformation = briefInformation;
         this.author = author;
         this.featured = featured;
-        this.CateID = CateID;
+      
     }
 
     public int getBlogID() {
@@ -72,11 +73,11 @@ public class Blog {
         this.description = description;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 

@@ -11,42 +11,53 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <style>
-            .customSlide{
-                .slider-container {
-                    position: relative;
-                    width: 100%;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    overflow: hidden;
-                }
-                .slide {
-                    display: none; /* Ẩn slide ban đầu */
-                    width: 100%;
-                }
-                .slide img {
-                    width: 100%;
-                    height: auto;
-                }
-                .slider-nav {
-                    position: absolute;
-                    bottom: 10px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    z-index: 1000;
-                }
-                .slider-nav button {
-                    background-color: #fff;
-                    border: 2px solid #333;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    margin: 0 5px;
-                    cursor: pointer;
-                }
-                .slider-nav button.active {
-                    background-color: #333;
-                }
+            .customSlide .container {
+                padding: 2rem;
             }
+            .customSlide .slider-wrapper {
+                position: relative;
+                max-width: 48rem;
+                margin: 0 auto;
+            }
+            .customSlide .slider {
+                display: flex;
+                aspect-ratio: 16/9;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+                border-radius: 0.5rem;
+            }
+            .customSlide .slider img {
+                flex: 1 0 100%;
+                scroll-snap-align: start;
+                object-fit: cover;
+            }
+            .customSlide .slider-nav {
+                display: flex;
+                column-gap: 1rem;
+                position: absolute;
+                bottom: 1.25rem;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1;
+            }
+            .customSlide .slider-nav a {
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                background-color: #fff;
+                opacity: 0.75;
+                transition: opacity ease 250ms;
+            }
+            .customSlide .slider-nav a:hover {
+                opacity: 1;
+            }
+
+
+
+
+
             .hotPost .card {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease;
@@ -150,39 +161,39 @@
                         </div>
                         <div class="row property__gallery">
                             <c:forEach items="${requestScope.listbyAll}" var="pd" varStatus="loop">
-                                <a href="ProductDetail?productId=${pd.productID}" class="trend__item">
-                                    <div class="col-lg-3 col-md-4 col-sm-6 mix women">
-                                        <div class="product__item">
-                                            <div class="product__item__pic set-bg" data-setbg="${pd.thumbnail}"
-                                                 style="background-image: url(${pd.thumbnail});">
 
-                                                <div class="label new">New</div>
-                                                <ul class="product__hover">
-                                                    <li><a href="${pd.thumbnail}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="product__item__text">
-                                                <h6><a href="#">${pd.productName}</a></h6>
-                                                <div class="rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <c:choose>
-                                                    <c:when test="${pd.saleStatus eq 1}">
-                                                        <div class="product__price">$ ${pd.salePrice} <span>$ ${pd.price}</span></div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <div class="product__price">$ ${pd.price}</div>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="${pd.thumbnail}"
+                                             style="background-image: url(${pd.thumbnail});">
 
+                                            <div class="label new">New</div>
+                                            <ul class="product__hover">
+                                                <li><a href="${pd.thumbnail}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="ProductDetail?productId=${pd.productID}">${pd.productName}</a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
                                             </div>
+                                            <c:choose>
+                                                <c:when test="${pd.saleStatus eq 1}">
+                                                    <div class="product__price">$ ${pd.salePrice} <span>$ ${pd.price}</span></div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="product__price">$ ${pd.price}</div>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                         </div>
                                     </div>
-                                </a>
+                                </div>
+
                             </c:forEach> 
 
                         </div>
@@ -191,27 +202,37 @@
                     <!-- Product Section End -->
 
                     <!-- Banner Section Begin -->
-                    <div class='customeSlide'>
-                        <section class="slider-container">
-                            <!-- Các Slide -->
-                            <center>
-                                <c:forEach items="${requestScope.listSlider}" var="slide" varStatus="status">
-                                    <div class="slide">
-                                        <a href="/searchbyslide?id=${slide.id}">
-                                            <img src="${slide.image}" alt="${slide.title}">
-                                            <h3>${slide.title}</h3>
-                                        </a>
+                    <section class="banner set-bg" data-setbg="asset/image/banner-1.jpg">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-8 m-auto">
+                                    <div class="banner__slider owl-carousel">
+                                        <div class="banner__item">
+                                            <div class="banner__text">
+                                                <span>The Chloe Collection</span>
+                                                <h1>The Project Jacket</h1>
+                                                <a href="#">Shop now</a>
+                                            </div>
+                                        </div>
+                                        <div class="banner__item">
+                                            <div class="banner__text">
+                                                <span>The Chloe Collection</span>
+                                                <h1>The Project Jacket</h1>
+                                                <a href="#">Shop now</a>
+                                            </div>
+                                        </div>
+                                        <div class="banner__item">
+                                            <div class="banner__text">
+                                                <span>The Chloe Collection</span>
+                                                <h1>The Project Jacket</h1>
+                                                <a href="#">Shop now</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </c:forEach>
-                                <!-- Dấu chấm điều hướng -->
-                                <div class="slider-nav">
-                                    <c:forEach items="${requestScope.listSlider}" var="slide" varStatus="status">
-                                        <button class="dot"></button>
-                                    </c:forEach>
                                 </div>
-                            </center>
-                        </section>
-                    </div>
+                            </div>
+                        </div>
+                    </section>
                     <!-- Banner Section End -->
 
                     <!-- Trend Section Begin -->
@@ -331,15 +352,17 @@
                                     <c:if test="${status.index < 3}">
                                         <div class="col-lg-4 col-md-6 mb-4">
                                             <div class="card h-100">
-                                                <img src="${blogs.thumbNail}" class="card-img-top" alt="${blogs.blogTitle}">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${blogs.blogTitle}</h5>
-                                                    <p class="card-text">${blogs.description}</p>
-                                                    <a href="/blog/${blogs.blogID}" class="btn btn-primary">Read More</a>
-                                                </div>
-                                                <div class="card-footer text-muted">
-                                                    <small>Posted on ${blogs.createDate} by ${blogs.author}</small>
-                                                </div>
+                                                <a href="BlogDetail?id=${blogs.blogID}" class="trend__item">
+                                                    <img src="${blogs.thumbNail}" class="card-img-top" alt="${blogs.blogTitle}">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${blogs.blogTitle}</h5>
+                                                        <p class="card-text">${blogs.description}</p>
+                                                        <a href="/blog/${blogs.blogID}" class="btn btn-primary">Read More</a>
+                                                    </div>
+                                                    <div class="card-footer text-muted">
+                                                        <small>Posted on ${blogs.createDate} by ${blogs.author}</small>
+                                                    </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </c:if>
@@ -397,49 +420,82 @@
         <jsp:include page="../layout/success.jsp"/>
         <jsp:include page="../layout/footer.jsp"/>
         <script>
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.dot');
+            let slideIndex = 0;
+            showSlides();
 
-            let index = 0;
+            // Function to show the slides
+            function showSlides() {
+                let i;
+                let slides = document.getElementsByClassName("slide");
+                let dots = document.getElementsByClassName("dot");
 
-            // Hiển thị slide đầu tiên và dấu chấm tương ứng
-            const showSlide = (slideIndex) => {
-                // Ẩn tất cả các slide
-                slides.forEach((slide) => {
-                    slide.style.display = 'none';
-                });
-
-                // Loại bỏ lớp active từ tất cả các dấu chấm
-                dots.forEach((dot) => {
-                    dot.classList.remove('active');
-                });
-
-                // Hiển thị slide và dấu chấm tương ứng
-                slides[slideIndex].style.display = 'block';
-                dots[slideIndex].classList.add('active');
-            };
-
-            // Tự động lướt qua các slide
-            const autoSlide = () => {
-                // Tăng chỉ số slide lên một đơn vị
-                index++;
-                // Nếu chỉ số vượt quá số lượng slide, quay lại slide đầu tiên
-                if (index >= slides.length) {
-                    index = 0;
+                // Hide all slides
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
                 }
-                showSlide(index);
-            };
 
-            // Tự động chuyển slide mỗi 3 giây
-            setInterval(autoSlide, 3000);
+                // Remove active class from all dots
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
 
-            // Xác định slide khi người dùng click vào dấu chấm
-            dots.forEach((dot, dotIndex) => {
+                // Increment slide index
+                slideIndex++;
+
+                // Reset slide index if it exceeds the number of slides
+                if (slideIndex > slides.length) {
+                    slideIndex = 1
+                }
+
+                // Display the current slide and add active class to the corresponding dot
+                slides[slideIndex - 1].style.display = "block";
+                slides[slideIndex - 1].classList.add("fade");
+                dots[slideIndex - 1].className += " active";
+
+                // Change slide every 3 seconds
+                setTimeout(showSlides, 3000);
+            }
+
+            // Function to show a specific slide
+            function currentSlide(n) {
+                let slides = document.getElementsByClassName("slide");
+                let dots = document.getElementsByClassName("dot");
+
+                // Hide all slides
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+
+                // Remove active class from all dots
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+
+                // Display the selected slide and add active class to the corresponding dot
+                slides[n - 1].style.display = "block";
+                slides[n - 1].classList.add("fade");
+                dots[n - 1].className += " active";
+
+                // Update slideIndex
+                slideIndex = n;
+            }
+
+            // Add event listeners to dots for manual navigation
+            document.querySelectorAll('.dot').forEach((dot, index) => {
                 dot.addEventListener('click', () => {
-                    showSlide(dotIndex);
-                    index = dotIndex;
+                    currentSlide(index + 1);
                 });
             });
         </script>
+<script src="asset/js/jquery-3.3.1.min.js"></script>
+        <script src="asset/js/bootstrap.min.js"></script>
+        <script src="asset/js/jquery.magnific-popup.min.js"></script>
+        <script src="asset/js/jquery-ui.min.js"></script>
+        <script src="asset/js/mixitup.min.js"></script>
+        <script src="asset/js/jquery.countdown.min.js"></script>
+        <script src="asset/js/jquery.slicknav.js"></script>
+        <script src="asset/js/owl.carousel.min.js"></script>
+        <script src="asset/js/jquery.nicescroll.min.js"></script>
+        <script src="asset/js/main.js"></script>
     </body>
 </html>

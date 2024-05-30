@@ -72,39 +72,53 @@ public class NewPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String password = request.getParameter("password");
-         HttpSession session = request.getSession();
+        String password = request.getParameter("newPass");
+        HttpSession session = request.getSession();
+        String email = (String) request.getSession().getAttribute("email");
         CustomerDAO cd = new CustomerDAO();
-        Customer findbyPass = new Customer();
-        if (password != null) {
-            String email = (String) request.getSession().getAttribute("email");
-            String newPass = request.getParameter("newPass");            
-            findbyPass.setEmail(email);
-            findbyPass.setPassword(password);
-            Customer cs = cd.findCustomer(findbyPass);
-            if (cs == null) {
-                String message = "Your password not correct!";
-                request.setAttribute("error", message);
-                request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
-            } else {
-                cd.updateCustomerPass(email, newPass);
-                request.setAttribute("status", 6);
-                request.getRequestDispatcher("view/authen/verify.jsp");
-            }
-        }else{            
-            String newPass = request.getParameter("newPass2");
-            String email = (String) session.getAttribute("email");
-            cd.updateCustomerPass(email, newPass);
-            request.setAttribute("status", 6);
-            request.getRequestDispatcher("view/authen/verify.jsp");
-        }
+        cd.updateCustomerPass(email, password);
+        cd.changeVerifyStatus(email, 1);
+        request.setAttribute("status", 6);
+        request.getRequestDispatcher("view/authen/verify.jsp").forward(request, response);
+//        Customer findbyPass = new Customer();
+//        if (password != null) {
+//            String email = (String) request.getSession().getAttribute("email");
+//            String newPass = request.getParameter("newPass");            
+//            findbyPass.setEmail(email);
+//            findbyPass.setPassword(password);
+//            Customer cs = cd.findCustomer(findbyPass);
+//            if (cs == null) {
+//                String message = "Your password not correct!";
+//                request.setAttribute("error", message);
+//                request.getRequestDispatcher("view/authen/register.jsp").forward(request, response);
+//            } else {
+//                cd.updateCustomerPass(email, newPass);
+//                request.setAttribute("status", 6);
+//                request.getRequestDispatcher("view/authen/verify.jsp");
+//            }
+//        }else{            
+//            String newPass = request.getParameter("newPass2");
+//            String email = (String) session.getAttribute("email");
+//            cd.updateCustomerPass(email, newPass);
+//            request.setAttribute("status", 6);
+//            request.getRequestDispatcher("view/authen/verify.jsp");
+//        }
     }
 
-    /**
+    public static void main(String[] args){
+        String password="123";
+        String email = "tienpqhe176483@fpt.edu.vn";
+        CustomerDAO cd = new CustomerDAO();
+        cd.updateCustomerPass(email, password);
+        
+        
+    }
+        /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
+
     @Override
     public String getServletInfo() {
         return "Short description";
