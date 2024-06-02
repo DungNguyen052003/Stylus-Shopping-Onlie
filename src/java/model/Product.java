@@ -25,6 +25,36 @@ public class Product {
     private String briefInfomation;
     private int starRating;
     private int saleStatus;
+    private int featured;
+
+    public int getFeatured() {
+        return featured;
+    }
+
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int featured, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, double salePrice) {
+        this.productID = productID;
+        this.productName = productName;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
+        this.thumbnail = thumbnail;
+        this.price = price;
+        this.total_quantity = total_quantity;
+        this.status = status;
+        this.description = description;
+        this.briefInfomation = briefInfomation;
+        this.starRating = starRating;
+        this.saleStatus = saleStatus;
+        this.featured = featured;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.CampainID = CampainID;
+        this.salePrice = salePrice;
+    }
+
+    public void setFeatured(int featured) {
+        this.featured = featured;
+    }
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private int CampainID;
