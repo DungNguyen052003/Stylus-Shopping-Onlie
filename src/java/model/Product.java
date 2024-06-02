@@ -4,20 +4,20 @@
  */
 package model;
 
-import java.math.BigDecimal;
-
 /**
  *
  * @author ngock
  */
+import java.math.BigDecimal;
+import java.util.Date;
+
 public class Product {
-    private int productID;
+    private int productId;
     private String productName;
-    private int saleID;
-    private int brandID;
-   
-    private int cateID;
-    private String thumbNail;
+    private int saleId;
+    private int brandId;
+    private int cateId;
+    private String thumbnail;
     private BigDecimal price;
     private int totalQuantity;
     private boolean status;
@@ -25,17 +25,21 @@ public class Product {
     private String briefInformation;
     private int starRating;
     private boolean saleStatus;
+    private boolean featured;
+    private int campainId;
+    private Date createDate;
+    private Date updateDate;
 
+    // Constructors
     public Product() {
     }
 
-    public Product(int productID, String productName, int saleID, int brandID, int cateID, String thumbNail, BigDecimal price, int totalQuantity, boolean status, String description, String briefInformation, int starRating, boolean saleStatus) {
-        this.productID = productID;
+    public Product(String productName, int saleId, int brandId, int cateId, String thumbnail, BigDecimal price, int totalQuantity, boolean status, String description, String briefInformation, int starRating, boolean saleStatus, boolean featured, int campainId, Date createDate, Date updateDate) {
         this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbNail = thumbNail;
+        this.saleId = saleId;
+        this.brandId = brandId;
+        this.cateId = cateId;
+        this.thumbnail = thumbnail;
         this.price = price;
         this.totalQuantity = totalQuantity;
         this.status = status;
@@ -43,14 +47,19 @@ public class Product {
         this.briefInformation = briefInformation;
         this.starRating = starRating;
         this.saleStatus = saleStatus;
+        this.featured = featured;
+        this.campainId = campainId;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 
-    public int getProductID() {
-        return productID;
+    // Getters and Setters
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -61,36 +70,36 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getSaleID() {
-        return saleID;
+    public int getSaleId() {
+        return saleId;
     }
 
-    public void setSaleID(int saleID) {
-        this.saleID = saleID;
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
     }
 
-    public int getBrandID() {
-        return brandID;
+    public int getBrandId() {
+        return brandId;
     }
 
-    public void setBrandID(int brandID) {
-        this.brandID = brandID;
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
     }
 
-    public int getCateID() {
-        return cateID;
+    public int getCateId() {
+        return cateId;
     }
 
-    public void setCateID(int cateID) {
-        this.cateID = cateID;
+    public void setCateId(int cateId) {
+        this.cateId = cateId;
     }
 
-    public String getThumbNail() {
-        return thumbNail;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumbNail(String thumbNail) {
-        this.thumbNail = thumbNail;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public BigDecimal getPrice() {
@@ -149,16 +158,35 @@ public class Product {
         this.saleStatus = saleStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" + "productID=" + productID + ", productName=" + productName + ", saleID=" + saleID + ", brandID=" + brandID + ", cateID=" + cateID + ", thumbNail=" + thumbNail + ", price=" + price + ", totalQuantity=" + totalQuantity + ", status=" + status + ", description=" + description + ", briefInformation=" + briefInformation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + '}';
+    public boolean isFeatured() {
+        return featured;
     }
-    
-    
 
-    
-    
-    
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+
+    public int getCampainId() {
+        return campainId;
+    }
+
+    public void setCampainId(int campainId) {
+        this.campainId = campainId;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
 }
-
-  

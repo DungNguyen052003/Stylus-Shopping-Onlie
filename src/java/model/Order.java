@@ -1,48 +1,85 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- *
- * @author ngock
- */
 public class Order {
-    private int orderID;
-    private int customerID;
+    private int orderId;
+    private int customerId;
+    private String fullName;
+    private String phone;
+    private String address;
     private Date orderDate;
-    private int status;
+    private String status;
     private BigDecimal totalAmount;
+    private String productName;
 
+ 
     public Order() {
     }
 
-    public Order(int orderID, int customerID, Date orderDate, int status, BigDecimal totalAmount) {
-        this.orderID = orderID;
-        this.customerID = customerID;
+    
+    public Order(int orderId, int customerId, String fullName, String phone, String address, Date orderDate, String status, BigDecimal totalAmount, String productName) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.address = address;
         this.orderDate = orderDate;
         this.status = status;
         this.totalAmount = totalAmount;
+        this.productName = productName;
     }
 
-    public int getOrderID() {
-        return orderID;
+    // Constructor chỉ với các trường cần thiết
+    public Order(int orderId, Date orderDate, String productName, BigDecimal totalAmount, String status) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.productName = productName;
+        this.totalAmount = totalAmount;
+        this.status = status;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    
+
+    public int getOrderId() {
+        return orderId;
     }
 
-    public int getCustomerID() {
-        return customerID;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getOrderDate() {
@@ -53,11 +90,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -67,5 +104,13 @@ public class Order {
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }
