@@ -13,13 +13,12 @@ public class Order {
     private String status;
     private BigDecimal totalAmount;
     private String productName;
+    private int countOtherproduct;
 
- 
     public Order() {
     }
 
-    
-    public Order(int orderId, int customerId, String fullName, String phone, String address, Date orderDate, String status, BigDecimal totalAmount, String productName) {
+    public Order(int orderId, int customerId, String fullName, String phone, String address, Date orderDate, String status, BigDecimal totalAmount, String productName, int countOtherproduct) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.fullName = fullName;
@@ -29,18 +28,8 @@ public class Order {
         this.status = status;
         this.totalAmount = totalAmount;
         this.productName = productName;
+        this.countOtherproduct = countOtherproduct;
     }
-
-    // Constructor chỉ với các trường cần thiết
-    public Order(int orderId, Date orderDate, String productName, BigDecimal totalAmount, String status) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.productName = productName;
-        this.totalAmount = totalAmount;
-        this.status = status;
-    }
-
-    
 
     public int getOrderId() {
         return orderId;
@@ -113,4 +102,20 @@ public class Order {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+    public int getCountOtherproduct() {
+        return countOtherproduct;
+    }
+
+    public void setCountOtherproduct(int countOtherproduct) {
+        this.countOtherproduct = countOtherproduct;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "orderId=" + orderId + ", customerId=" + customerId + ", fullName=" + fullName + ", phone=" + phone + ", address=" + address + ", orderDate=" + orderDate + ", status=" + status + ", totalAmount=" + totalAmount + ", productName=" + productName + ", countOtherproduct=" + countOtherproduct + '}';
+    }
+
+ 
+    
 }
