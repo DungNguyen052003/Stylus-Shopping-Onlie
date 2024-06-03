@@ -202,50 +202,46 @@
         </section>
 
         <!-- Modal -->
-        <!-- Modal -->
-        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">Cancel Order</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to cancel this order?
-                       
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button type="button" class="btn btn-danger" id="confirmCancel">Yes</button>
-                        
-                    </div>
+       <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">Cancel Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel this order?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="confirmCancel">Yes</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <jsp:include page="../layout/footer.jsp"></jsp:include>
+    <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-            <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
-        <script>
-                                                $(document).ready(function () {
-                                                    $('#cancelModal').on('show.bs.modal', function (event) {
-                                                        var button = $(event.relatedTarget);
-                                                        var orderId = button.data('orderid');
-                                                        var modal = $(this);
-                                                        modal.find('#confirmCancel').data('orderid', orderId);
-                                                    });
+    <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#cancelModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var orderId = button.data('orderid');
+                var modal = $(this);
+                modal.find('#confirmCancel').data('orderid', orderId);
+            });
 
-                                                    $('#confirmCancel').click(function () {
-                                                        var orderId = $(this).data('orderid');
-                                                        window.location.href = 'orderInfo?action=cancelOrder&orderId=' + orderId;
-                                                    });
-                                                });
-        </script>
-       
-    </body>
+            $('#confirmCancel').click(function() {
+                var orderId = $(this).data('orderid');
+                window.location.href = 'orderInfo?action=cancelOrder&orderId=' + orderId;
+            });
+        });
+    </script>
+  
+</body>
 </html>
-
