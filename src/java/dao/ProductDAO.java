@@ -23,21 +23,18 @@ public class ProductDAO extends DBContext {
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
 
-        int page = 1;
-        int pageSize = 9;
+        // Example filter parameters
         int minPrice = 0;
-        int maxPrice = 400;
-        String search = "High";
-        int status = 1;
-        int subCategory = 0;
+        int maxPrice = 0;
+        String search = "";
+        int status = 1; // Active status
+        int subCategory = 0; // Example sub-category ID
 
-        // Gọi hàm filterProduct với các tham số đã khai báo
-        List<Product> filteredProducts = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
+        // Call the method and get the total number of filtered records
+        int totalRecords = productDAO.getTotalFilteredRecord(minPrice, maxPrice, search, status, subCategory);
 
-        // Hiển thị danh sách các sản phẩm đã lọc
-        for (Product product : filteredProducts) {
-            System.out.println(product);
-        }
+        // Print the result
+        System.out.println("Total filtered records: " + totalRecords);
     }
 
     public List<Product> listAllProduct(int page, int pageSize) {
@@ -1207,6 +1204,105 @@ public class ProductDAO extends DBContext {
         return listFound;
     }
 
-    
+//    public int getTotalFilteredRecord(int minPrice, int maxPrice, String search, int status, int subCategory) {
+//        String sql = "SELECT COUNT(*) FROM Product WHERE 1=1";
+//        List<Object> params = new ArrayList<>();
+//        
+//        if (minPrice > 0) {
+//            sql += " AND Price >= ?";
+//            params.add(minPrice);
+//        }
+//        if (maxPrice < Integer.MAX_VALUE) {
+//            sql += " AND Price <= ?";
+//            params.add(maxPrice);
+//        }
+//        if (search != null && !search.isEmpty()) {
+//            sql += " AND ProductName LIKE ?";
+//            params.add("%" + search + "%");
+//        }
+//        if (status != -1) {
+//            sql += " AND Status = ?";
+//            params.add(status);
+//        }
+//        if (subCategory != -1) {
+//            sql += " AND CateID = ?";
+//            params.add(subCategory);
+//        }
+//
+//        int totalRecords = 0;
+//        
+//        try {
+//            statement = connection.prepareStatement(sql);
+//            int parameterIndex = 1;
+//
+//            if (minPrice != 0) {
+//                statement.setDouble(parameterIndex++, minPrice);
+//            }
+//            if (maxPrice != 0) {
+//                statement.setDouble(parameterIndex++, maxPrice);
+//            }
+//            if (search != null && !search.isEmpty()) {
+//                statement.setString(parameterIndex++, "%" + search + "%");
+//                statement.setString(parameterIndex++, "%" + search + "%");
+//            }
+//            if (subCategory != 0) {
+//                statement.setInt(parameterIndex++, subCategory);
+//            }
+//            if (status == 1 || status == 0) {
+//                statement.setInt(parameterIndex++, status);
+//            }
+//            resultSet = statement.executeQuery();
+//            if (resultSet.next()) {
+//                totalRecords = resultSet.getInt(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return totalRecords;
+//        
+//    }
+    public int getTotalFilteredRecord(int minPrice, int maxPrice, String search, int status, int subCategory) {
+        String sql = "SELECT COUNT(*) FROM Product WHERE 1=1";
+        List<Object> params = new ArrayList<>();
+
+        if (minPrice > 0) {
+            sql += " AND Price >= ?";
+            params.add(minPrice);
+        }
+        if (maxPrice < Integer.MAX_VALUE  && maxPrice > 0) {
+            sql += " AND Price <= ?";
+            params.add(maxPrice);
+        }
+        if (search != null && !search.isEmpty()) {
+            sql += " AND ProductName LIKE ?";
+            params.add("%" + search + "%");
+        }
+        if (status != -1) {
+            sql += " AND Status = ?";
+            params.add(status);
+        }
+        if (subCategory != -1) {
+            sql += " AND CateID = ?";
+            params.add(subCategory);
+        }
+
+        int totalRecords = 0;
+        try {
+            statement = connection.prepareStatement(sql);
+            for (int i = 0; i < params.size(); i++) {
+                statement.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    totalRecords = rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalRecords;
+    }
 
 }

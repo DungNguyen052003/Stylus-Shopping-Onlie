@@ -55,6 +55,11 @@ public class Category {
     public void setParentID(int parentID) {
         this.parentID = parentID;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" + "cateID=" + cateID + ", name=" + name + ", status=" + status + ", parentID=" + parentID + '}';
+    }
     
     
 }
