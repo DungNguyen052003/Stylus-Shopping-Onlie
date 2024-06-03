@@ -193,80 +193,109 @@
                                                         <option value="status" <%= "status".equals(request.getParameter("sort")) ? "selected" : "" %>>Sort by Status</option>
                                                     </select>
                                                 </div>
-
-                                                <!-- Price Filter Section -->
+                                            </form>   
+                                            
+                                            <form action="ManageProduct" method="POST">
+                                                <input type="hidden" name="action" value="filterProduct">
+                                                 <!--Price Filter Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="priceDropdown">
-                                                        <div class="search-input">
+                                                        <div class="search-input" value="price">
                                                             <label>Price:</label>
-                                                            <input type="number" class="form-control" name="priceMin" placeholder="Min Price" value="<%= request.getParameter("priceMin") != null ? request.getParameter("priceMin") : "" %>">
-                                                            <input type="number" class="form-control mt-2" name="priceMax" placeholder="Max Price" value="<%= request.getParameter("priceMax") != null ? request.getParameter("priceMax") : "" %>">
+                                                            <input type="number" class="form-control" name="priceMin" placeholder="Min Price">
+                                                            <input type="number" class="form-control mt-2" name="priceMax" placeholder="Max Price">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Search Section -->
+                                                 <!--Search Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="searchDropdown">
-                                                        <div class="search-input">
+                                                        <div class="search-input" value="search">
                                                             <label>Search:</label>
-                                                            <input class="form-control w-100" type="text" placeholder="Search" name="search" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
+                                                            <input class="form-control w-100" type="text" placeholder="Search" name="search">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Category Filter Section -->
+                                                 <!--Category Filter Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="categoryDropdown">
-                                                        <div class="search-input">
+                                                        <div class="search-input" value="cate">
                                                             <label>Category:</label>
                                                             <div class="px-2">
                                                                 <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input" name="category" id="category-women" value="women" <%= "women".equals(request.getParameter("category")) ? "checked" : "" %> onchange="document.getElementById('sortForm').submit();">
+                                                                    <input type="radio" class="custom-control-input" name="category" id="category-women" onclick="toggleCategory('women')">
                                                                     <label class="custom-control-label" for="category-women">Women</label>
                                                                 </div>
                                                             </div>
                                                             <div class="px-2">
                                                                 <div class="custom-control custom-radio">
-                                                                    <input type="radio" class="custom-control-input" name="category" id="category-men" value="men" <%= "men".equals(request.getParameter("category")) ? "checked" : "" %> onchange="document.getElementById('sortForm').submit();">
+                                                                    <input type="radio" class="custom-control-input" name="category" id="category-men" onclick="toggleCategory('men')">
                                                                     <label class="custom-control-label" for="category-men">Men</label>
                                                                 </div>
                                                             </div>
-                                                            <!-- Display sub-categories based on selected category -->
-                                                            <c:if test="${param.category == 'women'}">
+
+                                                            
+                                                            <div class="px-2" id="sub-categories-women" style="display: none; margin-top: 10px;">
                                                                 <c:forEach items="${categoriesWomen}" var="cW">
-                                                                    <ul>
-                                                                        <li><a href="ProductServlet?id=${cW.cateID}" value="${cW.cateID}">${cW.name}</a></li>
-                                                                    </ul>
+                                                                    <div class="custom-control custom-checkbox" style="margin-bottom: 5px;">
+                                                                        <input type="checkbox" class="custom-control-input" id="sub-category-${cW.cateID}" name="subCategory" value="${cW.cateID}" style="margin-right: 10px;">
+                                                                        <label class="custom-control-label" for="sub-category-${cW.cateID}" style="font-weight: bold;">${cW.name}</label>
+                                                                    </div>
                                                                 </c:forEach>
-                                                            </c:if>
-                                                            <c:if test="${param.category == 'men'}">
+                                                            </div>
+                                                            <div class="px-2" id="sub-categories-men" style="display: none; margin-top: 10px;">
                                                                 <c:forEach items="${categoriesMen}" var="cM">
-                                                                    <ul>
-                                                                        <li><a href="ProductServlet?id=${cM.cateID}">${cM.name}</a></li>
-                                                                    </ul>
+                                                                    <div class="custom-control custom-checkbox" style="margin-bottom: 5px;">
+                                                                        <input type="checkbox" class="custom-control-input" id="sub-category-${cM.cateID}" name="subCategory" value="${cM.cateID}" style="margin-right: 10px;">
+                                                                        <label class="custom-control-label" for="sub-category-${cM.cateID}" style="font-weight: bold;">${cM.name}</label>
+                                                                    </div>
                                                                 </c:forEach>
-                                                            </c:if>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <!-- Status Filter Section -->
+                                                <script>
+                                                    function toggleCategory(category) {
+                                                        document.getElementById('sub-categories-women').style.display = 'none';
+                                                        document.getElementById('sub-categories-men').style.display = 'none';
+
+                                                        if (category === 'women') {
+                                                            document.getElementById('sub-categories-women').style.display = 'block';
+                                                        } else if (category === 'men') {
+                                                            document.getElementById('sub-categories-men').style.display = 'block';
+                                                        }
+                                                    }
+
+                                                    // Automatically show subcategories if already selected on page load
+                                                    window.onload = function () {
+                                                        var category = '<%= request.getParameter("category") %>';
+                                                        if (category === 'women') {
+                                                            document.getElementById('sub-categories-women').style.display = 'block';
+                                                        } else if (category === 'men') {
+                                                            document.getElementById('sub-categories-men').style.display = 'block';
+                                                        }
+                                                    }
+                                                </script>
+
+                                                 <!--Status Filter Section--> 
                                                 <hr class="my-3">
-                                                <div>
+                                                <div value="status">
                                                     <label>Status:</label>
                                                     <div class="px-2">
                                                         <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="user-status" id="users-status-active" value="active" <%= "active".equals(request.getParameter("user-status")) ? "checked" : "" %>>
+                                                            <input type="radio" class="custom-control-input" name="status" id="users-status-active" value="active" />
                                                             <label class="custom-control-label" for="users-status-active">Active</label>
                                                         </div>
                                                     </div>
                                                     <div class="px-2">
                                                         <div class="custom-control custom-radio">
-                                                            <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" value="inactive" <%= "inactive".equals(request.getParameter("user-status")) ? "checked" : "" %>>
+                                                            <input type="radio" class="custom-control-input" name="status" id="users-status-any" value="inactive" />
                                                             <label class="custom-control-label" for="users-status-any">Inactive</label>
                                                         </div>
                                                     </div>
@@ -276,6 +305,8 @@
                                                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                                                 </div>
                                             </form>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -296,8 +327,9 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <form id="editProduct" action="ManageProduct?action=editProduct" method="POST" enctype="multipart/form-data">
+
+                            <form id="editProduct" action="ManageProduct?action=editProduct" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body" name="filter">
                                     <!--id-->
                                     <div class="form-group" style="display: none">
                                         <input type="text" class="form-control" id="idEditInput" name="id">
@@ -374,8 +406,9 @@
                                             <label for="statusInactive">Inactive</label>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" id="btn-cancel" data-dismiss="modal" ng-click="$hide()">Cancel</button>
                                 <button type="submit" class="btn btn-primary" form="editBookForm"

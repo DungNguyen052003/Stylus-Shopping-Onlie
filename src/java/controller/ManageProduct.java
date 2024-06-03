@@ -18,6 +18,7 @@ import java.util.List;
 import model.Category;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.util.ArrayList;
 import model.PageControl;
 import model.Product;
 
@@ -100,14 +101,18 @@ public class ManageProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Product product = new Product();
         String action = request.getParameter("action");
+        PageControl pagecontrol = new PageControl();
+        System.out.println(action);
         switch (action) {
             case "updateStatus":
                 getStatusProduct(request, response);
                 break;
             case "editProduct":
                 editProduct(request);
+                break;
+            case "filterProduct":
+                filterProduct(request, pagecontrol);
                 break;
             default:
                 throw new AssertionError();
@@ -254,13 +259,13 @@ public class ManageProduct extends HttpServlet {
         int pageSize = 9;
         String requestURL = request.getRequestURL().toString();
         String queryString = request.getQueryString();
-        pagecontrol.setUrlPattern(requestURL + "?sort=" +sortBy +"&");
+        pagecontrol.setUrlPattern(requestURL + "?sort=" + sortBy + "&");
         List<Product> productList;
         int totalRecord;
         int totalPage;
         switch (sortBy) {
             case "title":
-                productList = productDAO.getSortedProducts("title",page, pageSize);
+                productList = productDAO.getSortedProducts("title", page, pageSize);
                 break;
             case "category":
                 productList = productDAO.getSortedProducts("category", page, pageSize);
@@ -272,7 +277,7 @@ public class ManageProduct extends HttpServlet {
                 productList = productDAO.getSortedProducts("sale", page, pageSize);
                 break;
             case "feature":
-                productList = productDAO.getSortedProducts("featured", page, pageSize); 
+                productList = productDAO.getSortedProducts("featured", page, pageSize);
                 break;
             case "status":
                 productList = productDAO.getSortedProducts("status", page, pageSize);
@@ -290,6 +295,65 @@ public class ManageProduct extends HttpServlet {
         pagecontrol.setTotalRecord(totalRecord);
 
         return productList;
+    }
+
+    private void filterProduct(HttpServletRequest request, PageControl pageControl) {
+
+        String pageRaw = request.getParameter("page");
+        int page;
+        try {
+            page = Integer.parseInt(pageRaw);
+            if (page <= 0) {
+                page = 1;
+            }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
+
+        int pageSize = 9;
+        String requestURL = request.getRequestURL().toString();
+//        String queryString = request.getQueryString();
+        int totalRecord = productDAO.getTotalRecord();
+        String filter = "filterProduct";
+        pageControl.setUrlPattern(requestURL + "?action=" + filter + "&");
+        int minPrice;
+        try {
+            minPrice = Integer.parseInt(request.getParameter("priceMin"));
+        } catch (NumberFormatException e) {
+            minPrice = 0;
+        }
+
+        int maxPrice;
+        try {
+            maxPrice = Integer.parseInt(request.getParameter("priceMax"));
+        } catch (NumberFormatException e) {
+            maxPrice = 0;
+        }
+
+        String search = request.getParameter("search");
+
+        String statusStr = request.getParameter("status");
+        int status = 0; // Giả sử mặc định là inactive
+        if (statusStr != null && !statusStr.isEmpty()) {
+            status = "active".equals(statusStr) ? 1 : 0;
+        }
+
+        int subCategory;
+        try {
+            subCategory = Integer.parseInt(request.getParameter("subCategory"));
+        } catch (NumberFormatException e) {
+            subCategory = 0;
+        }
+
+        List<Product> listProduct = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
+        System.out.println(listProduct);
+
+        int totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : ((totalRecord / pageSize) + 1);
+        pageControl.setPage(page);
+        pageControl.setTotalPage(totalPage);
+        pageControl.setTotalRecord(totalRecord);
+        request.setAttribute("listProduct", listProduct);
+        request.setAttribute("pageControl", pageControl);
     }
 
 }
