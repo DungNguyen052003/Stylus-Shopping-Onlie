@@ -130,17 +130,18 @@
                                                 <input type="text" name="fullname" value="${entry.value[0].fullName}" required>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <div class="checkout__form__input">
-                                                <p>Gender <span>*</span></p>
-                                                <div class="gender-options">
-                                                    <input type="radio" name="gender${entry.key}" value="true" ${entry.value[0].gender == 'true' ? 'checked' : ''}>
-                                                    <label for="male">Male</label>
-                                                    <input type="radio" name="gender${entry.key}" value="false" ${entry.value[0].gender == 'false' ? 'checked' : ''}>
-                                                    <label for="female">Female</label>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <div class="checkout__form__input">
+                                                        <p>Gender <span>*</span></p>
+                                                        <div class="gender-options" >
+                                                            <input type="radio" name="gender${entry.key}" value="true" ${entry.value[0].gender == 1 ? 'checked' : ''}>
+                                                            <label for="female">Female</label>
+                                                            <input type="radio" name="gender${entry.key}" value="false" ${entry.value[0].gender == 0 ? 'checked' : ''}>
+                                                            <label for="male">Male</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
+
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="checkout__form__input">
                                                 <p>Email <span>*</span></p>
