@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
     </head>
+    
     <body>
         <jsp:include page="../layout/header.jsp"></jsp:include><br>
         <div class="breadcrumb-option">
@@ -29,10 +30,9 @@
             </div>
         </div>
          <section class="blog spad">
-        <div class="container">
-         
+        <div class="container">       
                 <div class="row">
-                    <div class="col-lg-2 col-md-3">
+                    <div class="col-lg-3 col-md-3">
                         <div class="shop__sidebar">
                             <div class="sidebar__categories">
                                 <div class="section-title">
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                   <div class="col-lg-10 col-md-9">
+                   <div class="col-lg-9 col-md-9">
                         <section class="shop-cart spad">
                             <div class="container">
                                 <div class="row">
