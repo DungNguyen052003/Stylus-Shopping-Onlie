@@ -62,21 +62,18 @@ public class orderInfo extends HttpServlet {
      */
     @Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     String action = request.getParameter("action");
-     
-     HttpSession session = request.getSession();
-    int customerId = (int) session.getAttribute("customerId");
-    
+    String action = request.getParameter("action");
+    int orderId = Integer.parseInt(request.getParameter("orderId"));
+
+
     if ("cancelOrder".equals(action)) {
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
-        orderDAO o = new orderDAO();
-        o.cancelOrder(orderId);
-        request.setAttribute("message", "Order cancelled successfully!");
-        List<Order> orders = o.getOrders(customerId);
-        request.setAttribute("orders", orders);
-        request.getRequestDispatcher("/view/customer/myOrder.jsp").forward(request, response);  
+
+            orderDAO o = new orderDAO();
+            o.cancelOrder(orderId);
+            request.setAttribute("message", "Order cancelled successfully!");
+            response.sendRedirect(request.getContextPath() + "/orderInfo");
+        
     } else {
-         int orderId = Integer.parseInt(request.getParameter("orderId"));
         orderDAO o = new orderDAO();
         List<OrderDetail> orderDetails = o.getOrderDetails(orderId);
 
