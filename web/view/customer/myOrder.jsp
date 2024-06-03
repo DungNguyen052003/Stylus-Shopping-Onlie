@@ -30,11 +30,7 @@
         </div>
          <section class="blog spad">
         <div class="container">
-            <c:if test="${not empty message}">
-                <div class="alert alert-success" role="alert">
-                    ${message}
-                </div>
-            </c:if>
+         
                 <div class="row">
                     <div class="col-lg-2 col-md-3">
                         <div class="shop__sidebar">
@@ -119,21 +115,18 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach items="${orders}" var="order">
-                                                    
+                                                  <c:forEach items="${orders}" var="order">
                                                     <tr>
-
                                                         <td><a href="orderInfo?orderId=${order.orderId}">${order.orderId}</a></td>
-
                                                         <td>${order.orderDate}</td>
-
-                                                        <td>${order.productName}</td>
-
+                                                        <td>${order.productName} 
+                                                            <c:if test="${order.countOtherproduct > 0}">
+                                                                , ${order.countOtherproduct} other products
+                                                            </c:if>
+                                                        </td>
                                                         <td>${order.totalAmount}</td>
-
                                                         <td>${order.status}</td>
                                                     </tr>
-
                                                 </c:forEach>
 
                                                 </tbody>
@@ -168,3 +161,7 @@
 </html>
 
 
+
+
+
+ 
