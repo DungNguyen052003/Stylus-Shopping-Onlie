@@ -143,7 +143,7 @@
         </div>
     </section>
 
-<!--    <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/asset/js/jquery.magnific-popup.min.js"></script>
     <script src="${pageContext.request.contextPath}/asset/js/jquery-ui.min.js"></script>
@@ -152,7 +152,7 @@
     <script src="${pageContext.request.contextPath}/asset/js/jquery.slicknav.js"></script>
     <script src="${pageContext.request.contextPath}/asset/js/owl.carousel.min.js"></script>
     <script src="${pageContext.request.contextPath}/asset/js/jquery.nicescroll.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>-->
+    <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 </body>
