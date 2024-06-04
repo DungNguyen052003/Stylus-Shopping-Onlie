@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="product__item__text">
                                             <h5><a href="ProductDetail?productId=${p.productID}">${p.productName}</a></h5>
-                                            <h6>${p.briefInfomation}</h6>
+                                            <h6 style="word-break: break-word">${p.briefInfomation}</h6>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -254,7 +254,6 @@
                                     <c:forEach begin="1" end="${pageControl.totalPage}" var="pageNumber">
                                         <a href="${pageControl.urlPattern}page=${pageNumber}">${pageNumber}</a>
                                     </c:forEach>
-<!--                                    <a href"${pageControl.urlPattern}&page=${pageControl.page + 1}"><i class="fa fa-angle-right"></i></a>-->
                                 </div>
                             </div>
                         </div>
@@ -326,18 +325,7 @@
 
         <!--Footer-->
         <jsp:include page="../layout/footer.jsp"/>
-        <!--             Search Begin 
-                    <div class="search-model">
-                        <div class="h-100 d-flex align-items-center justify-content-center">
-                            <div class="search-close-switch">+</div>
-                            <form class="search-model-form">    
-                                <input type="hidden" name="action" value="search">
-                                <input type="text" id="search-input" placeholder="Search here....." name="keyword">
-                                <a href="#" onclick="return this.closest('form').submit"></a>
-                            </form>
-                        </div>
-                    </div>
-                     Search End -->
+     
 
 
 

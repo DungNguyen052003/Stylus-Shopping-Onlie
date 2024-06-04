@@ -20,6 +20,78 @@ import model.Campain;
  */
 public class ProductDAO extends DBContext {
 
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+
+        // Example filter parameters
+        int minPrice = 0;
+        int maxPrice = 0;
+        String search = "";
+        int status = 1; // Active status
+        int subCategory = 0; // Example sub-category ID
+
+        // Call the method and get the total number of filtered records
+        int totalRecords = productDAO.getTotalFilteredRecord(minPrice, maxPrice, search, status, subCategory);
+
+        // Print the result
+        System.out.println("Total filtered records: " + totalRecords);
+    }
+
+    public List<Product> listAllProduct(int page, int pageSize) {
+        List<Product> listFound = new ArrayList<>();
+        CategoryDAO dao = new CategoryDAO();
+        String sql = "SELECT *\n"
+                + "  FROM [dbo].[Product]\n"
+                + "  ORDER BY ProductID ASC\n"
+                + "  OFFSET ? ROWS\n"
+                + "  FETCH NEXT ? ROWS ONLY";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            int offset = (page - 1) * pageSize;
+            statement.setInt(1, offset);
+            statement.setInt(2, pageSize);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int productID = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                int saleID = resultSet.getInt("SaleID");
+                int brandID = resultSet.getInt("BrandID");
+                int cateID = resultSet.getInt("CateID");
+                Category category = dao.getCategory(cateID);
+                String thumbnail = resultSet.getString("ThumbNail");
+                double price = resultSet.getDouble("Price");
+                int total_quantity = resultSet.getInt("Total_Quantity");
+                int status = resultSet.getInt("Status");
+                String description = resultSet.getString("Description");
+                String brief = resultSet.getString("BriefInformation");
+                int star = resultSet.getInt("StarRating");
+                int sale = resultSet.getInt("SaleStatus");
+                int campainID = resultSet.getInt("CampainID");
+
+                LocalDateTime createDateString = resultSet.getTimestamp("CreateDate").toLocalDateTime();
+                System.out.println(createDateString);
+                LocalDateTime updateDateString = resultSet.getTimestamp("UpdateDate").toLocalDateTime();
+                Product product;
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    product = new Product(productID, productName, saleID, brandID,
+                            category, thumbnail, price, total_quantity, status,
+                            description, brief, star, sale, createDateString, updateDateString, campainID, salePrice);
+                } else {
+                    product = new Product(productID, productName, saleID, brandID,
+                            category, thumbnail, price, total_quantity, status,
+                            description, brief, star, sale, createDateString, updateDateString, campainID);
+                }
+                listFound.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listFound;
+    }
+
     public List<Product> listAll(int page, int pageSize) {
         List<Product> listFound = new ArrayList<>();
         CategoryDAO dao = new CategoryDAO();
@@ -316,20 +388,6 @@ public class ProductDAO extends DBContext {
         return listFound;
     }
 
-    public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
-
-        // Gọi phương thức listNewest và in kết quả
-        int page = 1; // Trang bạn muốn lấy
-        int pageSize = 5; // Số lượng sản phẩm mỗi trang
-        List<Product> newestProducts = productDAO.listNewest(page, pageSize);
-
-        // In danh sách sản phẩm mới nhất
-        for (Product product : newestProducts) {
-            System.out.println(product);
-        }
-    }
-
     public List<Product> findByName(String keyword, int page) {
         CategoryDAO dao = new CategoryDAO();
         List<Product> listProduct = new ArrayList<>();
@@ -387,16 +445,6 @@ public class ProductDAO extends DBContext {
     }
 
     public int findTotalRecordByCategory(int categoryId) {
-//        String sql = "SELECT COUNT(*) AS total \n"
-//                + "FROM [dbo].[Product] \n"
-//                + "WHERE CateID = ?";
-//        int totalRecords = 0;
-//        statement = connection.prepareStatement(sql);
-//        statement.setInt(1, categoryId);
-//        resultSet = statement.executeQuery();
-//        if (resultSet.next()) {
-//            totalRecords = resultSet.getInt(1);
-//        }
         String sql = "SELECT COUNT(*) AS total \n"
                 + "FROM [dbo].[Product] \n"
                 + "WHERE CateID = ?";
@@ -1164,7 +1212,7 @@ public class ProductDAO extends DBContext {
             sql += " AND Price >= ?";
             params.add(minPrice);
         }
-        if (maxPrice < Integer.MAX_VALUE && maxPrice > 0) {
+        if (maxPrice < Integer.MAX_VALUE  && maxPrice > 0) {
             sql += " AND Price <= ?";
             params.add(maxPrice);
         }

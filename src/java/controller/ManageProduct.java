@@ -18,7 +18,7 @@ import java.util.List;
 import model.Category;
 import jakarta.servlet.http.Part;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Map;
 import model.PageControl;
 import model.Product;
 
@@ -74,12 +74,19 @@ public class ManageProduct extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         PageControl pagecontrol = new PageControl();
+
         List<Product> listProduct = pageProduct(request, pagecontrol);
         String sortBy = request.getParameter("sort");
         if (sortBy != null && !sortBy.isEmpty()) {
             listProduct = sortProduct(request, pagecontrol);
+
         }
         session.setAttribute("manageProduct", listProduct);
+
+        String action = request.getParameter("action");
+        if ("filterProduct".equals(action)) {
+            filterProduct(request, pagecontrol);
+        }
 
         List<Category> categoriesWomen = categoryDAO.getCategoriesByParentID(1);
         session.setAttribute("categoriesWomen", categoriesWomen);
@@ -101,7 +108,7 @@ public class ManageProduct extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         PageControl pagecontrol = new PageControl();
-        System.out.println(action);
+
         switch (action) {
             case "updateStatus":
                 getStatusProduct(request, response);
@@ -109,9 +116,9 @@ public class ManageProduct extends HttpServlet {
             case "editProduct":
                 editProduct(request);
                 break;
-            case "filterProduct":
-                filterProduct(request, pagecontrol);
-                break;
+//            case "filterProduct":
+//                filterProduct(request, pagecontrol);
+//                break;
             default:
                 throw new AssertionError();
         }
@@ -153,6 +160,7 @@ public class ManageProduct extends HttpServlet {
         pagecontrol.setPage(page);
         pagecontrol.setTotalPage(totalPage);
         pagecontrol.setTotalRecord(totalRecord);
+
         request.setAttribute("pageControl", pagecontrol);
 
         return productList;
@@ -294,63 +302,78 @@ public class ManageProduct extends HttpServlet {
         return productList;
     }
 
-        private void filterProduct(HttpServletRequest request, PageControl pageControl) {
-            HttpSession session = request.getSession();
-            String pageRaw = request.getParameter("page");
-            int page;
-            try {
-                page = Integer.parseInt(pageRaw);
-                if (page <= 0) {
-                    page = 1;
-                }
-            } catch (NumberFormatException e) {
+    private void filterProduct(HttpServletRequest request, PageControl pageControl) {
+        HttpSession session = request.getSession();
+        String pageRaw = request.getParameter("page");
+        int page;
+        try {
+            page = Integer.parseInt(pageRaw);
+            if (page <= 0) {
                 page = 1;
             }
-
-            int pageSize = 9;
-            String requestURL = request.getRequestURL().toString();
-
-            pageControl.setUrlPattern(requestURL + "?action=filterProduct" + "&");
-
-            int minPrice;
-            try {
-                minPrice = Integer.parseInt(request.getParameter("priceMin"));
-            } catch (NumberFormatException e) {
-                minPrice = 0;
-            }
-
-            int maxPrice;
-            try {
-                maxPrice = Integer.parseInt(request.getParameter("priceMax"));
-            } catch (NumberFormatException e) {
-                maxPrice = 0;
-            }
-
-            String search = request.getParameter("search");
-
-            String statusStr = request.getParameter("status");
-            int status = -1;
-            if (statusStr != null && !statusStr.isEmpty()) {
-                status = "active".equals(statusStr) ? 1 : 0;
-            }
-
-            int subCategory;
-            try {
-                subCategory = Integer.parseInt(request.getParameter("subCategory"));
-            } catch (NumberFormatException e) {
-                subCategory = -1;
-            }
-
-            List<Product> listProduct = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
-            System.out.println(listProduct);
-            int totalRecord = productDAO.getTotalFilteredRecord(minPrice, maxPrice, search, status, subCategory);
-            System.out.println(totalRecord);
-            int totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : ((totalRecord / pageSize) + 1);
-            pageControl.setPage(page);
-            pageControl.setTotalPage(totalPage);
-            pageControl.setTotalRecord(totalRecord);
-            session.setAttribute("manageProduct", listProduct);
-            request.setAttribute("pageControl", pageControl);
+        } catch (NumberFormatException e) {
+            page = 1;
         }
 
+        int pageSize = 9;
+        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+        requestURL.append("?action=filterProduct");
+
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            String key = entry.getKey();
+            String[] values = entry.getValue();
+            if (!key.equals("page")) { // Skip the 'page' parameter for now
+                for (String value : values) {
+                    requestURL.append("&").append(key).append("=").append(value);
+                }
+            }
+        }
+        requestURL.append("&");
+
+        pageControl.setUrlPattern(requestURL.toString());
+
+        int minPrice;
+        try {
+            minPrice = Integer.parseInt(request.getParameter("priceMin"));
+        } catch (NumberFormatException e) {
+            minPrice = 0;
+        }
+
+        int maxPrice;
+        try {
+            maxPrice = Integer.parseInt(request.getParameter("priceMax"));
+        } catch (NumberFormatException e) {
+            maxPrice = 0;
+        }
+
+        String search = request.getParameter("search");
+
+        String statusStr = request.getParameter("status");
+        int status = -1;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            status = "active".equals(statusStr) ? 1 : 0;
+        }
+
+        int subCategory;
+        try {
+            subCategory = Integer.parseInt(request.getParameter("subCategory"));
+        } catch (NumberFormatException e) {
+            subCategory = 0;
+        }
+
+        List<Product> listProduct = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
+        System.out.println(listProduct);
+        int totalRecord = productDAO.getTotalFilteredRecord(minPrice, maxPrice, search, status, subCategory);
+        System.out.println(totalRecord);
+        int totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : ((totalRecord / pageSize) + 1);
+        pageControl.setPage(page);
+        pageControl.setTotalPage(totalPage);
+        pageControl.setTotalRecord(totalRecord);
+
+        session.setAttribute("manageProduct", listProduct);
+        session.setAttribute("pageControl", pageControl);
+        System.out.println(pageControl);
+
+    }
 }
