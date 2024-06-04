@@ -1152,7 +1152,7 @@ public class ProductDAO extends DBContext {
                 statement.setString(parameterIndex++, "%" + search + "%");
                 statement.setString(parameterIndex++, "%" + search + "%");
             }
-            if (subCategory != 0) {
+            if (subCategory != -1) {
                 statement.setInt(parameterIndex++, subCategory);
             }
             if (status == 1 || status == 0) {
