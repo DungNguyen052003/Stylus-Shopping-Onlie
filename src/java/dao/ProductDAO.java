@@ -1204,63 +1204,6 @@ public class ProductDAO extends DBContext {
         return listFound;
     }
 
-//    public int getTotalFilteredRecord(int minPrice, int maxPrice, String search, int status, int subCategory) {
-//        String sql = "SELECT COUNT(*) FROM Product WHERE 1=1";
-//        List<Object> params = new ArrayList<>();
-//        
-//        if (minPrice > 0) {
-//            sql += " AND Price >= ?";
-//            params.add(minPrice);
-//        }
-//        if (maxPrice < Integer.MAX_VALUE) {
-//            sql += " AND Price <= ?";
-//            params.add(maxPrice);
-//        }
-//        if (search != null && !search.isEmpty()) {
-//            sql += " AND ProductName LIKE ?";
-//            params.add("%" + search + "%");
-//        }
-//        if (status != -1) {
-//            sql += " AND Status = ?";
-//            params.add(status);
-//        }
-//        if (subCategory != -1) {
-//            sql += " AND CateID = ?";
-//            params.add(subCategory);
-//        }
-//
-//        int totalRecords = 0;
-//        
-//        try {
-//            statement = connection.prepareStatement(sql);
-//            int parameterIndex = 1;
-//
-//            if (minPrice != 0) {
-//                statement.setDouble(parameterIndex++, minPrice);
-//            }
-//            if (maxPrice != 0) {
-//                statement.setDouble(parameterIndex++, maxPrice);
-//            }
-//            if (search != null && !search.isEmpty()) {
-//                statement.setString(parameterIndex++, "%" + search + "%");
-//                statement.setString(parameterIndex++, "%" + search + "%");
-//            }
-//            if (subCategory != 0) {
-//                statement.setInt(parameterIndex++, subCategory);
-//            }
-//            if (status == 1 || status == 0) {
-//                statement.setInt(parameterIndex++, status);
-//            }
-//            resultSet = statement.executeQuery();
-//            if (resultSet.next()) {
-//                totalRecords = resultSet.getInt(1);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return totalRecords;
-//        
-//    }
     public int getTotalFilteredRecord(int minPrice, int maxPrice, String search, int status, int subCategory) {
         String sql = "SELECT COUNT(*) FROM Product WHERE 1=1";
         List<Object> params = new ArrayList<>();
@@ -1303,6 +1246,61 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return totalRecords;
+    }
+
+    public List<Product> listAllProduct(int page, int pageSize) {
+        List<Product> listFound = new ArrayList<>();
+        CategoryDAO dao = new CategoryDAO();
+        String sql = "SELECT *\n"
+                + "  FROM [dbo].[Product]\n"
+                + "  ORDER BY ProductID ASC\n"
+                + "  OFFSET ? ROWS\n"
+                + "  FETCH NEXT ? ROWS ONLY";
+
+        try {
+            statement = connection.prepareStatement(sql);
+            int offset = (page - 1) * pageSize;
+            statement.setInt(1, offset);
+            statement.setInt(2, pageSize);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int productID = resultSet.getInt("ProductID");
+                String productName = resultSet.getString("ProductName");
+                int saleID = resultSet.getInt("SaleID");
+                int brandID = resultSet.getInt("BrandID");
+                int cateID = resultSet.getInt("CateID");
+                Category category = dao.getCategory(cateID);
+                String thumbnail = resultSet.getString("ThumbNail");
+                double price = resultSet.getDouble("Price");
+                int total_quantity = resultSet.getInt("Total_Quantity");
+                int status = resultSet.getInt("Status");
+                String description = resultSet.getString("Description");
+                String brief = resultSet.getString("BriefInformation");
+                int star = resultSet.getInt("StarRating");
+                int sale = resultSet.getInt("SaleStatus");
+                int campainID = resultSet.getInt("CampainID");
+
+                LocalDateTime createDateString = resultSet.getTimestamp("CreateDate").toLocalDateTime();
+                System.out.println(createDateString);
+                LocalDateTime updateDateString = resultSet.getTimestamp("UpdateDate").toLocalDateTime();
+                Product product;
+                if (campainID != 0 && sale == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = price - (price * discount / 100);
+                    product = new Product(productID, productName, saleID, brandID,
+                            category, thumbnail, price, total_quantity, status,
+                            description, brief, star, sale, createDateString, updateDateString, campainID, salePrice);
+                } else {
+                    product = new Product(productID, productName, saleID, brandID,
+                            category, thumbnail, price, total_quantity, status,
+                            description, brief, star, sale, createDateString, updateDateString, campainID);
+                }
+                listFound.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return listFound;
     }
 
 }
