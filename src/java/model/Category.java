@@ -11,13 +11,13 @@ package model;
 public class Category {
     private int cateID;
     private String name;
-    private boolean status;
+    private int status;
     private int parentID;
 
     public Category() {
     }
 
-    public Category(int cateID, String name, boolean status, int parentID) {
+    public Category(int cateID, String name, int status, int parentID) {
         this.cateID = cateID;
         this.name = name;
         this.status = status;
@@ -40,11 +40,11 @@ public class Category {
         this.name = name;
     }
 
-    public boolean isStatus() {
+    public int isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

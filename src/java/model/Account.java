@@ -2,10 +2,10 @@
 package model;
 public class Account {
     private int accountID;
-    private String username;
     private String password;
     private int role;
     private int phone;
+    private int gender;
     private String email;
     private String image;
     private String name;
@@ -13,9 +13,9 @@ public class Account {
     public Account() {
     }
 
-    public Account(int accountID, String username, String password, int role, int phone, String email, String image, String name) {
+    public Account(int accountID, String password, int role, int phone, int gender, String email, String image, String name) {
         this.accountID = accountID;
-        this.username = username;
+        this.gender = gender;
         this.password = password;
         this.role = role;
         this.phone = phone;
@@ -32,13 +32,7 @@ public class Account {
         this.accountID = accountID;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -54,6 +48,14 @@ public class Account {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     public int getPhone() {
@@ -90,7 +92,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + "accountID=" + accountID + ", username=" + username + ", password=" + password + ", role=" + role + ", phone=" + phone + ", email=" + email + ", image=" + image + ", name=" + name + '}';
+        return "Account{" + "accountID=" + accountID + ", password=" + password + ", role=" + role + ", phone=" + phone + ", email=" + email + ", image=" + image + ", name=" + name + '}';
     }
     
 }

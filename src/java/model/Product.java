@@ -4,62 +4,155 @@
  */
 package model;
 
-/**
- *
- * @author ngock
- */
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ *
+ * @author ASUS
+ */
 public class Product {
-    private int productId;
+    private int productID;
     private String productName;
-    private int saleId;
-    private int brandId;
-    private int cateId;
+    private int saleID;
+    private int brandID;
+    private Category cateID;
     private String thumbnail;
-    private BigDecimal price;
-    private int totalQuantity;
-    private boolean status;
+    private double price;
+    private int total_quantity;
+    private int status;
     private String description;
-    private String briefInformation;
+    private String briefInfomation;
     private int starRating;
-    private boolean saleStatus;
-    private boolean featured;
-    private int campainId;
-    private Date createDate;
-    private Date updateDate;
+    private int saleStatus;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
+    private int CampainID;
+    private double salePrice;
 
-    // Constructors
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, double salePrice) {
+        this.productID = productID;
+        this.productName = productName;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
+        this.thumbnail = thumbnail;
+        this.price = price;
+        this.total_quantity = total_quantity;
+        this.status = status;
+        this.description = description;
+        this.briefInfomation = briefInfomation;
+        this.starRating = starRating;
+        this.saleStatus = saleStatus;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.CampainID = CampainID;
+        this.salePrice = salePrice;
+    }
+
+    public int getCampainID() {
+        return CampainID;
+    }
+
+    public void setCampainID(int CampainID) {
+        this.CampainID = CampainID;
+    }
+
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(double salePrice) {
+        this.salePrice = salePrice;
+    }
+    
+
     public Product() {
     }
 
-    public Product(String productName, int saleId, int brandId, int cateId, String thumbnail, BigDecimal price, int totalQuantity, boolean status, String description, String briefInformation, int starRating, boolean saleStatus, boolean featured, int campainId, Date createDate, Date updateDate) {
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int CampainID) {
+        this.productID = productID;
         this.productName = productName;
-        this.saleId = saleId;
-        this.brandId = brandId;
-        this.cateId = cateId;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
         this.thumbnail = thumbnail;
         this.price = price;
-        this.totalQuantity = totalQuantity;
+        this.total_quantity = total_quantity;
         this.status = status;
         this.description = description;
-        this.briefInformation = briefInformation;
+        this.briefInfomation = briefInfomation;
         this.starRating = starRating;
         this.saleStatus = saleStatus;
-        this.featured = featured;
-        this.campainId = campainId;
+        this.CampainID = CampainID;
+    }
+
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int CampainID, double salePrice) {
+        this.productID = productID;
+        this.productName = productName;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
+        this.thumbnail = thumbnail;
+        this.price = price;
+        this.total_quantity = total_quantity;
+        this.status = status;
+        this.description = description;
+        this.briefInfomation = briefInfomation;
+        this.starRating = starRating;
+        this.saleStatus = saleStatus;
+        this.CampainID = CampainID;
+        this.salePrice = salePrice;
+    }
+    
+public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate) {
+        this.productID = productID;
+        this.productName = productName;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
+        this.thumbnail = thumbnail;
+        this.price = price;
+        this.total_quantity = total_quantity;
+        this.status = status;
+        this.description = description;
+        this.briefInfomation = briefInfomation;
+        this.starRating = starRating;
+        this.saleStatus = saleStatus;
         this.createDate = createDate;
         this.updateDate = updateDate;
+       
+    }
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int campainId) {
+        this.productID = productID;
+        this.productName = productName;
+        this.saleID = saleID;
+        this.brandID = brandID;
+        this.cateID = cateID;
+        this.thumbnail = thumbnail;
+        this.price = price;
+        this.total_quantity = total_quantity;
+        this.status = status;
+        this.description = description;
+        this.briefInfomation = briefInfomation;
+        this.starRating = starRating;
+        this.saleStatus = saleStatus;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.CampainID = campainId;
     }
 
-    // Getters and Setters
-    public int getProductId() {
-        return productId;
+    @Override
+    public String toString() {
+        return "Product{" + "productID=" + productID + ", productName=" + productName + ", saleID=" + saleID + ", brandID=" + brandID + ", cateID=" + cateID + ", thumbnail=" + thumbnail + ", price=" + price + ", total_quantity=" + total_quantity + ", status=" + status + ", description=" + description + ", briefInfomation=" + briefInfomation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + ", createDate=" + createDate + ", updateDate=" + updateDate + ", CampainID=" + CampainID + ", salePrice=" + salePrice + '}';
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
@@ -70,28 +163,28 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getSaleId() {
-        return saleId;
+    public int getSaleID() {
+        return saleID;
     }
 
-    public void setSaleId(int saleId) {
-        this.saleId = saleId;
+    public void setSaleID(int saleID) {
+        this.saleID = saleID;
     }
 
-    public int getBrandId() {
-        return brandId;
+    public int getBrandID() {
+        return brandID;
     }
 
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
+    public void setBrandID(int brandID) {
+        this.brandID = brandID;
     }
 
-    public int getCateId() {
-        return cateId;
+    public Category getCateID() {
+        return cateID;
     }
 
-    public void setCateId(int cateId) {
-        this.cateId = cateId;
+    public void setCateID(Category cateID) {
+        this.cateID = cateID;
     }
 
     public String getThumbnail() {
@@ -102,27 +195,27 @@ public class Product {
         this.thumbnail = thumbnail;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public int getTotal_quantity() {
+        return total_quantity;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setTotal_quantity(int total_quantity) {
+        this.total_quantity = total_quantity;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -134,12 +227,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getBriefInformation() {
-        return briefInformation;
+    public String getBriefInfomation() {
+        return briefInfomation;
     }
 
-    public void setBriefInformation(String briefInformation) {
-        this.briefInformation = briefInformation;
+    public void setBriefInfomation(String briefInfomation) {
+        this.briefInfomation = briefInfomation;
     }
 
     public int getStarRating() {
@@ -150,43 +243,31 @@ public class Product {
         this.starRating = starRating;
     }
 
-    public boolean isSaleStatus() {
+    public int getSaleStatus() {
         return saleStatus;
     }
 
-    public void setSaleStatus(boolean saleStatus) {
+    public void setSaleStatus(int saleStatus) {
         this.saleStatus = saleStatus;
     }
 
-    public boolean isFeatured() {
-        return featured;
-    }
-
-    public void setFeatured(boolean featured) {
-        this.featured = featured;
-    }
-
-    public int getCampainId() {
-        return campainId;
-    }
-
-    public void setCampainId(int campainId) {
-        this.campainId = campainId;
-    }
-
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
+
+    
+
+    
 }

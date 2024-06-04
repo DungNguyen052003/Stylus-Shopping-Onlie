@@ -1,4 +1,4 @@
-/******************************************************************
+s/******************************************************************
   Template Name: Ashion
   Description: Ashion ecommerce template
   Author: Colorib
@@ -439,9 +439,9 @@ ol {
 	margin-right: 8px;
 }
 
-.header__right__auth a:last-child {
-	margin-right: 0;
-}
+/*.header__right__auth a:last-child {
+	margin-right: 1;
+}*/
 
 .header__right__auth a:last-child:after {
 	display: none;
@@ -451,7 +451,7 @@ ol {
 	position: absolute;
 	right: -8px;
 	top: -2px;
-	content: "/";
+	
 	font-size: 13px;
 }
 
@@ -467,10 +467,10 @@ ol {
 	margin-right: 20px;
 	cursor: pointer;
 }
-
+/*
 .header__right__widget li:last-child {
 	margin-right: 0;
-}
+}*/
 
 .header__right__widget li a {
 	font-size: 18px;
@@ -598,9 +598,9 @@ ol {
 	margin-right: 25px;
 }
 
-.trend__item__text {
+/*.trend__item__text {
 	overflow: hidden;
-}
+}*/
 
 .trend__item__text h6 {
 	font-size: 14px;

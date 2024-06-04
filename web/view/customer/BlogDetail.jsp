@@ -11,14 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
+       
 
     </head>
     <body>
@@ -43,7 +36,7 @@
                     <div class="col-lg-3 col-md-3">
                         <div class="shop__sidebar">
                             <div class="sidebar__categories">
-                               
+
                                 <div class="section-title">
                                     <h4>Categories</h4>
                                 </div>
@@ -94,22 +87,6 @@
 
                                             </div>
 
-
-                                            <!--                            <div class="blog__details__btns">
-                                                                            <div class="row">
-                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                    <div class="blog__details__btn__item">
-                                                                                        <h6><a href="#"><i class="fa fa-angle-left"></i> Previous posts</a></h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                                    <div class="blog__details__btn__item blog__details__btn__item--next">
-                                                                                        <h6><a href="#">Next posts <i class="fa fa-angle-right"></i></a></h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>-->
-
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
@@ -120,7 +97,7 @@
                                                     <h4>Product</h4>
                                                 </div>
                                                 <div class="blog__item">
-                                                    <img src="${pro.thumbNail}">
+                                                    <img src="${pro.thumbnail}">
                                                     <div class="product__item__text blog__item">
                                                         <h6><a href="#">${pro.productName}</a></h6>
                                                         <div class="rating">

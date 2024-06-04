@@ -32,7 +32,10 @@
         <servlet-name>ResetPass</servlet-name>
         <servlet-class>controller.ResetPass</servlet-class>
     </servlet>
-   
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controller.HomeController</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>LogOut</servlet-name>
         <servlet-class>controller.LogOut</servlet-class>
@@ -46,16 +49,44 @@
         <servlet-class>controller.ChangeProfile</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ProductDetail</servlet-name>
+        <servlet-class>controller.ProductDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogDetail</servlet-name>
+        <servlet-class>controller.BlogDetail</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LastestBlog</servlet-name>
         <servlet-class>controller.LastestBlog</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>myOrder</servlet-name>
-        <servlet-class>controller.myOrder</servlet-class>
+        <servlet-name>BlogServlet</servlet-name>
+        <servlet-class>controller.BlogServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HomeControllerServet</servlet-name>
-        <servlet-class>controller.HomeController</servlet-class>
+        <servlet-name>LastestBlog</servlet-name>
+        <servlet-class>controller.LastestBlog</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductServlet</servlet-name>
+        <servlet-class>controller.ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartDetails</servlet-name>
+        <servlet-class>controller.CartDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCartDetail</servlet-name>
+        <servlet-class>controller.DeleteCartDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartQuantity</servlet-name>
+        <servlet-class>controller.UpdateCartQuantity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartContact</servlet-name>
+        <servlet-class>controller.CartContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -78,6 +109,14 @@
         <url-pattern>/VerifyOTP</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LastestBlog</servlet-name>
+        <url-pattern>/last</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
     </servlet-mapping>
@@ -90,16 +129,40 @@
         <url-pattern>/ChangeProfile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ProductDetail</servlet-name>
+        <url-pattern>/ProductDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogDetail</servlet-name>
+        <url-pattern>/blogdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogServlet</servlet-name>
+        <url-pattern>/BlogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LastestBlog</servlet-name>
-        <url-pattern>/last</url-pattern>
+        <url-pattern>/LastestBlog</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>myOrder</servlet-name>
-        <url-pattern>/order</url-pattern>
+        <servlet-name>ProductServlet</servlet-name>
+        <url-pattern>/ProductServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HomeControllerServet</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <servlet-name>CartDetails</servlet-name>
+        <url-pattern>/cartDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCartDetail</servlet-name>
+        <url-pattern>/deleteCartDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartQuantity</servlet-name>
+        <url-pattern>/updateCartQuantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartContact</servlet-name>
+        <url-pattern>/cartContact</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>
