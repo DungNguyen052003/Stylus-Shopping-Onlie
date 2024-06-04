@@ -72,6 +72,22 @@
         <servlet-name>ProductServlet</servlet-name>
         <servlet-class>controller.ProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartDetails</servlet-name>
+        <servlet-class>controller.CartDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteCartDetail</servlet-name>
+        <servlet-class>controller.DeleteCartDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartQuantity</servlet-name>
+        <servlet-class>controller.UpdateCartQuantity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartContact</servlet-name>
+        <servlet-class>controller.CartContact</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -131,6 +147,22 @@
     <servlet-mapping>
         <servlet-name>ProductServlet</servlet-name>
         <url-pattern>/ProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartDetails</servlet-name>
+        <url-pattern>/cartDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteCartDetail</servlet-name>
+        <url-pattern>/deleteCartDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartQuantity</servlet-name>
+        <url-pattern>/updateCartQuantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartContact</servlet-name>
+        <url-pattern>/cartContact</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>
