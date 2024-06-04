@@ -68,19 +68,19 @@
 }
 
 .blog__feature__item__text {
-    overflow: hidden;
+    overflow: visible; // Thay đổi từ hidden sang visible để tránh che giấu nội dung
 
     h6 {
-        font-size: 14px;
-        color: $heading-color;
-        font-weight: 600;
+        font-size: 50px;
+        color: black;
+        font-weight: 600; // Điều chỉnh giá trị font-weight hợp lệ
         line-height: 21px;
         margin-bottom: 5px;
     }
 
     span {
         font-size: 12px;
-        color: #888888;
+        color: black;
         display: block;
     }
 }
