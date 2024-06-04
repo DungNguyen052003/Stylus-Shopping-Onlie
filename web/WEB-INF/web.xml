@@ -73,6 +73,18 @@
         <servlet-class>controller.ProductServlet</servlet-class>
     </servlet>
     <servlet>
+
+        <servlet-name>OrderStatus</servlet-name>
+        <servlet-class>controller.OrderStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedBack</servlet-name>
+        <servlet-class>controller.FeedBack</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageProduct</servlet-name>
+        <servlet-class>controller.ManageProduct</servlet-class>
+
         <servlet-name>CartDetails</servlet-name>
         <servlet-class>controller.CartDetails</servlet-class>
     </servlet>
@@ -87,6 +99,7 @@
     <servlet>
         <servlet-name>CartContact</servlet-name>
         <servlet-class>controller.CartContact</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -149,6 +162,18 @@
         <url-pattern>/ProductServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
+        <servlet-name>OrderStatus</servlet-name>
+        <url-pattern>/OrderStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedBack</servlet-name>
+        <url-pattern>/FeedBack</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageProduct</servlet-name>
+        <url-pattern>/ManageProduct</url-pattern>
+
         <servlet-name>CartDetails</servlet-name>
         <url-pattern>/cartDetails</url-pattern>
     </servlet-mapping>
@@ -163,6 +188,7 @@
     <servlet-mapping>
         <servlet-name>CartContact</servlet-name>
         <url-pattern>/cartContact</url-pattern>
+
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>

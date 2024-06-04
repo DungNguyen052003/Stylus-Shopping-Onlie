@@ -20,7 +20,7 @@ import java.util.List;
 public class FeedBackDAO extends DBContext {
 
     public List<FeedBack> get(int id) {
-         List<FeedBack> feedbacks = new ArrayList<>();
+        List<FeedBack> feedbacks = new ArrayList<>();
         String sql = "SELECT f.* FROM Feedback f INNER JOIN Product p ON f.ProductID = p.ProductID WHERE p.ProductID = ?";
 
         try {
@@ -80,81 +80,68 @@ public class FeedBackDAO extends DBContext {
 
         return feedbacks;
     }
-    
-    
-  public List<FeedBack> getFeedbacksByProductId(int productId) {
-    List<FeedBack> feedbacks = new ArrayList<>();
-    String sql = "SELECT f.ID AS FeedbackID, " +
-                 "c.Name AS CustomerName, " +
-                 "p.ProductName, " +
-                 "f.RateStar, " +
-                 "f.Comment, " +
-                 "f.CreateDate, " +
-                 "f.Status, " +
-                 "f.CustomerID, " +
-                 "f.ProductID " +
-                 "FROM Feedback f " +
-                 "INNER JOIN Customer c ON f.CustomerID = c.CustomerID " +
-                 "INNER JOIN Product p ON f.ProductID = p.ProductID " +
-                 "WHERE f.ProductID = ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setInt(1, productId);
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                FeedBack feedback = new FeedBack();
-                feedback.setId(rs.getInt("FeedbackID"));
-                feedback.setCustomerID(rs.getInt("CustomerID"));
-                feedback.setCustomerName(rs.getString("CustomerName")); // Thiết lập tên khách hàng
-                feedback.setProductID(rs.getInt("ProductID"));
-                feedback.setCreateDate(rs.getTimestamp("CreateDate"));
-                feedback.setRateStar(rs.getInt("RateStar"));
-                feedback.setComment(rs.getString("Comment"));
-                feedback.setStatus(rs.getBoolean("Status"));
-                feedbacks.add(feedback);
+    public List<FeedBack> getFeedbacksByProductId(int productId) {
+        List<FeedBack> feedbacks = new ArrayList<>();
+        String sql = "SELECT f.ID AS FeedbackID, "
+                + "c.Name AS CustomerName, "
+                + "p.ProductName, "
+                + "f.RateStar, "
+                + "f.Comment, "
+                + "f.CreateDate, "
+                + "f.Status, "
+                + "f.CustomerID, "
+                + "f.ProductID "
+                + "FROM Feedback f "
+                + "INNER JOIN Customer c ON f.CustomerID = c.CustomerID "
+                + "INNER JOIN Product p ON f.ProductID = p.ProductID "
+                + "WHERE f.ProductID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    FeedBack feedback = new FeedBack();
+                    feedback.setId(rs.getInt("FeedbackID"));
+                    feedback.setCustomerID(rs.getInt("CustomerID"));
+                    feedback.setCustomerName(rs.getString("CustomerName")); // Thiết lập tên khách hàng
+                    feedback.setProductID(rs.getInt("ProductID"));
+                    feedback.setCreateDate(rs.getTimestamp("CreateDate"));
+                    feedback.setRateStar(rs.getInt("RateStar"));
+                    feedback.setComment(rs.getString("Comment"));
+                    feedback.setStatus(rs.getBoolean("Status"));
+                    feedbacks.add(feedback);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return feedbacks;
     }
-    return feedbacks;
+
+    public void insertFeedback(int customerID, String productID, String RateStar, String comment, String orderDetailID) {
+
+        String sql = """
+                     insert into Feedback(CustomerID,ProductID,RateStar
+                     ,Comment,CreateDate,OrderDetailID, Status)
+                     value(?,?,?,?,?,?,?);""";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerID);
+            ps.setString(2, productID);
+            ps.setString(3, RateStar);
+            ps.setString(4, comment);
+            ps.setString(5, "CURRENT_TIMESTAMP");
+            ps.setString(6, orderDetailID);
+            ps.setString(7, "1");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        
+    }
+
 }
-
-
-
-
-//    public static void main(String[] args) {
-//        FeedBackDAO feedbackDAO = new FeedBackDAO();
-//
-//        // Test get(int id) method
-//        int testId = 1; // Change this to a valid ID in your database
-//        FeedBack feedback = feedbackDAO.get(testId);
-//        if (feedback != null) {
-//            System.out.println("Feedback ID: " + feedback.getId());
-//            System.out.println("Customer ID: " + feedback.getCustomerID());
-//            System.out.println("Product ID: " + feedback.getProductID());
-//            System.out.println("Create Date: " + feedback.getCreateDate());
-//            System.out.println("Rate Star: " + feedback.getRateStar());
-//            System.out.println("Comment: " + feedback.getComment());
-//            System.out.println("Status: " + feedback.isStatus());
-//        } else {
-//            System.out.println("No feedback found with ID: " + testId);
-//        }
-//
-//        // Test getAll() method
-//        List<FeedBack> feedbacks = feedbackDAO.getAll();
-//        for (FeedBack fb : feedbacks) {
-//            System.out.println("Feedback ID: " + fb.getId());
-//            System.out.println("Customer ID: " + fb.getCustomerID());
-//            System.out.println("Product ID: " + fb.getProductID());
-//            System.out.println("Create Date: " + fb.getCreateDate());
-//            System.out.println("Rate Star: " + fb.getRateStar());
-//            System.out.println("Comment: " + fb.getComment());
-//            System.out.println("Status: " + fb.isStatus());
-//            System.out.println("----------");
-//        }
-    
-}
-    
-
-

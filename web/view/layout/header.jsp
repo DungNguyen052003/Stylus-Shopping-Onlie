@@ -70,7 +70,7 @@
         <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
         <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/style.css?id=123" type="text/css">
+        <link rel="stylesheet" href="asset/css/style.css?id=12" type="text/css">
     </head>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
