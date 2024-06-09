@@ -29,5 +29,17 @@ public class OrderDetailDAO extends DBContext{
         }
         return null;
     }
+    public boolean checkFeedback(int orderDetailID){
+        String sql="select * from OrderDetail od join Feedback f on od.ID = f.OrderDetailID";
+        try {
+            statement = connection.prepareStatement(sql);
+    
+            resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 }

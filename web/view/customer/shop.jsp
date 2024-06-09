@@ -9,77 +9,87 @@
 <!DOCTYPE html>
 <html>
     <head>
+
         <meta charset="UTF-8">
         <meta name="description" content="Ashion Template">
         <meta name="keywords" content="Ashion, unica, creative, html">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Ashion | Template</title>
-
-        <!-- Google Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-              rel="stylesheet">
+        <jsp:include page="../layout/header.jsp"></jsp:include>
+            <!-- Google Font -->
+            <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+                  rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css?id=123" type="text/css">
 
 
     </head>
     <body>
         <!-- Header -->
-        <jsp:include page="../layout/header.jsp"></jsp:include><br>
 
 
-            <!-- Breadcrumb Begin -->
-            <div class="breadcrumb-option">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="breadcrumb__links">
-                                <a href="./index.jsp"><i class="fa fa-home"></i> Home</a>
-                                <span>Shop</span>
-                            </div>
+
+        <!-- Breadcrumb Begin -->
+        <div class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__links">
+                            <a href="./index.jsp"><i class="fa fa-home"></i> Home</a>
+                            <span>Shop</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Breadcrumb End -->
+        </div>
+        <!-- Breadcrumb End -->
 
-            <!-- Shop Section Begin -->
-            <section class="shop spad">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3">
-                            <div class="shop__sidebar">
-                                <div class="sidebar__categories">
-                                    <div class="section-title">
-                                        <form action="ProductServlet" method="get" style="display: inline;">
-                                            <input type="hidden" name="action" value="newest">
-                                            <button type="submit" style="background: none; border: none; color: black; font-size: 1.25em;">
-                                                <h4>New</h4>
-                                            </button>
+        <!-- Shop Section Begin -->
+        <section class="shop spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="shop__sidebar">
+                            <div class="sidebar__categories">
+                                <div class="section-title">
+                                    <form action="ProductServlet" method="get" style="display: inline;">
+                                        <input type="hidden" name="action" value="newest">
+                                        <button type="submit" style="background: none; border: none; color: black; font-size: 1.25em;">
+                                            <h4>New</h4>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="Trang">
+                                    <div class="search-box">
+                                        <form action="ProductServlet" method="get" style="margin-bottom: 10px;">
+                                            <input type="hidden" name="action" value="search">
+                                            <input type="text" id="search-input" placeholder="Search here....." name="keyword" style="height: 25px;
+                                                   width: 150px;">
+                                            <button type="submit" style="height: 25px;"><i class="fa fa-search"></i></button>
                                         </form>
                                     </div>
-                                    <div class="Trang">
-                                        <div class="search-box">
-                                            <form action="ProductServlet" method="get">
-                                                <input type="hidden" name="action" value="search">
-                                                <input type="text" id="search-input" placeholder="Search here....." name="keyword">
-                                                <button type="submit"><i class="fa fa-search"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                </div>
 
-                                    <div class="section-title">
-                                        <h4>Categories</h4>
-                                    </div>
-                                    <div class="categories__accordion">
-                                        <div class="accordion" id="accordionExample">
-                                            <input type="hidden" name="action" value="cate">
-                                            <div class="card">
-                                                <div class="card-heading active">
-                                                    <a data-toggle="collapse" data-target="#collapseOne">Women</a>
-                                                </div>
-                                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                                    <div class="card-body">
+                                <div class="section-title">
+                                    <h4>Categories</h4>
+                                </div>
+                                <div class="categories__accordion">
+                                    <div class="accordion" id="accordionExample">
+
+                                        <div class="card">
+                                            <div class="card-heading ">
+                                                <a data-toggle="collapse" data-target="#collapseOne">Women</a>
+                                            </div>
+                                            <div id="collapseOne" class="collapse " data-parent="#accordionExample">
+                                                <div class="card-body">
                                                     <c:forEach items="${categoriesWomen}" var="cW">
                                                         <ul>
                                                             <li><a href="ProductServlet?id=${cW.cateID}" value="${cW.cateID}">${cW.name}</a></li>
@@ -105,10 +115,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <form action="ProductServlet" method="get" id="productForm">
                                 <div class="sidebar__filter">
-                                    <div class="section-title">
+                                    <div class="section-title" style="margin-bottom: 20px">
                                         <h4>Shop by price</h4>
                                     </div>
                                     <div class="filter-range-wrap">
@@ -325,11 +336,6 @@
 
         <!--Footer-->
         <jsp:include page="../layout/footer.jsp"/>
-     
-
-
-
-
 
         <script src="asset/js/jquery-3.3.1.min.js"></script>
         <script src="asset/js/bootstrap.min.js"></script>

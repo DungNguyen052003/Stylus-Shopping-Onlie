@@ -14,6 +14,7 @@ public class Customer {
     private int gender;
     private String name;  
     private String image;
+    private int status;
     private int verifiedStatus;
     private LocalDateTime createdDate;
     
@@ -64,6 +65,14 @@ public class Customer {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getAddress() {

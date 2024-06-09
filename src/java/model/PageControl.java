@@ -48,6 +48,11 @@ public class PageControl {
     public void setUrlPattern(String urlPattern) {
         this.urlPattern = urlPattern;
     }
+
+    @Override
+    public String toString() {
+        return "PageControl{" + "totalPage=" + totalPage + ", totalRecord=" + totalRecord + ", page=" + page + ", urlPattern=" + urlPattern + '}';
+    }
     
     
 }

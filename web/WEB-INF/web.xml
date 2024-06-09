@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <filter>
+    <!--    <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>filter.AdminFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Login</servlet-class>
@@ -73,7 +73,6 @@
         <servlet-class>controller.ProductServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>OrderStatus</servlet-name>
         <servlet-class>controller.OrderStatus</servlet-class>
     </servlet>
@@ -84,7 +83,8 @@
     <servlet>
         <servlet-name>ManageProduct</servlet-name>
         <servlet-class>controller.ManageProduct</servlet-class>
-
+    </servlet>
+    <servlet>
         <servlet-name>CartDetails</servlet-name>
         <servlet-class>controller.CartDetails</servlet-class>
     </servlet>
@@ -99,7 +99,38 @@
     <servlet>
         <servlet-name>CartContact</servlet-name>
         <servlet-class>controller.CartContact</servlet-class>
-
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerPostList</servlet-name>
+        <servlet-class>controller.ManagerPostList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerCustomerList</servlet-name>
+        <servlet-class>controller.ManagerCustomerList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPostList</servlet-name>
+        <servlet-class>controller.ViewPostList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditPostList</servlet-name>
+        <servlet-class>controller.EditPostList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCustomer</servlet-name>
+        <servlet-class>controller.UpdateCustomer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>myOrder</servlet-name>
+        <servlet-class>controller.myOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageFeedback</servlet-name>
+        <servlet-class>controller.ManageFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedbackDetails</servlet-name>
+        <servlet-class>controller.FeedbackDetails</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -162,7 +193,6 @@
         <url-pattern>/ProductServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>OrderStatus</servlet-name>
         <url-pattern>/OrderStatus</url-pattern>
     </servlet-mapping>
@@ -173,7 +203,8 @@
     <servlet-mapping>
         <servlet-name>ManageProduct</servlet-name>
         <url-pattern>/ManageProduct</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CartDetails</servlet-name>
         <url-pattern>/cartDetails</url-pattern>
     </servlet-mapping>
@@ -188,7 +219,38 @@
     <servlet-mapping>
         <servlet-name>CartContact</servlet-name>
         <url-pattern>/cartContact</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerPostList</servlet-name>
+        <url-pattern>/ManagerPostList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerCustomerList</servlet-name>
+        <url-pattern>/ManagerCustomerList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPostList</servlet-name>
+        <url-pattern>/ViewPostList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditPostList</servlet-name>
+        <url-pattern>/EditPostList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomer</servlet-name>
+        <url-pattern>/UpdateCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>myOrder</servlet-name>
+        <url-pattern>/myOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageFeedback</servlet-name>
+        <url-pattern>/ManageFeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackDetails</servlet-name>
+        <url-pattern>/FeedbackDetails</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>

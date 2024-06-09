@@ -10,12 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import model.Order;
 import model.OrderDetail;
-import model.Product;
 
 /**
  *
@@ -81,11 +79,11 @@ public class orderDAO extends DBContext {
             System.out.println(or.getCountOtherproduct());
         }
     }
-
+  
     public List<OrderDetail> getOrderDetails(int orderId) {
         List<OrderDetail> orderDetails = new ArrayList<>();
         try {
-            String sql = "SELECT o.OrderID, "
+            String sql = "SELECT od.ID,o.OrderID, "
                     + "o.OrderDate, "
                     + "o.TotalAmount, "
                     + "o.Status, "
@@ -137,6 +135,7 @@ public class orderDAO extends DBContext {
                 String productThumbnail = rs.getString("ProductThumbnail");
 
                 OrderDetail od = new OrderDetail();
+                od.setId(rs.getInt("ID"));
                 od.setOrderID(orderID);
                 od.setOrderDate(orderDate);
                 od.setTotalAmount(totalAmount);
@@ -165,41 +164,6 @@ public class orderDAO extends DBContext {
         return orderDetails;
     }
 
-//    public static void main(String[] args) {
-//        // Thực hiện kết nối đến cơ sở dữ liệu
-//       
-//            // Thực hiện gọi hàm getOrderDetails
-//            orderDAO orderDAO = new orderDAO();
-//            int orderId = 1; // Thay đổi orderId tùy theo nhu cầu kiểm tra
-//            List<OrderDetail> orderDetails = orderDAO.getOrderDetails(orderId);
-//
-//            // In thông tin các đơn hàng chi tiết
-//            for (OrderDetail orderDetail : orderDetails) {
-//                System.out.println("Order ID: " + orderDetail.getOrderID());
-//                System.out.println("Order Date: " + orderDetail.getOrderDate());
-//                System.out.println("Total Amount: " + orderDetail.getTotalAmount());
-//                System.out.println("Status: " + orderDetail.getStatus());
-//                System.out.println("Full Name: " + orderDetail.getFullName());
-//                System.out.println("Gender: " + orderDetail.getGender());
-//                System.out.println("Email: " + orderDetail.getEmail());
-//                System.out.println("Phone: " + orderDetail.getPhone());
-//                System.out.println("Quantity: " + orderDetail.getQuantity());
-//                System.out.println("Price: " + orderDetail.getPrice());
-//                System.out.println("Total Price: " + orderDetail.getTotalPrice());
-//                System.out.println("Product ID: " + orderDetail.getProductID());
-//                System.out.println("Size ID: " + orderDetail.getSizeID());
-//                System.out.println("Color ID: " + orderDetail.getColorID());
-//                System.out.println("Product Quantity: " + orderDetail.getProductQuantity());
-//                System.out.println("Product Name: " + orderDetail.getProductName());
-//                System.out.println("Category ID: " + orderDetail.getCateID());
-//                System.out.println("Product Category: " + orderDetail.getProductCategory());
-//                System.out.println("Product Thumbnail: " + orderDetail.getProductThumbnail());
-//                System.out.println("--------------------------------------");
-//            }
-//        
-//           
-//        
-//    }
     public void cancelOrder(int orderId) {
         try {
             String sql = "UPDATE [Order] SET Status = 'Cancelled' WHERE OrderID = ?";
@@ -212,7 +176,4 @@ public class orderDAO extends DBContext {
     }
 
 }
-
-//"p.ProductName AS FirstProductName, " +
-//                           "COUNT(od.Product_Detail_Id) - 1 AS NumberOfOtherProducts, "
 

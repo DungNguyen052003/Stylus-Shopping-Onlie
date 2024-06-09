@@ -74,6 +74,11 @@ public class Slider {
     public void setCampainID(int CampainID) {
         this.CampainID = CampainID;
     }
+
+    @Override
+    public String toString() {
+        return "Slider{" + "id=" + id + ", title=" + title + ", image=" + image + ", Status=" + Status + ", CampainID=" + CampainID + ", note=" + note + '}';
+    }
     
     
 }

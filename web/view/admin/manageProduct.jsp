@@ -1,8 +1,4 @@
-<%-- 
-    Document   : product_details
-    Created on : May 31, 2024, 10:38:58 AM
-    Author     : ASUS
---%>
+
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,7 +11,14 @@
         <title>Stylus</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
         <style type="text/css">
             .body {
                 margin-top: 20px;
@@ -34,6 +37,7 @@
             }
 
         </style>
+
     </head>
 
     <body>
@@ -78,7 +82,7 @@
                                                             <td class="align-middle" name="id">${m.productID}</td>
                                                             <td class="align-middle text-center" style="max-width: 150px" name="image">
                                                                 <div class="bg-light d-inline-flex justify-content-center align-items-center align-top">
-                                                                    <img class="thumbnail-img" style="max-width: 100%; max-height: 100%;" src="${m.thumbnail}">
+                                                                    <img id="yourImageId" class="thumbnail-img" style="max-width: 100%; max-height: 100%;" src="${m.thumbnail}?v=<%= System.currentTimeMillis() %>">
                                                                 </div>
                                                             </td>
                                                             <td class="align-middle" style="white-space: normal;" name="name">${m.productName}</td>
@@ -117,6 +121,7 @@
                                                                     </td>
                                                                 </form>
                                                                 <script>
+
                                                                     function toggleStatus(icon) {
                                                                         // Lấy trạng thái hiện tại từ lớp của biểu tượng
                                                                         const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
@@ -194,10 +199,10 @@
                                                     </select>
                                                 </div>
                                             </form>   
-                                            
-                                            <form action="ManageProduct" method="POST">
+
+                                            <form action="ManageProduct" method="get">
                                                 <input type="hidden" name="action" value="filterProduct">
-                                                 <!--Price Filter Section--> 
+                                                <!--Price Filter Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="priceDropdown">
@@ -209,7 +214,7 @@
                                                     </div>
                                                 </div>
 
-                                                 <!--Search Section--> 
+                                                <!--Search Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="searchDropdown">
@@ -220,7 +225,7 @@
                                                     </div>
                                                 </div>
 
-                                                 <!--Category Filter Section--> 
+                                                <!--Category Filter Section--> 
                                                 <hr class="my-3">
                                                 <div class="search-container">
                                                     <div class="form-group" id="categoryDropdown">
@@ -239,7 +244,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            
+
                                                             <div class="px-2" id="sub-categories-women" style="display: none; margin-top: 10px;">
                                                                 <c:forEach items="${categoriesWomen}" var="cW">
                                                                     <div class="custom-control custom-checkbox" style="margin-bottom: 5px;">
@@ -283,7 +288,7 @@
                                                     }
                                                 </script>
 
-                                                 <!--Status Filter Section--> 
+                                                <!--Status Filter Section--> 
                                                 <hr class="my-3">
                                                 <div value="status">
                                                     <label>Status:</label>
@@ -423,17 +428,17 @@
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                                            // Hàm kiểm tra và gửi form cập nhật sản phẩm
+// Hàm kiểm tra và gửi form cập nhật sản phẩm
                                             function validateForm2(event) {
                                                 event.preventDefault(); // Ngăn chặn hành vi mặc định của form
 
                                                 let name = $('#nameEditInput').val();
                                                 let price = $('#priceEditInput').val();
 
-                                                // Xóa thông báo lỗi hiện tại
+// Xóa thông báo lỗi hiện tại
                                                 $('.error').html('');
 
-                                                // Kiểm tra đầu vào
+// Kiểm tra đầu vào
                                                 if (name === '') {
                                                     $('#nameEditError').html('Name cannot be blank');
                                                 }
@@ -444,7 +449,7 @@
                                                     $('#priceEditError').html('The product price must be a number and cannot be less than 0');
                                                 }
 
-                                                // Nếu không có lỗi thì submit form bằng AJAX
+// Nếu không có lỗi thì submit form bằng AJAX
                                                 let error = '';
                                                 $('.error').each(function () {
                                                     error += $(this).html();
@@ -460,13 +465,7 @@
                                                         processData: false,
                                                         contentType: false,
                                                         success: function (response) {
-                                                            // Xử lý khi cập nhật thành công    
-//                            $('#user-form-modal').modal('hide'); // Đóng modal
-//            $('#user-form-modal').modal().hide();
-                                                            $('#user-form-modal').modal('hide');
-                                                            location.reload(); // reload page
-//$('.modal').modal('hide');
-                                                            // Cập nhật thông tin sản phẩm trong bảng
+
                                                             let id = $('#idEditInput').val();
                                                             let updatedRow = $('td[name="id"]').filter(function () {
                                                                 return $(this).text().trim() == id;
@@ -486,13 +485,19 @@
                                                             } else {
                                                                 statusIcon.addClass('fa-toggle-off');
                                                             }
-
+//setInterval(() => {
+//        $(`#${id}`) =  
+//    })
 
 
                                                             // Loại bỏ backdrop thừa
 //                            $('.modal-backdrop').remove();
 //                            $('body').removeClass('modal-open');
+                                                            setTimeout(() => {
+                                                                location.reload();
+                                                            }, 1500)
                                                         },
+
                                                         error: function (xhr, status, error) {
                                                             console.error('Error updating product:', error);
                                                         }
@@ -501,19 +506,7 @@
                                             }
 
 
-//            // Loại bỏ backdrop khi modal đóng
-//            $('#user-form-modal').on('hidden.bs.modal', function () {
-//                $('.modal-backdrop').remove();
-//                $('body').removeClass('modal-open');
-//            });
-//
-//            // Xóa backdrop thừa trước khi mở modal
-//            $('#user-form-modal').on('show.bs.modal', function () {
-//                $('.modal-backdrop').remove();
-//                $('body').removeClass('modal-open');
-//            });
 
-                                            // Hiển thị hình ảnh xem trước
                                             function displayImage2(input) {
                                                 var previewImage = document.getElementById("previewImage2");
                                                 var file = input.files[0];
@@ -527,7 +520,6 @@
                                                 reader.readAsDataURL(file);
                                             }
 
-                                            // Điền thông tin sản phẩm vào form chỉnh sửa
                                             function editProduct(button) {
                                                 let id = $(button).closest('tr').find('td[name="id"]').text().trim();
                                                 let name = $(button).closest('tr').find('td[name="name"]').text().trim();
@@ -544,7 +536,7 @@
 
                                                 $('#descriptionEdit').val(description);
 
-                                                // Loop through category list to select the category
+// Loop through category list to select the category
                                                 $('#categoryEditInput option').each(function () {
                                                     if ($(this).text() === categoryText) {
                                                         $(this).prop('selected', true);
@@ -553,29 +545,36 @@
 
                                                 $('#descriptionEdit').val(description);
                                                 $('#previewImage2').attr('src', image);
+                                                console.log(image)
+
                                                 $('#previewImage2').css('display', 'block');
                                                 $('#currentImage').val(image);
-
-                                                // Set status radio button
+                                                console.log($('#currentImage'))
+// Set status radio button
                                                 if (status === 1) {
                                                     $('#statusActive').prop('checked', true);
                                                 } else {
                                                     $('#statusInactive').prop('checked', true);
                                                 }
                                             }
+
+
         </script>
-
-
-
-
         <script type="text/javascript">
 
         </script>
         <!--Footer-->
         <jsp:include page="../layout/footer.jsp"/>
-
-
-
+        <script src="asset/js/jquery-3.3.1.min.js"></script>
+        <script src="asset/js/bootstrap.min.js"></script>
+        <script src="asset/js/jquery.magnific-popup.min.js"></script>
+        <script src="asset/js/jquery-ui.min.js"></script>
+        <script src="asset/js/mixitup.min.js"></script>
+        <script src="asset/js/jquery.countdown.min.js"></script>
+        <script src="asset/js/jquery.slicknav.js"></script>
+        <script src="asset/js/owl.carousel.min.js"></script>
+        <script src="asset/js/jquery.nicescroll.min.js"></script>
+        <script src="asset/js/main.js"></script>
     </body>
 
 </html>

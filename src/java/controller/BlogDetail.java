@@ -47,12 +47,10 @@ public class BlogDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         BlogDAO d = new BlogDAO();
+            BlogDAO d = new BlogDAO();
         if (request.getParameter("mode") != null && request.getParameter("mode").equals("1")) {
             String blogID = request.getParameter("id");
-
             List<Blog> featureBlogs = d.getFeaturedBlogs();
-            Product p = d.getProductByID();
             Blog b = d.getBlogByID(Integer.parseInt(blogID));
             Product pro = d.getRelatedProducts(Integer.parseInt(blogID));
             List<Category> listCate = d.getAllRootCategories();

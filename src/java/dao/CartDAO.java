@@ -22,12 +22,13 @@ public class CartDAO extends DBContext {
     public List<CartList> getCartProductDetails(int customerId) {
         List<CartList> detailsList = new ArrayList<>();
 
-        String sql = "select c.CartID, p.ProductName,s.Name as Size, cl.Name as Color, p.Price, c.Quantity, pd.Quantity as RemainAmount from Cart c\n" +
-"                 join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id\n" +
-"                join Product p on p.ProductID = pd.ProductID\n" +
-"                join Size s on pd.SizeID = s.SizeID\n" +
-"                join Color cl on pd.ColorID = cl.ColorID\n" +
-"                where c.CustomerID = ?";
+        String sql = """
+                     select c.CartID, p.ProductName,s.Name as Size, cl.Name as Color, p.Price, c.Quantity, pd.Quantity as RemainAmount from Cart c
+                                      join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id
+                                     join Product p on p.ProductID = pd.ProductID
+                                     join Size s on pd.SizeID = s.SizeID
+                                     join Color cl on pd.ColorID = cl.ColorID
+                                     where c.CustomerID = ?""";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, customerId);

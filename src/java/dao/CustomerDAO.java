@@ -5,8 +5,11 @@ import java.security.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
 import model.Customer;
+import model.FeedBack;
 
 public class CustomerDAO extends DBContext {
 
@@ -35,30 +38,6 @@ public class CustomerDAO extends DBContext {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        // Tạo một tài khoản mới để tìm kiếm
-        Customer accountToFind = new Customer();
-        accountToFind.setEmail("john.doe@example.com");
-        accountToFind.setPassword("Password@1");
-
-        // Tạo một đối tượng AccountDAO để thực hiện tìm kiếm
-        CustomerDAO cusDAO = new CustomerDAO();
-
-        // Gọi phương thức findAccount từ đối tượng DAO để tìm kiếm tài khoản
-        Customer found = cusDAO.findCustomer(accountToFind);
-
-        // Kiểm tra xem tài khoản đã tìm thấy hay không
-        if (found != null) {
-            System.out.println("Account found:");
-            System.out.println("ID: " + found.getCustomerID());
-            System.out.println("Name: " + found.getName());
-            System.out.println("Email: " + found.getEmail());
-            System.out.println("Role: " + found.getRoleID());
-        } else {
-            System.out.println("Account not found.");
-        }
     }
 
     public int getNumberAccounts() {
@@ -232,7 +211,7 @@ public class CustomerDAO extends DBContext {
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, email);
-           
+
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Customer c = new Customer();
@@ -253,4 +232,179 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
+    public Customer getByCustomerID(int customerID) {
+        String sql = "SELECT * FROM Customer WHERE CustomerID = ?";
+        Customer customer = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, customerID);
+
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                customer = new Customer();
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setAddress(rs.getString("Address"));
+                customer.setEmail(rs.getString("Email"));
+                customer.setPhone(rs.getString("Phone"));
+                customer.setRoleID(rs.getInt("RoleID"));
+                customer.setPassword(rs.getString("Password"));
+                customer.setName(rs.getString("Name"));
+                customer.setImage(rs.getString("Image"));
+                customer.setGender(rs.getInt("gender"));
+                customer.setVerifiedStatus(rs.getInt("verify_Status"));
+                // customer.setCreatedDate(rs.getDate("CreatedDate"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer; // Trả về đối tượng customer, không phải null
+    }
+
+    public List<Customer> getAll() {
+        List<Customer> customers = new ArrayList<>();
+        String sql = "select * from Customer where verify_Status != 0";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setAddress(rs.getString("Address"));
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setEmail(rs.getString("Email"));
+                customer.setGender(rs.getInt("Gender"));
+                customer.setImage(rs.getString("Image"));
+                customer.setPhone(rs.getString("Phone"));
+                customer.setName(rs.getString("Name"));
+                customer.setPassword(rs.getString("Password"));
+                customer.setRoleID(rs.getInt("RoleID"));
+                customer.setStatus(rs.getInt("status"));
+                //    customer.setVerifiedStatus(rs.getInt("Status"));
+
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
+    public List<Customer> getListByPage(List<Customer> list, int start, int end) {
+        ArrayList<Customer> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+
+    public List<Customer> getSortedCustomer(String sortBy) {
+        List<Customer> customers = new ArrayList<>();
+        String sql = """
+                     select * from Customer where verify_Status != 0""";
+
+        switch (sortBy) {
+            case "fullName":
+                sql += " ORDER BY Name";
+                break;
+            case "email":
+                sql += " ORDER BY Email";
+                break;
+            case "mobile":
+                sql += " ORDER BY Phone";
+                break;
+            case "status":
+                sql += " ORDER BY status";
+                break;
+            default:
+                sql += " ORDER BY CustomerID";
+                break;
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setAddress(rs.getString("Address"));
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setEmail(rs.getString("Email"));
+                customer.setGender(rs.getInt("Gender"));
+                customer.setImage(rs.getString("Image"));
+                customer.setPhone(rs.getString("Phone"));
+                customer.setName(rs.getString("Name"));
+                customer.setPassword(rs.getString("Password"));
+                customer.setRoleID(rs.getInt("RoleID"));
+                customer.setStatus(rs.getInt("status"));
+                //    customer.setVerifiedStatus(rs.getInt("Status"));
+
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+
+    }
+
+    public List<Customer> filterCustomer(String fullName, String email, String mobile, int status) {
+        List<Customer> customers = new ArrayList<>();
+        String sql1 = """
+                       select * from Customer where verify_Status != 0""";
+        String sql2 = "";
+
+        if (fullName != null && !fullName.isEmpty()) {
+            sql2 += "AND Name LIKE ?  ";
+        }
+        if (email != null && !email.isEmpty()) {
+            sql2 += "AND Email LIKE  ? ";
+        }
+        if (mobile != null && !mobile.isEmpty()) {
+            sql2 += "AND Phone LIKE ?  ";
+        }
+        if (status == 1 || status == 0) {
+            sql2 += "AND Status = ? ";
+        }
+
+        String sql = sql1 + sql2;
+
+        try {
+            statement = connection.prepareStatement(sql);
+            int parameterIndex = 1;
+
+            if (fullName != null && !fullName.isEmpty()) {
+                statement.setString(parameterIndex++, "%" + fullName + "%");
+            }
+            if (email != null && !email.isEmpty()) {
+                statement.setString(parameterIndex++, "%" + email + "%");
+            }
+            if (mobile != null && !mobile.isEmpty()) {
+                statement.setString(parameterIndex++, "%" + mobile + "%");
+            }
+            if (status == 1 || status == 0) {
+                statement.setInt(parameterIndex++, status);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setAddress(rs.getString("Address"));
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setEmail(rs.getString("Email"));
+                customer.setGender(rs.getInt("Gender"));
+                customer.setImage(rs.getString("Image"));
+                customer.setPhone(rs.getString("Phone"));
+                customer.setName(rs.getString("Name"));
+                customer.setPassword(rs.getString("Password"));
+                customer.setRoleID(rs.getInt("RoleID"));
+                customer.setStatus(rs.getInt("status"));
+                //    customer.setVerifiedStatus(rs.getInt("Status"));
+
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
 }
+

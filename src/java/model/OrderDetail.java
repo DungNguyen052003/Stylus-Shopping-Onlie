@@ -11,11 +11,8 @@ package model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-
-   public class OrderDetail {
+public class OrderDetail {
+    private int id;
     private int orderID;
     private Date orderDate;
     private BigDecimal totalAmount;
@@ -35,6 +32,8 @@ import java.util.Date;
     private int cateID;
     private String productCategory;
     private String productThumbnail;
+    private boolean checkFeedback;
+   
 
     public OrderDetail() {
     }
@@ -59,6 +58,22 @@ import java.util.Date;
         this.cateID = cateID;
         this.productCategory = productCategory;
         this.productThumbnail = productThumbnail;
+    }
+
+    public boolean isCheckFeedback() {
+        return checkFeedback;
+    }
+
+    public void setCheckFeedback(boolean checkFeedback) {
+        this.checkFeedback = checkFeedback;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getOrderID() {
@@ -213,15 +228,4 @@ import java.util.Date;
         this.productThumbnail = productThumbnail;
     }
 
-    
-    
-    
 }
-
-
-  
-
-    
-
-
-

@@ -88,10 +88,11 @@ public class FeedBack extends HttpServlet {
         String ratedStar = request.getParameter("rate");
         String comment = request.getParameter("message");
         String orderDetailID = request.getParameter("id");
+        String feedbackImage = request.getParameter("image");
         OrderDetailDAO od = new OrderDetailDAO();
         String productID = od.getProduct(orderDetailID);
         FeedBackDAO fb = new FeedBackDAO();
-        fb.insertFeedback(cs.getCustomerID(), productID, ratedStar, comment, orderDetailID);
+        fb.insertFeedback(cs.getCustomerID(), productID, ratedStar, comment, orderDetailID, feedbackImage);
         response.sendRedirect("MyOrders");
     }
 

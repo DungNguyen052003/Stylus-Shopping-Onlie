@@ -19,7 +19,7 @@ public class FeedBack {
     private String comment;
     private boolean status;
     private String customerName;
-
+    private String feedbackImage;
     public FeedBack() {
     }
 
@@ -47,6 +47,14 @@ public class FeedBack {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
+    }
+
+    public String getFeedbackImage() {
+        return feedbackImage;
+    }
+
+    public void setFeedbackImage(String feedbackImage) {
+        this.feedbackImage = feedbackImage;
     }
 
     public int getProductID() {

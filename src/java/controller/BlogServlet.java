@@ -45,7 +45,6 @@ public class BlogServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         BlogDAO d = new BlogDAO();
-
         List<Blog> list = d.getAllBlogs();
         List<Category> listCate = d.getAllRootCategories();
         request.setAttribute("list", list);

@@ -142,6 +142,14 @@
                 color: #c59b08;
             }
         </style>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">   
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
     </head>
     <body>
         <jsp:include page="../layout/header.jsp"></jsp:include><br>
@@ -347,7 +355,6 @@
                                     </div>
                                 </div>
                                 <label>Add Image:</label>
-
                                 <input type='file' id="imgInp" />
                                 <img id="blah" src="#" alt="your image" />
                                 <br>

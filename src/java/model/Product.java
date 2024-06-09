@@ -5,13 +5,13 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  *
  * @author ASUS
  */
 public class Product {
+
     private int productID;
     private String productName;
     private int saleID;
@@ -26,6 +26,10 @@ public class Product {
     private int starRating;
     private int saleStatus;
     private int featured;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
+    private int CampainID;
+    private double salePrice;
 
     public int getFeatured() {
         return featured;
@@ -55,10 +59,6 @@ public class Product {
     public void setFeatured(int featured) {
         this.featured = featured;
     }
-    private LocalDateTime createDate;
-    private LocalDateTime updateDate;
-    private int CampainID;
-    private double salePrice;
 
     public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, double salePrice) {
         this.productID = productID;
@@ -95,7 +95,6 @@ public class Product {
     public void setSalePrice(double salePrice) {
         this.salePrice = salePrice;
     }
-    
 
     public Product() {
     }
@@ -134,8 +133,8 @@ public class Product {
         this.CampainID = CampainID;
         this.salePrice = salePrice;
     }
-    
-public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate) {
+
+    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate) {
         this.productID = productID;
         this.productName = productName;
         this.saleID = saleID;
@@ -151,8 +150,9 @@ public Product(int productID, String productName, int saleID, int brandID, Categ
         this.saleStatus = saleStatus;
         this.createDate = createDate;
         this.updateDate = updateDate;
-       
+
     }
+
     public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int campainId) {
         this.productID = productID;
         this.productName = productName;
@@ -297,7 +297,4 @@ public Product(int productID, String productName, int saleID, int brandID, Categ
         this.updateDate = updateDate;
     }
 
-    
-
-    
 }

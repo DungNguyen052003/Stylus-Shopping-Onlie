@@ -14,16 +14,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Ashion | Template</title>
+       
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
+
         <style>
             .dropbtn {
-                /*                background-color: #04AA6D;*/
                 color: white;
-                /*                padding: 10px;*/
                 font-size: 16px;
                 border: none;
             }
@@ -62,21 +62,10 @@
                 background-color: #3e8e41;
             }
         </style>
-        <!-- Css Styles -->
-        <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/style.css?id=12" type="text/css">
-    </head>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+
     </head>
     <body>
+
         <div id="preloder">
             <div class="loader"></div>
         </div>
@@ -142,7 +131,7 @@
                                 <li><a href="#"><span class="icon_heart_alt"></span>
                                         <div class="tip">2</div>
                                     </a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span>
+                                <li><a href="cartDetails"><span class="icon_bag_alt"></span>
                                         <div class="tip">2</div>
                                     </a></li>
                             </ul>
@@ -159,7 +148,7 @@
                                             <div class="dropdown-content">
                                                 <a> <span style="cursor:pointer" data-toggle="modal" data-target="#profileModal" id="button_show">Change Profile</span></a>
                                                 <a> <span style="cursor:pointer" data-toggle="modal" data-target="#myModal3" id="button_show">Change Password</span></a>
-                                                <a href="#">My Orders</a>
+                                                <a href="myOrder">My Orders</a>
                                                 <a href="LogOut">Log out</a>
                                             </div>
                                         </div>
@@ -194,15 +183,6 @@
             }
         </script>
         <!-- Header Section End -->
-        <script src="asset/js/jquery-3.3.1.min.js"></script>
-        <script src="asset/js/bootstrap.min.js"></script>
-        <script src="asset/js/jquery.magnific-popup.min.js"></script>
-        <script src="asset/js/jquery-ui.min.js"></script>
-        <script src="asset/js/mixitup.min.js"></script>
-        <script src="asset/js/jquery.countdown.min.js"></script>
-        <script src="asset/js/jquery.slicknav.js"></script>
-        <script src="asset/js/owl.carousel.min.js"></script>
-        <script src="asset/js/jquery.nicescroll.min.js"></script>
-        <script src="asset/js/main.js"></script>
+
     </body>
 </html>

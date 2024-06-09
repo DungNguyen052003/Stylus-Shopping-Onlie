@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package controller;
 
 import dao.orderDAO;
@@ -15,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Customer;
 import model.Order;
 
 /**
@@ -46,10 +42,10 @@ public class myOrder extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int customerId = (int)session.getAttribute("customerId");
+        Customer cs = (Customer) session.getAttribute("account");
+        int customerId = cs.getCustomerID();
         orderDAO order = new orderDAO();
         List<Order> orders = order.getOrders(customerId);
-
         request.setAttribute("orders", orders);
         request.getRequestDispatcher("/view/customer/myOrder.jsp").forward(request, response);
     }

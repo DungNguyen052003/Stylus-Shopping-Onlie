@@ -68,9 +68,8 @@ public class ProductDAO extends DBContext {
                 int star = resultSet.getInt("StarRating");
                 int sale = resultSet.getInt("SaleStatus");
                 int campainID = resultSet.getInt("CampainID");
-
                 LocalDateTime createDateString = resultSet.getTimestamp("CreateDate").toLocalDateTime();
-                System.out.println(createDateString);
+                
                 LocalDateTime updateDateString = resultSet.getTimestamp("UpdateDate").toLocalDateTime();
                 Product product;
                 if (campainID != 0 && sale == 1) {
@@ -198,12 +197,12 @@ public class ProductDAO extends DBContext {
 
     public List<Product> listHotTrend() {
         List<Product> listFound = new ArrayList<>();
-        CategoryDAO dao = new CategoryDAO();
+        
         String sql = """
                      SELECT TOP 3 p.ProductID, COUNT(od.orderid) AS order_count
                      FROM product p
                      JOIN ProductDetails pcs ON p.ProductID = pcs.productID
-                     JOIN orderDetail od ON pcs.ID = od.ProductDetails
+                     JOIN orderDetail od ON pcs.productID = od.Product_Detail_Id
                      JOIN dbo.[Order] o ON od.orderid = o.orderid
                      WHERE o.orderDate >= DATEADD(DAY, -7, GETDATE())
                      GROUP BY p.ProductID
@@ -1128,7 +1127,7 @@ public class ProductDAO extends DBContext {
         if (search != null && !search.isEmpty()) {
             sql2 += "AND (ProductName LIKE ? OR BriefInformation LIKE ?) ";
         }
-        if (subCategory != 0) {
+        if (subCategory != -1) {
             sql2 += "AND CateID = ? ";
         }
         if (status == 1 || status == 0) {
@@ -1158,11 +1157,9 @@ public class ProductDAO extends DBContext {
             if (status == 1 || status == 0) {
                 statement.setInt(parameterIndex++, status);
             }
-
             int offset = (page - 1) * pageSize;
             statement.setInt(parameterIndex++, offset);
             statement.setInt(parameterIndex++, pageSize);
-
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -1212,7 +1209,7 @@ public class ProductDAO extends DBContext {
             sql += " AND Price >= ?";
             params.add(minPrice);
         }
-        if (maxPrice < Integer.MAX_VALUE  && maxPrice > 0) {
+        if (maxPrice < Integer.MAX_VALUE && maxPrice > 0) {
             sql += " AND Price <= ?";
             params.add(maxPrice);
         }
@@ -1246,61 +1243,6 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return totalRecords;
-    }
-
-    public List<Product> listAllProduct(int page, int pageSize) {
-        List<Product> listFound = new ArrayList<>();
-        CategoryDAO dao = new CategoryDAO();
-        String sql = "SELECT *\n"
-                + "  FROM [dbo].[Product]\n"
-                + "  ORDER BY ProductID ASC\n"
-                + "  OFFSET ? ROWS\n"
-                + "  FETCH NEXT ? ROWS ONLY";
-
-        try {
-            statement = connection.prepareStatement(sql);
-            int offset = (page - 1) * pageSize;
-            statement.setInt(1, offset);
-            statement.setInt(2, pageSize);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int productID = resultSet.getInt("ProductID");
-                String productName = resultSet.getString("ProductName");
-                int saleID = resultSet.getInt("SaleID");
-                int brandID = resultSet.getInt("BrandID");
-                int cateID = resultSet.getInt("CateID");
-                Category category = dao.getCategory(cateID);
-                String thumbnail = resultSet.getString("ThumbNail");
-                double price = resultSet.getDouble("Price");
-                int total_quantity = resultSet.getInt("Total_Quantity");
-                int status = resultSet.getInt("Status");
-                String description = resultSet.getString("Description");
-                String brief = resultSet.getString("BriefInformation");
-                int star = resultSet.getInt("StarRating");
-                int sale = resultSet.getInt("SaleStatus");
-                int campainID = resultSet.getInt("CampainID");
-
-                LocalDateTime createDateString = resultSet.getTimestamp("CreateDate").toLocalDateTime();
-                System.out.println(createDateString);
-                LocalDateTime updateDateString = resultSet.getTimestamp("UpdateDate").toLocalDateTime();
-                Product product;
-                if (campainID != 0 && sale == 1) {
-                    int discount = this.getDiscount(campainID);
-                    double salePrice = price - (price * discount / 100);
-                    product = new Product(productID, productName, saleID, brandID,
-                            category, thumbnail, price, total_quantity, status,
-                            description, brief, star, sale, createDateString, updateDateString, campainID, salePrice);
-                } else {
-                    product = new Product(productID, productName, saleID, brandID,
-                            category, thumbnail, price, total_quantity, status,
-                            description, brief, star, sale, createDateString, updateDateString, campainID);
-                }
-                listFound.add(product);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return listFound;
     }
 
 }

@@ -11,15 +11,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Ashion | Template</title>
-
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
               rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" media="screen" href="search_box.css">
-
-
+        <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="asset/css/style.css?id=11" type="text/css">
         <!-- Css Styles -->
         <style>
             .price_box {
@@ -102,7 +106,6 @@
             .product__details__tab{
                 margin-top: 20px;
             }
-
             .sidebar__filter{
                 margin-top: 40px;
                 margin-bottom: 20px;
@@ -116,8 +119,6 @@
                 flex: 1; /* Phần tử con chiếm toàn bộ không gian trong div cha */
                 margin-right: 20px; /* Khoảng cách giữa các phần tử */
             }
-
-
         </style>
     </head>
 
@@ -225,7 +226,7 @@
                                     <div class="sidebar__sizes" style="
                                          width: 70px;
                                          padding-right: 80px;
-                                          margin-right: 20px;
+                                         margin-right: 20px;
                                          " >
                                         <div class="section-title"  style=" width: 230px;  margin-top: 20px;">
                                             <h4>Shop by size/color</h4>
@@ -410,13 +411,12 @@
                                                               <c:when test="${color.id == 4}">pink-bg</c:when>
                                                               <c:when test="${color.id == 5}">green-bg</c:when>
                                                               <c:when test="${color.id == 6}">blue-bg</c:when>
-
                                                               <c:otherwise></c:otherwise>
                                                           </c:choose>
                                                           "></span>
                                                 </label>
                                             </c:forEach>
-                                      </div>
+                                        </div>
                                     </li>
                                     <li>
                                         <span>Available size:</span>
@@ -531,9 +531,6 @@
                             </div>
                         </c:if>
                     </c:forEach>
-
-
-
                 </div>
             </div>
         </section>
@@ -656,17 +653,14 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         <div class="footer__copyright__text">
                             <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
                         </div>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                 </div>
             </div>
         </footer>
         <!-- Footer Section End -->
-
         <!-- Search Begin -->
         <div class="search-model">
             <div class="h-100 d-flex align-items-center justify-content-center">
@@ -686,16 +680,14 @@
                 return true;
             }
         </script>
- 
     </body>
-
-        <script src="asset/js/bootstrap.min.js"></script>
-        <script src="asset/js/jquery.magnific-popup.min.js"></script>
-        <script src="asset/js/jquery-ui.min.js"></script>
-        <script src="asset/js/mixitup.min.js"></script>
-        <script src="asset/js/jquery.countdown.min.js"></script>
-        <script src="asset/js/jquery.slicknav.js"></script>
-        <script src="asset/js/owl.carousel.min.js"></script>
-        <script src="asset/js/jquery.nicescroll.min.js"></script>
-        <script src="asset/js/main.js"></script>
+    <script src="asset/js/bootstrap.min.js"></script>
+    <script src="asset/js/jquery.magnific-popup.min.js"></script>
+    <script src="asset/js/jquery-ui.min.js"></script>
+    <script src="asset/js/mixitup.min.js"></script>
+    <script src="asset/js/jquery.countdown.min.js"></script>
+    <script src="asset/js/jquery.slicknav.js"></script>
+    <script src="asset/js/owl.carousel.min.js"></script>
+    <script src="asset/js/jquery.nicescroll.min.js"></script>
+    <script src="asset/js/main.js"></script>
 </html>

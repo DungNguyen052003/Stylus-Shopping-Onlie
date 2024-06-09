@@ -4,8 +4,6 @@
  */
 package controller;
 
-import com.sun.jdi.connect.spi.Connection;
-import context.DBContext;
 import dao.CategoryDAO;
 import dao.ColorDAO;
 import dao.FeedBackDAO;
@@ -13,7 +11,6 @@ import dao.ProductDAO;
 import dao.ProductDAO.ProductSaleInfo;
 import dao.ProductImageDAO;
 import dao.SizeDAO;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,11 +18,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.util.List;
 import model.Category;
 import model.Product;
-import java.sql.SQLException;
 import model.Color;
 import model.FeedBack;
 import model.ProductImage;
@@ -35,7 +30,7 @@ import model.Size;
  *
  * @author 84976
  */
-@WebServlet(name = "ProductDetail", urlPatterns = {"/productdetail"})
+
 
 public class ProductDetail extends HttpServlet {
 
@@ -88,7 +83,7 @@ public class ProductDetail extends HttpServlet {
             List<ProductImage> productimg = new ProductImageDAO().get(products.getProductID());
             List<ProductSaleInfo> productSaleInfos = new ProductDAO().getProductsByCampain(products.getCampainID());
             List<Product> latestProducts = new ProductDAO().getLatestProductsFromDatabase(products.getCateID().getCateID());
-            
+
             request.setAttribute("productSaleInfos", productSaleInfos);
             request.setAttribute("categoriesWomen", new CategoryDAO().getCategoriesByParentID(1));
             request.setAttribute("categoriesMen", new CategoryDAO().getCategoriesByParentID(2));
@@ -138,9 +133,9 @@ public class ProductDetail extends HttpServlet {
 //    public ProductDetail() {
 //    }
     public static void main(String[] args) {
-         Product products = new ProductDAO().get(1);
+        Product products = new ProductDAO().get(1);
         List<Product> latestProducts = new ProductDAO().getLatestProductsFromDatabase(products.getCateID().getCateID());
-        for(Product pd : latestProducts){
+        for (Product pd : latestProducts) {
             System.out.println(pd);
         }
     }

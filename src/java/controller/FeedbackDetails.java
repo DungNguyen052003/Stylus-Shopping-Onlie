@@ -5,20 +5,25 @@
 package controller;
 
 import dao.CustomerDAO;
+import dao.FeedBackDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.Customer;
+import model.FeedBack;
+import model.Product;
 
 /**
  *
  * @author TienP
  */
-public class ChangeProfile extends HttpServlet {
+public class FeedbackDetails extends HttpServlet {
+
+    FeedBackDAO feedbackDAO = new FeedBackDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +42,10 @@ public class ChangeProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangeProfile</title>");
+            out.println("<title>Servlet FeedbackDetails</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangeProfile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FeedbackDetails at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,10 +63,16 @@ public class ChangeProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        Account acc = (Account) session.getAttribute("account");
-//        request.setAttribute("acc", acc);
-        request.getRequestDispatcher("view/customer/userProfile.jsp");
+        String id = request.getParameter("feedbackId");
+        FeedBack feedback = feedbackDAO.getFeedbackByID(id);
+        CustomerDAO csDAO = new CustomerDAO();
+        ProductDAO pdDAO = new ProductDAO();
+        Product product = pdDAO.get(feedback.getProductID());
+        Customer customer = csDAO.getByCustomerID(feedback.getCustomerID());
+        request.setAttribute("feedback", feedback);
+        request.setAttribute("product", product);
+        request.setAttribute("customer", customer);
+        request.getRequestDispatcher("view/admin/feedbackDetails.jsp").forward(request, response);
 
     }
 
@@ -76,20 +87,20 @@ public class ChangeProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
-        String gender = request.getParameter("gender");
-        String image ="asset/image/cus/"+ request.getParameter("image");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        CustomerDAO cd = new CustomerDAO();
-        cd.update(phone, gender, image, name, address, email);
-        HttpSession session = request.getSession();
-        CustomerDAO cs = new CustomerDAO();
-        Customer acc = cs.CustomerbyEmail(email);
-        session.setAttribute("account", acc);
-        String message = "Profile updated successfully!";
-        response.sendRedirect("Home?update=success&message=" + message);
+        String action = request.getParameter("action");
+        if (action.equals("updateStatus")) {
+            updateFeedbackStatus(request, response);
+        }
+        request.getRequestDispatcher("/view/admin/managerFeedback.jsp").forward(request, response);
+    }
+
+    private void updateFeedbackStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String feedbackID = request.getParameter("id");
+        String status = request.getParameter("status");
+        feedbackDAO.changeFeedbackStatus(feedbackID, status);
+        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().write("{\"success\":" + updated + "}");
     }
 
     /**

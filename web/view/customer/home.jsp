@@ -10,7 +10,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css?id=123" type="text/css">
         <style>
+       
             .customSlide .container {
                 padding: 2rem;
             }
@@ -53,12 +62,7 @@
             .customSlide .slider-nav a:hover {
                 opacity: 1;
             }
-
-
-
-
-
-            .hotPost .card {
+          .hotPost .card {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease;
             }
@@ -113,10 +117,10 @@
                             <div class="new-posts">
 
                                 <div class="new-post-item">
-                                    <img src="${blog.thumbNail}" alt="${blog.blogTitle}">
+                                    <img src="${blog.thumbnail}" alt="${blog.blogTitle}">
                                     <div class="new-post-content">
                                         <h5>${blog.blogTitle}</h5>
-                                        <p>${blog.briefInformation}</p>
+                                        <p>${blog.brief_info}</p>
                                     </div>
                                 </div>
 
@@ -353,7 +357,7 @@
                                         <div class="col-lg-4 col-md-6 mb-4">
                                             <div class="card h-100">
                                                 <a href="BlogDetail?id=${blogs.blogID}" class="trend__item">
-                                                    <img src="${blogs.thumbNail}" class="card-img-top" alt="${blogs.blogTitle}">
+                                                    <img src="${blogs.thumbnail}" class="card-img-top" alt="${blogs.blogTitle}">
                                                     <div class="card-body">
                                                         <h5 class="card-title">${blogs.blogTitle}</h5>
                                                         <p class="card-text">${blogs.description}</p>

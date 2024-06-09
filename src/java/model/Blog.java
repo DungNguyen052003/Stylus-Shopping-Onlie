@@ -9,36 +9,39 @@ import java.util.Date;
 
 /**
  *
- * @author ngock
+ * @author 84976
  */
 public class Blog {
+
     private int blogID;
     private String blogTitle;
-    private String thumbNail;
+    private String thumbnail;
     private String description;
     private LocalDateTime createDate;
     private int productID;
-    private boolean status;
-    private String briefInformation;
+    private int status;
+    private String brief_info;
     private String author;
-    private boolean featured;
-    private int CateID; 
+    private int featured;
+
+    
+    private Category category;
 
     public Blog() {
     }
 
-    public Blog(int blogID, String blogTitle, String thumbNail, String description, LocalDateTime createDate, int productID, boolean status, String briefInformation, String author, boolean featured) {
+    public Blog(int blogID, String blogTitle, String thumbnail, String description, int productID, int status, String brief_info, String author, int featured, LocalDateTime createDate, Category category) {
         this.blogID = blogID;
         this.blogTitle = blogTitle;
-        this.thumbNail = thumbNail;
+        this.thumbnail = thumbnail;
         this.description = description;
-        this.createDate = createDate;
         this.productID = productID;
         this.status = status;
-        this.briefInformation = briefInformation;
+        this.brief_info = brief_info;
         this.author = author;
         this.featured = featured;
-      
+        this.createDate = createDate;
+        this.category = category;
     }
 
     public int getBlogID() {
@@ -57,12 +60,12 @@ public class Blog {
         this.blogTitle = blogTitle;
     }
 
-    public String getThumbNail() {
-        return thumbNail;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumbNail(String thumbNail) {
-        this.thumbNail = thumbNail;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getDescription() {
@@ -73,14 +76,6 @@ public class Blog {
         this.description = description;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
     public int getProductID() {
         return productID;
     }
@@ -89,20 +84,20 @@ public class Blog {
         this.productID = productID;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getBriefInformation() {
-        return briefInformation;
+    public String getBrief_info() {
+        return brief_info;
     }
 
-    public void setBriefInformation(String briefInformation) {
-        this.briefInformation = briefInformation;
+    public void setBrief_info(String brief_info) {
+        this.brief_info = brief_info;
     }
 
     public String getAuthor() {
@@ -113,26 +108,37 @@ public class Blog {
         this.author = author;
     }
 
-    public boolean isFeatured() {
+    public int getFeatured() {
         return featured;
     }
 
-    public void setFeatured(boolean featured) {
+    public void setFeatured(int featured) {
         this.featured = featured;
     }
 
-    public int getCateID() {
-        return CateID;
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    public void setCateID(int CateID) {
-        this.CateID = CateID;
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
     public String toString() {
-        return "Blog{" + "blogID=" + blogID + ", blogTitle=" + blogTitle + ", thumbNail=" + thumbNail + ", description=" + description + ", createDate=" + createDate + ", productID=" + productID + ", status=" + status + ", briefInformation=" + briefInformation + ", author=" + author + ", featured=" + featured + ", CateID=" + CateID + '}';
+        return "Blog{" + "blogID=" + blogID + ", blogTitle=" + blogTitle + ", thumbnail=" + thumbnail + ", description=" + description + ", productID=" + productID + ", status=" + status + ", brief_info=" + brief_info + ", author=" + author + ", featured=" + featured + ", createDate=" + createDate + ", category=" + category + '}';
     }
     
     
+
+   
+       
 }

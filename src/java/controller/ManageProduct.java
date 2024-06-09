@@ -31,8 +31,8 @@ public class ManageProduct extends HttpServlet {
 
     ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();
-    private static final String UPLOAD_DIR_MEN = "D:\\Project\\Styluss\\stylusproject\\web\\asset\\image\\men";
-    private static final String UPLOAD_DIR_WOMEN = "D:\\Project\\Styluss\\stylusproject\\web\\asset\\image\\women";
+    private static final String UPLOAD_DIR_MEN = "C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\men";
+    private static final String UPLOAD_DIR_WOMEN = "C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\women";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -75,17 +75,17 @@ public class ManageProduct extends HttpServlet {
         HttpSession session = request.getSession();
         PageControl pagecontrol = new PageControl();
 
-        List<Product> listProduct = pageProduct(request, pagecontrol);
-        String sortBy = request.getParameter("sort");
-        if (sortBy != null && !sortBy.isEmpty()) {
-            listProduct = sortProduct(request, pagecontrol);
-
-        }
-        session.setAttribute("manageProduct", listProduct);
-
         String action = request.getParameter("action");
         if ("filterProduct".equals(action)) {
             filterProduct(request, pagecontrol);
+        } else {
+            List<Product> listProduct = pageProduct(request, pagecontrol);
+            String sortBy = request.getParameter("sort");
+            if (sortBy != null && !sortBy.isEmpty()) {
+                listProduct = sortProduct(request, pagecontrol);
+
+            }
+            request.setAttribute("manageProduct", listProduct);
         }
 
         List<Category> categoriesWomen = categoryDAO.getCategoriesByParentID(1);
@@ -107,7 +107,6 @@ public class ManageProduct extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        PageControl pagecontrol = new PageControl();
 
         switch (action) {
             case "updateStatus":
@@ -211,7 +210,6 @@ public class ManageProduct extends HttpServlet {
             if (part != null && part.getSize() > 0) {
                 String fileName = extractFileName(part);
                 imgDir = imgDir + fileName;
-
                 // Đảm bảo fileName không null
                 if (fileName != null && !fileName.isEmpty()) {
                     part.write(fileSaveDir + File.separator + fileName);
@@ -359,7 +357,7 @@ public class ManageProduct extends HttpServlet {
         try {
             subCategory = Integer.parseInt(request.getParameter("subCategory"));
         } catch (NumberFormatException e) {
-            subCategory = 0;
+            subCategory = -1;
         }
 
         List<Product> listProduct = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
@@ -371,8 +369,8 @@ public class ManageProduct extends HttpServlet {
         pageControl.setTotalPage(totalPage);
         pageControl.setTotalRecord(totalRecord);
 
-        session.setAttribute("manageProduct", listProduct);
-        session.setAttribute("pageControl", pageControl);
+        request.setAttribute("manageProduct", listProduct);
+        request.setAttribute("pageControl", pageControl);
         System.out.println(pageControl);
 
     }
