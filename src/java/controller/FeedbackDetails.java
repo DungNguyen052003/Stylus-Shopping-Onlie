@@ -63,12 +63,15 @@ public class FeedbackDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("feedbackId");
+        String id = request.getParameter("id");
         FeedBack feedback = feedbackDAO.getFeedbackByID(id);
+        System.out.println(feedback);
         CustomerDAO csDAO = new CustomerDAO();
         ProductDAO pdDAO = new ProductDAO();
-        Product product = pdDAO.get(feedback.getProductID());
+        Product product = pdDAO.getProductById(feedback.getProductID());
         Customer customer = csDAO.getByCustomerID(feedback.getCustomerID());
+        System.out.println(product);
+        System.out.println(customer);
         request.setAttribute("feedback", feedback);
         request.setAttribute("product", product);
         request.setAttribute("customer", customer);

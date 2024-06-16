@@ -10,7 +10,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Cart</title>
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <!-- Css Styles -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
@@ -18,11 +24,6 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
-        <!-- Google Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-
     </head>
     <script>
         function updateQuantity(index, cartID, quantity) {
@@ -82,6 +83,7 @@
                 var product = {
                     cartID: checkbox.value,
                     productName: row.querySelector('.cart__product__item__title h6').innerText,
+                    productDetailID: row.querySelector('input[name="productDetailID"]').value,
                     sizeName: row.querySelector('.cart__size').innerText,
                     colorName: row.querySelector('.cart__color').innerText,
                     price: row.querySelector('.cart__price').innerText.replace('$', '').trim(),
@@ -157,11 +159,12 @@
                                         <tr>
                                             <td class="cart__select">
                                                 <input type="checkbox" name="selectedProducts" value="${c.cartID}" onchange="updateGrandTotal()">
+                                                <input type="hidden" name="productDetailID" value="${c.productDetails.productDetailID}">
                                             </td>
                                             <td class="cart__product__item">
                                                 <img src="img/shop-cart/cp-1.jpg" alt="">
                                                 <div class="cart__product__item__title">
-                                                    <h6>${c.productName}</h6>
+                                                    <h6>${c.productDetails.product.productName}</h6>
                                                     <div class="rating">
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
@@ -171,15 +174,15 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="cart__size">${c.sizeName}</td>
-                                            <td class="cart__color">${c.colorName}</td>
-                                            <td class="cart__price" id="price-${status.index}">$ ${c.price}</td>
+                                            <td class="cart__size">${c.productDetails.size.name}</td>
+                                            <td class="cart__color">${c.productDetails.color.name}</td>
+                                            <td class="cart__price" id="price-${status.index}">$ ${c.productDetails.product.price}</td>
                                             <td class="cart__quantity">
                                                 <div class="pro-qty">
-                                                    <input type="number" id="quantity-${status.index}" name="quantity" value="${c.quantity}" min="1" max="${c.remainingAmount}" onchange="updateQuantity(${status.index}, ${c.cartID}, this.value)">
+                                                    <input type="number" id="quantity-${status.index}" name="quantity" value="${c.quantity}" min="1" max="${c.productDetails.quantity}" onchange="updateQuantity(${status.index}, ${c.cartID}, this.value)">
                                                 </div>
                                             </td>
-                                            <td class="cart__total" id="total-${status.index}">$ <c:out value="${c.price * c.quantity}" /></td>
+                                            <td class="cart__total" id="total-${status.index}">$ <c:out value="${c.productDetails.product.price * c.quantity}" /></td>
                                             <td class="cart__close">
                                                 <a href="deleteCartDetail?cartID=${c.cartID}">
                                                     <span class="icon_close"></span>

@@ -10,7 +10,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <style>.userProfile{
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">   
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
+        <style>
+            .contact__form form input{
+                margin-bottom: 0;
+            }
+            
+            .userProfile{
                 .profile-pic {
                     color: transparent;
                     transition: all 0.3s ease;
@@ -142,14 +155,7 @@
                 color: #c59b08;
             }
         </style>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">   
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/style.css" type="text/css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
+       
     </head>
     <body>
         <jsp:include page="../layout/header.jsp"></jsp:include><br>
@@ -330,6 +336,7 @@
                                 <h5>SEND FEEDBACK</h5>
                             </center>
                             <form action="FeedBack" method="post">
+                                <input type="hidden" name="orderDetailID" value="${orderDetailID}"/>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Full Name: </label>
@@ -343,8 +350,8 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="gender">Gender:</label>
-                                        <input type="text" id="gender" value="<c:choose>
-                                                   <c:when test='${account.gender == 1}'>Male</c:when>
+                                        <input type="text" id="gender" 
+                                                   value="<c:choose><c:when test='${account.gender == 1}'>Male</c:when>
                                                    <c:when test='${account.gender == 2}'>Female</c:when>
                                                    <c:otherwise>Unknown</c:otherwise>
                                                </c:choose>" readonly>
@@ -355,8 +362,8 @@
                                     </div>
                                 </div>
                                 <label>Add Image:</label>
-                                <input type='file' id="imgInp" />
-                                <img id="blah" src="#" alt="your image" />
+                                <input type='file' id="imgInp" name="image" />
+                             
                                 <br>
 
                                 <label>Rating</label>

@@ -1,12 +1,10 @@
-
-
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta charset="utf-8">
+        <title>Stylus Shopping</title>
         <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
@@ -15,127 +13,257 @@
         <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="asset/css/style.css?id=11" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <style type="text/css">
-            .flag-icon {
-                font-size: 1.2em; /* Cỡ chữ của biểu tượng lá cờ */
+            body {
+                margin-top: 20px;
+                background: #f8f8f8;
+            }
+            .content {
+                max-height: calc(100vh - 100px);
             }
 
-            .flag-icon.red {
-                color: red; /* Màu đỏ cho trạng thái "featured" là 1 */
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 5px 0;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                width: 180px;
             }
 
-            .flag-icon.gray {
-                color: gray; /* Màu trắng cho trạng thái "featured" là 0 */
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                font-size: 14px;
             }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+            .search-input {
+                position: relative;
+            }
+
+            .search-input:hover .dropdown-content {
+                display: block;
+            }
+
+            /* Định dạng select box */
+            .form-control {
+                display: inline-block;
+                width: 180px; /* Điều chỉnh độ rộng select box */
+                vertical-align: middle;
+            }
+
+            /* Định dạng form */
+            .form-group {
+                margin-bottom: 1.5rem;
+                width: 100%;
+            }
+
+            /* Định dạng các checkbox */
+            .custom-control-label {
+                padding-left: 1.25rem;
+                margin-left: 1.25rem;
+            }
+
+            .custom-control-input:checked~.custom-control-label::before {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            /* Định dạng các nhãn */
+            .form-group label {
+                display: block; /* Thay đổi từ inline-block thành block để mỗi label nằm trên một dòng */
+                width: 100%; /* Đặt chiều rộng của label là 100% */
+                margin-bottom: 0.5rem; /* Khoảng cách dưới của nhãn */
+            }
+
+            /* Định dạng các ô nhập liệu */
+            .form-group input[type="text"],
+            .form-group input[type="email"],
+            .form-group input[type="tel"],
+            .form-group input[type="password"],
+            .form-group .custom-control {
+                width: 100%; /* Đặt chiều rộng của các input là 100% */
+            }
+
+            .max-width {
+                max-width: 200px; /* Đặt chiều rộng tối đa cho cột tiêu đề */
+            }
+
+            .text-nowrap {
+                white-space: pre-wrap; /* Cho phép nội dung xuống dòng khi quá dài */
+            }
+
         </style>
-
     </head>
     <body>
-
         <jsp:include page="../layout/header.jsp"></jsp:include><br>
-            <div class="breadcrumb-option">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="breadcrumb__links">
-                                <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                                <a href="./blog">Blog</a>
-                                <span>${blog.blogTitle}</span>
+        <c:if test="${not empty sessionScope.successMessage}">
+            <div class="alert alert-success" role="alert">
+                ${sessionScope.successMessage}
+            </div>
+            <% session.removeAttribute("successMessage"); %>
+        </c:if>
+        <div class="container">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+            <div class="e-tabs mb-3 px-3">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active" href="#">Blog Detail</a></li>
+                </ul>
+            </div>
+            <form action="ViewPostList" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="blogID" value="${blog.blogID}">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input value="${blog.blogTitle}" class="form-control" type="text" name="title" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6" style="padding-left: 0px;">
+                        <label>Featured</label>
+                        <div class="custom-controls-stacked ">
+                            <input type="hidden" name="featured" value="${blog.featured}">
+                            <td class="text-center align-middle">
+                                <i class="fa cursor-pointer ${blog.featured eq 1 ? 'fa-toggle-on text-secondary' : 'fa-toggle-off'}" 
+                                   data-id="${blog.blogID}" 
+                                   data-status="${blog.featured}" 
+                                   onclick="toggleStatus2(this)">
+                                </i>
+                            </td>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Status</label>
+                        <div class="custom-controls-stacked ">
+                            <input type="hidden" name="status" value="${blog.status}">
+                            <td class="text-center align-middle">
+                                <i class="fa cursor-pointer ${blog.status eq 1 ? 'fa-toggle-on text-secondary' : 'fa-toggle-off'}" 
+                                   data-id="${blog.blogID}" 
+                                   data-status="${blog.status}" 
+                                   onclick="toggleStatus(this)">
+                                </i>
+                            </td>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <section class="blog spad" style="padding-top: 10px;">
-            <div class="container">
                 <div class="row">
-
-
-                    <div class="col-lg-10">
-                        <section class="blog-details spad">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-8 col-md-8">
-                                        <div class="blog__details__content">
-                                            <div class="blog__details__item">
-                                                <img src="${blog.thumbnail}" >
-                                                <div class="blog__details__item__title">
-
-                                                    <h4>${blog.brief_info}</h4>
-                                                    <ul>
-                                                        <li>by <span>${blog.author}</span></li>
-                                                        <li>${blog.createDate}</li>
-
-                                                    </ul>
-                                                    <ul>
-                                                        <li>Category <span>${blog.category.name}</span></li>
-                                                    </ul>
-                                                    <ul>
-                                                        <li>Status <span>
-                                                                <div class="status-display" style="display: inline;">
-                                                                    ${blog.status == 1 ? 'On' : 'Off'}
-                                                                </div>
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <i class="flag-icon ${blog.featured == 1 ? 'red' : 'gray'}"></i>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="blog__details__desc">
-                                                <p>${blog.description}</p>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <div class="blog__sidebar">
-
-                                            <div class="blog__sidebar__item">
-                                                <div class="section-title">
-                                                    <h4>Feature posts</h4>
-                                                </div>
-                                                <c:forEach var="feat" items="${featureBlogs}">
-                                                    <a href="blogdetail?mode=1&id=${feat.getBlogID()}" class="blog__feature__item" style="height: 200px">
-                                                        <div class="blog__feature__item__pic blog__feature__item__text">
-                                                            <img style="height: 50%; width: 50%" src="${feat.thumbnail}" >
-                                                            <h6 style="font-size: 10px">${feat.blogTitle}</h6>
-                                                            <span style="color: black">${feat.createDate}</span>
-                                                            <hr>
-                                                        </div>
-                                                    </a>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                    <div class="form-group">
+                        <label>Thumbnail</label>
+                        <input class="form-control" type="file" id="imageInput" name="image" style="display:none;" onchange="uploadImage(this)">
+                        <img id="selectedImage" src="${blog.thumbnail}" alt="Selected Image" style="max-width: 300px; max-height: 300px; cursor:pointer;" onclick="document.getElementById('imageInput').click();">
                     </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input value="${blog.author}" class="form-control" type="text" name="author" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>ProductID</label>
+                        <input value="${blog.productID}" class="form-control" type="text" name="productID" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" rows="7" required>${blog.description}</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Brief Info</label>
+                        <textarea class="form-control" name="brief_info" rows="5" required>${blog.brief_info}</textarea>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a href="#" class="btn btn-primary" onclick="window.location.href = 'editpostlist?blogID=${blog.blogID}'">Edit</a>
+                <a class="btn btn-secondary" href="ManagerPostList">Back to Manager Post List</a>
+            </form>
 
-            <div class="col-lg-12 text-center">
-                <a href="#" class="primary-btn load-btn">Load more posts</a>
-            </div>
+
+
         </div>
-    </section>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+                    function toggleStatus(icon) {
+                        const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
+                        if (currentClass === 'fa-toggle-on') {
+                            $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+                            $('input[name="status"]').val(0);
+                        } else {
+                            $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+                            $('input[name="status"]').val(1);
+                        }
+                        
+                    }
+                    function toggleStatus2(icon) {
+                            const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
+                            if (currentClass === 'fa-toggle-on') {
+                                $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+                                $('input[name="featured"]').val(0);
+                            } else {
+                                $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+                                $('input[name="featured"]').val(1);
+                            }
+                        }
+                    function uploadImage(input) {
+                        const formData = new FormData();
+                        formData.append('image', input.files[0]);
+                        formData.append('action', 'updateImage');
+                        formData.append('blogID', $('input[name="blogID"]').val());
+                        $.ajax({
+                            url: 'viewpostlist',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                displaySelectedImage(input);
+                                console.log('Image uploaded successfully');
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error uploading image:', error);
+                            }
+                        });
+                    }
 
-    <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery.magnific-popup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery-ui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/mixitup.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery.countdown.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery.slicknav.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/owl.carousel.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/jquery.nicescroll.min.js"></script>
-    <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
-    <jsp:include page="../layout/footer.jsp"></jsp:include>
+                    function displaySelectedImage(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                document.getElementById('selectedImage').src = e.target.result;
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+        </script>
+        <jsp:include page="../layout/footer.jsp"></jsp:include><br>
+    </body>
 
-</body>
+    <script src="asset/js/jquery-3.3.1.min.js"></script>
+    <script src="asset/js/bootstrap.min.js"></script>
+    <script src="asset/js/jquery.magnific-popup.min.js"></script>
+    <script src="asset/js/jquery-ui.min.js"></script>
+    <script src="asset/js/mixitup.min.js"></script>
+    <script src="asset/js/jquery.countdown.min.js"></script>
+    <script src="asset/js/jquery.slicknav.js"></script>
+    <script src="asset/js/owl.carousel.min.js"></script>
+    <script src="asset/js/jquery.nicescroll.min.js"></script>
+    <script src="asset/js/main.js"></script>
 
 </html>

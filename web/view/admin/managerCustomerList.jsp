@@ -185,13 +185,13 @@
                                                     </form>
                                                     <td class="text-center align-middle">
                                                         <div class="btn-group align-top">
-                                                            <a href="updatecustomer?customerID=${c.customerID}">
+                                                            <a href="UpdateCustomer?customerID=${c.customerID}">
                                                                 <button class="btn btn-sm btn-outline-secondary badge" type="button"  data-target="#user-form-modal">Edit</button>
                                                             </a>
-                                                            <a href="viewcustomerlist?customerID=${c.customerID}">
+                                                            <a href="CustomerDetail?customerID=${c.customerID}">
                                                                 <button class="btn btn-sm btn-outline-secondary badge" type="button"  data-target="#user-form-modal">Show</button>
                                                             </a>
-                                                        </div>
+                                                        </div>  
                                                     </td>
                                                     </tr>
                                                 </c:forEach>
@@ -206,7 +206,7 @@
                                                         <li class="page-item">
                                                             <a class="page-link" href="<c:url value='ManagerCustomerList'>
                                                                    <c:param name='page' value='${page - 1}'/>
-                                                                    <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
+                                                                   <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
                                                                    <c:if test='${param.sort != null}'><c:param name='sort' value='${param.sort}'/></c:if>
                                                                    <c:if test='${param.fullName != null}'><c:param name='fullName' value='${param.fullName}'/></c:if>
                                                                    <c:if test='${param.email != null}'><c:param name='email' value='${param.email}'/></c:if>
@@ -227,7 +227,7 @@
                                                     <li class="page-item ${page == i ? 'active' : ''}">
                                                         <a class="page-link" href="<c:url value='ManagerCustomerList'>
                                                                <c:param name='page' value='${i}'/>
-                                                                <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
+                                                               <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
                                                                <c:if test='${param.sort != null}'><c:param name='sort' value='${param.sort}'/></c:if>
                                                                <c:if test='${param.fullName != null}'><c:param name='fullName' value='${param.fullName}'/></c:if>
                                                                <c:if test='${param.email != null}'><c:param name='email' value='${param.email}'/></c:if>
@@ -242,7 +242,7 @@
                                                         <li class="page-item">
                                                             <a class="page-link" href="<c:url value='ManagerCustomerList'>
                                                                    <c:param name='page' value='${page + 1}'/>
-                                                                    <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
+                                                                   <c:if test='${param.action != null}'><c:param name='action' value='${param.action}'/></c:if>
                                                                    <c:if test='${param.sort != null}'><c:param name='sort' value='${param.sort}'/></c:if>
                                                                    <c:if test='${param.fullName != null}'><c:param name='fullName' value='${param.fullName}'/></c:if>
                                                                    <c:if test='${param.email != null}'><c:param name='email' value='${param.email}'/></c:if>
@@ -354,7 +354,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="py-1">
-                                        <form class="form" action="add" method="post" enctype="multipart/form-data">
+                                        <form class="form" action="AddCustomer" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
@@ -445,56 +445,80 @@
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
+            <script>
+        function toggleStatus(icon) {
+                                                                    // Lấy trạng thái hiện tại từ lớp của biểu tượng
+                                                                    const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
+                                                            // Chuyển đổi trạng thái
+                                                            if (currentClass === 'fa-toggle-on') {
+                                                            $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+                                                            } else {
+                                                            $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+                                                            }
 
-        </script>
-        <script>
-            function toggleStatus(icon) {
-                const customerID = $(icon).data('id');
-                const newStatus = $(icon).data('status') === 1 ? 0 : 1;
-
-                $.ajax({
-                    url: 'managercustomerlist', // URL để xử lý yêu cầu cập nhật
-                    type: 'POST',
-                    data: {action: 'updateStatus', id: customerID, status: newStatus},
-                    success: function (response) {
-                        // Chuyển đổi trạng thái biểu tượng và giá trị data-status
-                        if (newStatus === 1) {
-                            $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
-                        } else {
-                            $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
-                        }
-                        $(icon).data('status', newStatus);
-                        console.log('Status updated successfully');
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error updating status:', error);
-                    }
-                });
-            }
-            function displaySelectedImage(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        document.getElementById('selectedImage').src = e.target.result;
-                        document.getElementById('selectedImage').style.display = 'block';
-                    }
-
-                    reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh dưới dạng URL dữ liệu
+                                                            // Gửi yêu cầu AJAX để cập nhật trạng thái trên máy chủ
+                                                            const productId = $(icon).data('id');
+                                                            const newStatus = currentClass === 'fa-toggle-on' ? 0 : 1;
+                                                            $.ajax({
+                                                            url: 'ManagerCustomerList', // URL để xử lý yêu cầu cập nhật
+                                                                    type: 'POST',
+                                                                    data: {action: 'updateStatus', id: productId, status: newStatus},
+                                                                    success: function (response) {
+                                                                    console.log('Status updated successfully');
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                    console.error('Error updating status:', error);
+                                                                    }
+                                                    });
                 }
-            }
-        </script>
-        <jsp:include page="../layout/footer.jsp"></jsp:include><br>
-    </body>
-    <script src="asset/js/jquery-3.3.1.min.js"></script>
-    <script src="asset/js/bootstrap.min.js"></script>
-    <script src="asset/js/jquery.magnific-popup.min.js"></script>
-    <script src="asset/js/jquery-ui.min.js"></script>
-    <script src="asset/js/mixitup.min.js"></script>
-    <script src="asset/js/jquery.countdown.min.js"></script>
-    <script src="asset/js/jquery.slicknav.js"></script>
-    <script src="asset/js/owl.carousel.min.js"></script>
-    <script src="asset/js/jquery.nicescroll.min.js"></script>
-    <script src="asset/js/main.js"></script>
+</script>
+    </script    >
+                <script>
+                function toggleStatus(icon) {
+                                                                    const customerID = $(icon).data('id');
+                                                            const newStatus = $(icon).data('status') === 1 ? 0 : 1;
+                                                            $.ajax({
+                                                            url: 'ManagerCustomerList', // URL để xử lý yêu cầu cập nhật
+                                                                    type: 'POST',
+                                                                    data: {action: 'updateStatus', id: customerID, status: newStatus},
+                                                                    success: function (response) {
+                                                                    // Chuyển đổi trạng thái biểu tượng và giá trị data-status
+                                                                    if (newStatus === 1) {
+                                                                    $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+                                                                    } else {
+                                                                    $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+                                                                    }
+                                                                    $(icon).data('status', newStatus);
+                                                                    console.log('Status updated successfully');
+                                                                    },
+                                                                    error: function (xhr, status, error) {
+                                                                    console.error('Error updating status:', error);
+                                                                    }
+                    });
+                                        }
+                                        function displaySelectedImage(input) {
+                                                                    if (input.files && input.files[0]) {
+                                                            var reader = new FileReader();
+                                                            reader.onload = function (e) {
+                                                            document.getElementById('selectedImage').src = e.target.result;
+                                                            document.getElementById('selectedImage').style.display = 'block';
+                                                            }
+
+                                                            reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh dưới dạng URL dữ liệu
+                                                            }
+                                                    }
+                                                    </script>
+    <jsp:include page="../layout/footer.jsp"></jsp:include><br>
+</body>
+<script src="asset/js/jquery-3.3.1.min.js"></script>
+<script src="asset/js/bootstrap.min.js"></script>
+<script src="asset/js/jquery.magnific-popup.min.js"></script>
+<script src="asset/js/jquery-ui.min.js"></script>
+<script src="asset/js/mixitup.min.js"></script>
+<script src="asset/js/jquery.countdown.min.js"></script>
+<script src="asset/js/jquery.slicknav.js"></script>
+<script src="asset/js/owl.carousel.min.js"></script>
+<script src="asset/js/jquery.nicescroll.min.js"></script>
+<script src="asset/js/main.js"></script>
 
 </html>

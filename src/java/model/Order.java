@@ -1,7 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Order {
     private int orderId;
@@ -9,8 +9,8 @@ public class Order {
     private String fullName;
     private String phone;
     private String address;
-    private Date orderDate;
-    private String status;
+    private LocalDateTime orderDate;
+    private int status;
     private BigDecimal totalAmount;
     private String productName;
     private int countOtherproduct;
@@ -18,7 +18,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, int customerId, String fullName, String phone, String address, Date orderDate, String status, BigDecimal totalAmount, String productName, int countOtherproduct) {
+    public Order(int orderId, int customerId, String fullName, String phone, String address, LocalDateTime orderDate, int status, BigDecimal totalAmount, String productName, int countOtherproduct) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.fullName = fullName;
@@ -71,19 +71,19 @@ public class Order {
         this.address = address;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

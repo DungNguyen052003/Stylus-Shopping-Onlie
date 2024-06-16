@@ -17,6 +17,10 @@ public class Customer {
     private int status;
     private int verifiedStatus;
     private LocalDateTime createdDate;
+
+    public Customer(int customerID, String address, String email, String phone, int gender, String name) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
     public int getVerifiedStatus() {

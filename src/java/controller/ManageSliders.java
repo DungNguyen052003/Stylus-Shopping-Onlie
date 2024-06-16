@@ -28,7 +28,7 @@ import model.Slider;
 public class ManageSliders extends HttpServlet {
 
     SliderDAO sliderDAO = new SliderDAO();
-    private static final String UPLOAD_DIR = "D:\\Project\\Styluss\\stylusproject\\web\\asset\\image\\slide";
+    private static final String UPLOAD_DIR = "C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\slide";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

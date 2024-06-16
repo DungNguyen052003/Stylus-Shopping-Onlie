@@ -4,6 +4,8 @@
  */
 package model;
 
+import model.ProductDetails;
+
 /**
  *
  * @author acer
@@ -11,16 +13,16 @@ package model;
 public class Cart {
     private int cartID;
     private int customerID;
-    private int productSizeColor;
+    private ProductDetails productDetails;
     private int quantity;
 
     public Cart() {
     }
 
-    public Cart(int cartID, int customerID, int productSizeColor, int quantity) {
+    public Cart(int cartID, int customerID, ProductDetails productDetails, int quantity) {
         this.cartID = cartID;
         this.customerID = customerID;
-        this.productSizeColor = productSizeColor;
+        this.productDetails = productDetails;
         this.quantity = quantity;
     }
 
@@ -40,12 +42,12 @@ public class Cart {
         this.customerID = customerID;
     }
 
-    public int getProductSizeColor() {
-        return productSizeColor;
+    public ProductDetails getProductDetails() {
+        return productDetails;
     }
 
-    public void setProductSizeColor(int productSizeColor) {
-        this.productSizeColor = productSizeColor;
+    public void setProductDetails(ProductDetails productDetails) {
+        this.productDetails = productDetails;
     }
 
     public int getQuantity() {
@@ -58,7 +60,9 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" + "cartID=" + cartID + ", customerID=" + customerID + ", productSizeColor=" + productSizeColor + ", quantity=" + quantity + '}';
+        return "Cart{" + "cartID=" + cartID + ", customerID=" + customerID + ", productDetails=" + productDetails + ", quantity=" + quantity + '}';
     }
     
+    
+        
 }

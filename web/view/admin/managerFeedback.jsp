@@ -69,9 +69,9 @@
                                                             <th class="align-middle">ID</th>
                                                             <th class="align-middle">Customer's Name</th>
                                                             <th class="align-middle">Product's Name</th>
-                                                            <th class="align-middle">Rated Star</th>
-                                                            <th class="align-middle">Status</th>
+                                                            <th class="align-middle" style="width: 80px;">Rated Star</th>
                                                             <th class="align-middle">Feedback</th>
+                                                            <th class="align-middle">Status</th>
                                                             <th class="align-middle">Actions</th>
                                                         </tr>
                                                     </thead>
@@ -83,7 +83,7 @@
                                                             <td class="align-middle" style="white-space: normal;" name="name">${m.customerName}</td>
                                                             <td class="align-middle" name="ratedStar">
                                                                 <c:forEach begin="1" end="5" var="i">
-                                                                    <i class="fa fa-star <c:if test='${i <= m.ratedStar}'>text-warning</c:if>"></i>
+                                                                    <i class="fa fa-star <c:if test='${i <= m.rateStar}'>text-warning</c:if>"></i>
                                                                 </c:forEach>
                                                             </td>
                                                             <td class="align-middle" name="info" >
@@ -125,7 +125,7 @@
                                                                         const newStatus = currentClass === 'fa-toggle-on' ? 0 : 1;
 
                                                                         $.ajax({
-                                                                            url: 'ManageProduct', // URL để xử lý yêu cầu cập nhật
+                                                                            url: 'ManageFeedback', // URL để xử lý yêu cầu cập nhật
                                                                             type: 'POST',
                                                                             data: {action: 'updateStatus', id: feedbackID, status: newStatus},
                                                                             success: function (response) {
@@ -139,12 +139,8 @@
                                                                 </script>
                                                             <td class="text-center align-middle">
                                                                 <div class="btn-group align-top">
-                                                                    <button class="btn btn-sm btn-outline-secondary badge" type="button" 
-                                                                            data-toggle="modal" data-target="#user-form-modal"
-                                                                            onclick="editProduct(this)">
-                                                                        <i class="fa fa-edit"></i> Edit
-                                                                    </button>
-                                                                    <button class="btn btn-sm btn-outline-secondary badge" type="button">
+                                                                    <button class="btn btn-sm btn-outline-secondary badge" type="button"
+                                                                            onclick="location.href = 'FeedbackDetails?id=${m.id}'">
                                                                         <i class="fa-regular fa-eye"></i> View
                                                                     </button>
                                                                 </div>
@@ -171,7 +167,7 @@
                                 <div class="card-body">
                                     <div class="search-container">
                                         <div class="form-group" id="searchDropdown">
-                                            <form id="sortForm" action="ManageProduct" method="GET">
+                                            <form id="sortForm" action="ManageFeedback" method="GET">
                                                 <!-- Sort Section -->
                                                 <div class="search-input">
                                                     <label for="sortSelect">Sort:</label>
@@ -298,27 +294,7 @@
         </div>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-                                                    
 
-
-
-//
-//                                                        // Hiển thị hình ảnh xem trước
-//                                                        function displayImage2(input) {
-//                                                            var previewImage = document.getElementById("previewImage2");
-//                                                            var file = input.files[0];
-//                                                            var reader = new FileReader();
-//
-//                                                            reader.onload = function (e) {
-//                                                                previewImage.src = e.target.result;
-//                                                                previewImage.style.display = "block";
-//                                                            }
-//
-//                                                            reader.readAsDataURL(file);
-//                                                        }
-
-        </script>
         <script type="text/javascript">
 
         </script>

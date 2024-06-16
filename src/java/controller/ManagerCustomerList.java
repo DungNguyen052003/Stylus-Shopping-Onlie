@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Customer;
+import model.PageControl;
 
 /**
  *
@@ -60,19 +61,16 @@ public class ManagerCustomerList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String action = request.getParameter("action");
-
         if ("filterCustomer".equals(action)) {
-             request.setAttribute("action", "filterCustomer");
+            request.setAttribute("action", "filterCustomer");
             filterCustomer(request);
         } else {
             pageCustomer(request);
             String sortBy = request.getParameter("sort");
             if (sortBy != null && !sortBy.isEmpty()) {
                 sortCustomer(request);
-            }
-        }
+            }}
         request.getRequestDispatcher("/view/admin/managerCustomerList.jsp").forward(request, response);
 
     }
@@ -88,7 +86,13 @@ public class ManagerCustomerList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+         String action = request.getParameter("action");
+       if(action.equals("updateStatus")){
+           getStatusCustomer(request, response);
+       }else if(action.equals("updateFeature")){
+           getFeatureCustomer(request, response);
+       }
+        request.getRequestDispatcher("/view/admin/manageProduct.jsp").forward(request, response);
     }
 
     /**
@@ -100,7 +104,12 @@ public class ManagerCustomerList extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
+private void getStatusCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int CustomerID = Integer.parseInt(request.getParameter("id"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        boolean updated = csDAO.updateCustomerStatus(CustomerID, status);
+        response.setContentType("application/json");
+    }
     private void filterCustomer(HttpServletRequest request) {
 
         List<Customer> customer;
@@ -113,6 +122,9 @@ public class ManagerCustomerList extends HttpServlet {
             status = "active".equals(statusStr) ? 1 : 0;
         }
         customer = csDAO.filterCustomer(fullName, email, mobile, status);
+        for(Customer cs : customer){
+            System.out.println(cs.toString());
+        }
         int page = 1, numPerPage = 6;
         int size = customer.size();
         int numberpage = ((size % numPerPage == 0) ? (size / 6) : (size / 6) + 1);
@@ -214,6 +226,14 @@ public class ManagerCustomerList extends HttpServlet {
         if (sortBy != null && !sortBy.isEmpty()) {
             request.setAttribute("sort", sortBy);
         }
+    }
+
+//    private void getFeatureCustomer(HttpServletRequest request, HttpServletResponse response) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
+
+    private void getFeatureCustomer(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

@@ -9,14 +9,15 @@ package model;
  * @author ngock
  */
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class OrderDetail {
     private int id;
     private int orderID;
-    private Date orderDate;
+    private LocalDateTime orderDate;
     private BigDecimal totalAmount;
-    private String status;
+    private int status;
     private String fullName;
     private String gender;
     private String email;
@@ -24,6 +25,7 @@ public class OrderDetail {
     private int quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;
+    private int productDetailID;
     private int productID;
     private int sizeID;
     private int colorID;
@@ -33,12 +35,13 @@ public class OrderDetail {
     private String productCategory;
     private String productThumbnail;
     private boolean checkFeedback;
+    private LocalDateTime deliveredDate;
    
 
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderID, Date orderDate, BigDecimal totalAmount, String status, String fullName, String gender, String email, String phone, int quantity, BigDecimal price, BigDecimal totalPrice, int productID, int sizeID, int colorID, int productQuantity, String productName, int cateID, String productCategory, String productThumbnail) {
+    public OrderDetail(int orderID, LocalDateTime orderDate, BigDecimal totalAmount, int status, String fullName, String gender, String email, String phone, int quantity, BigDecimal price, BigDecimal totalPrice, int productID, int sizeID, int colorID, int productQuantity, String productName, int cateID, String productCategory, String productThumbnail) {
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
@@ -64,6 +67,14 @@ public class OrderDetail {
         return checkFeedback;
     }
 
+    public LocalDateTime getDeliveredDate() {
+        return deliveredDate;
+    }
+
+    public void setDeliveredDate(LocalDateTime deliveredDate) {
+        this.deliveredDate = deliveredDate;
+    }
+
     public void setCheckFeedback(boolean checkFeedback) {
         this.checkFeedback = checkFeedback;
     }
@@ -84,11 +95,11 @@ public class OrderDetail {
         this.orderID = orderID;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -100,11 +111,11 @@ public class OrderDetail {
         this.totalAmount = totalAmount;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -226,6 +237,14 @@ public class OrderDetail {
 
     public void setProductThumbnail(String productThumbnail) {
         this.productThumbnail = productThumbnail;
+    }
+
+    public int getProductDetailID() {
+        return productDetailID;
+    }
+
+    public void setProductDetailID(int productDetailID) {
+        this.productDetailID = productDetailID;
     }
 
 }

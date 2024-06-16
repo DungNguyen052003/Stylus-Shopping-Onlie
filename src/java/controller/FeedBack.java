@@ -62,6 +62,7 @@ public class FeedBack extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String orderDetail = request.getParameter("id");
+        request.setAttribute("orderDetailID", orderDetail);
         HttpSession session = request.getSession();
         if (email != null) {
             CustomerDAO cd = new CustomerDAO();
@@ -87,13 +88,13 @@ public class FeedBack extends HttpServlet {
         Customer cs = (Customer) session.getAttribute("account");
         String ratedStar = request.getParameter("rate");
         String comment = request.getParameter("message");
-        String orderDetailID = request.getParameter("id");
+        String orderDetailID = request.getParameter("orderDetailID");
         String feedbackImage = request.getParameter("image");
         OrderDetailDAO od = new OrderDetailDAO();
         String productID = od.getProduct(orderDetailID);
         FeedBackDAO fb = new FeedBackDAO();
         fb.insertFeedback(cs.getCustomerID(), productID, ratedStar, comment, orderDetailID, feedbackImage);
-        response.sendRedirect("MyOrders");
+        response.sendRedirect("myOrder");
     }
 
     /**

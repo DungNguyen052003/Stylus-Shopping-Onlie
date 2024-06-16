@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import model.CartList;
+import model.Cart;
 import model.Customer;
 
 /**
@@ -60,11 +60,13 @@ public class CartDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if(session != null && session.getAttribute("account") != null){
-            Customer cs = (Customer) session.getAttribute("account");
+        HttpSession session = request.getSession(false);
+        Customer cs = (Customer) session.getAttribute("account");
+       
+        if (session != null && session.getAttribute("account") != null) {
+           
             CartDAO c = new CartDAO();
-            List<CartList> detailsList = new ArrayList<>();
+            List<Cart> detailsList = new ArrayList<>();
             detailsList = c.getCartProductDetails(cs.getCustomerID());
             request.setAttribute("cartDetail", detailsList);
             request.getRequestDispatcher("/view/customer/cart.jsp").forward(request, response);

@@ -78,6 +78,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(60 * 60); 
         Account account = new Account();
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
@@ -94,6 +95,7 @@ public class Login extends HttpServlet {
             session.removeAttribute("error");
             session.setAttribute("email", email);
             session.setAttribute("account", findAccount);
+            
             response.sendRedirect("Home");
         }else if(findCustomer != null){
             Customer cs = customerDAO.findCustomer(findCustomer);

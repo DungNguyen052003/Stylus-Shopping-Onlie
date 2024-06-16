@@ -75,6 +75,9 @@ public class ManageFeedback extends HttpServlet {
             if (sortBy != null && !sortBy.isEmpty()) {
                 listFeedback = sortFeedback(request, pagecontrol);
             }
+            for(FeedBack db : listFeedback){
+                System.out.println(db);
+            }
             request.setAttribute("FeedbackList", listFeedback);
         }
         request.getRequestDispatcher("/view/admin/managerFeedback.jsp").forward(request, response);
@@ -119,7 +122,7 @@ public class ManageFeedback extends HttpServlet {
         } catch (NumberFormatException e) {
             page = 1;
         }
-        int pageSize = 9;
+        int pageSize = 4;
         String requestURL = request.getRequestURL().toString();
         String queryString = request.getQueryString();
         pagecontrol.setUrlPattern(requestURL + "?");
@@ -150,7 +153,7 @@ public class ManageFeedback extends HttpServlet {
         } catch (NumberFormatException e) {
             page = 1;
         }
-        int pageSize = 9;
+        int pageSize = 4;
         String requestURL = request.getRequestURL().toString();
         pagecontrol.setUrlPattern(requestURL + "?sort=" + sortBy + "&");
         List<FeedBack> feedbackList;
@@ -200,7 +203,7 @@ public class ManageFeedback extends HttpServlet {
             page = 1;
         }
 
-        int pageSize = 9;
+        int pageSize = 4;
         StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
         requestURL.append("?action=filterFeedback");
 

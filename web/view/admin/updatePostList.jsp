@@ -123,7 +123,7 @@
                     <li class="nav-item"><a class="nav-link active" href="#">Edit Blog</a></li>
                 </ul>
             </div>
-            <form action="editpostlist" method="post" enctype="multipart/form-data">
+            <form action="EditPostList" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="blogID" value="${blog.blogID}">
                 <div class="row">
                     <div class="form-group">
@@ -214,7 +214,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary" type="submit">Edit</button>
-                <a class="btn btn-secondary" href="managerpostlist">Back to Manager Post List</a>
+                <a class="btn btn-secondary" href="ManagerPostList">Back to Manager Post List</a>
             </form>
         </div>
 
@@ -224,7 +224,16 @@
         <script type="text/javascript">
 
         </script>
-
+        <script src="asset/js/jquery-3.3.1.min.js"></script>
+        <script src="asset/js/bootstrap.min.js"></script>
+        <script src="asset/js/jquery.magnific-popup.min.js"></script>
+        <script src="asset/js/jquery-ui.min.js"></script>
+        <script src="asset/js/mixitup.min.js"></script>
+        <script src="asset/js/jquery.countdown.min.js"></script>
+        <script src="asset/js/jquery.slicknav.js"></script>
+        <script src="asset/js/owl.carousel.min.js"></script>
+        <script src="asset/js/jquery.nicescroll.min.js"></script>
+        <script src="asset/js/main.js"></script>
     </script>
     <jsp:include page="../layout/footer.jsp"></jsp:include><br>
 </body>

@@ -115,6 +115,8 @@ public class ManagerPostList extends HttpServlet {
        String action = request.getParameter("action");
        if(action.equals("updateStatus")){
            getStatusBlog(request, response);
+       }else if(action.equals("updateFeature")){
+           getFeatureBlog(request, response);
        }
         request.getRequestDispatcher("/view/admin/manageProduct.jsp").forward(request, response);
     }
@@ -132,6 +134,14 @@ public class ManagerPostList extends HttpServlet {
         int blogID = Integer.parseInt(request.getParameter("id"));
         int status = Integer.parseInt(request.getParameter("status"));
         boolean updated = d.updateBlogStatus(blogID, status);
+        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().write("{\"success\":" + updated + "}");
+    }
+ private void getFeatureBlog(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int featureID = Integer.parseInt(request.getParameter("id"));
+        int status = Integer.parseInt(request.getParameter("status"));
+        boolean updated = d.updateBlogFeature(featureID, status);
         response.setContentType("application/json");
 //        response.setCharacterEncoding("UTF-8");
 //        response.getWriter().write("{\"success\":" + updated + "}");

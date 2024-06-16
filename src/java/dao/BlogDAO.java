@@ -5,6 +5,7 @@
 package dao;
 
 import context.DBContext;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import model.Category;
 import model.Blog;
+import model.Product;
 
 /**
  *
@@ -80,7 +82,7 @@ public class BlogDAO extends DBContext {
             String sql = "select b.BlogID, b.BlogTitle, b.Thumbnail, b.Description, b.ProductID, b.Status, b.Brief_Info, b.Author, b.Featured, b.CreateDate, c.CateID, c.Name as CateName from Blog b\n"
                     + "inner join Product p on b.ProductID = p.ProductID\n"
                     + "inner join Category c on c.CateID = p.CateID\n"
-                    + "order by b.CreateDate desc limit 1";
+                    + "order by b.CreateDate desc";
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -406,6 +408,7 @@ public class BlogDAO extends DBContext {
         }
         return blogs;
     }
+
     public List<Blog> getBlogsByCategory(String cateID) {
         List<Blog> list = new ArrayList<>();
         try {
@@ -414,23 +417,145 @@ public class BlogDAO extends DBContext {
             stm.setString(1, cateID);
             rs = stm.executeQuery();
             while (rs.next()) {
-                int blogID = rs.getInt(1);
-                String blogTitle = rs.getString(2);
-                String thumbNail = rs.getString(3);
-                String description = rs.getString(4);
-                Date createDate = rs.getDate(5);
-                int productID = rs.getInt(6);
-                boolean status = rs.getBoolean(7);
-                String briefInformation = rs.getString(8);
-                String author = rs.getString(9);
-                boolean featured = rs.getBoolean(10);
-                int CateID = rs.getInt(11);
-                list.add(new Blog(blogID, blogTitle, thumbNail, description, createDate, productID, status, briefInformation, author, featured, CateID));
+                Blog blog = new Blog();
+                blog.setBlogID(rs.getInt("BlogID"));
+                blog.setBlogTitle(rs.getString("BlogTitle"));
+                blog.setThumbnail(rs.getString("Thumbnail"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setCreateDate(rs.getTimestamp("CreateDate").toLocalDateTime());
+                blog.setProductID(rs.getInt("ProductID"));
+                blog.setStatus(rs.getInt("BlogStatus"));
+                blog.setBrief_info(rs.getString("Brief_Info"));
+                blog.setAuthor(rs.getString("Author"));
+                blog.setFeatured(rs.getInt("Featured"));
+                String cateName = rs.getString("Name");
+                int categoryID = Integer.parseInt(cateID);
+                Category c = new Category();
+                c.setCateID(categoryID);
+                c.setName(cateName);
+                blog.setCategory(c);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<Blog> getFeaturedBlogs() {
+        List<Blog> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Blog WHERE Featured = 1";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setBlogID(rs.getInt("BlogID"));
+                blog.setBlogTitle(rs.getString("BlogTitle"));
+                blog.setThumbnail(rs.getString("Thumbnail"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setCreateDate(rs.getTimestamp("CreateDate").toLocalDateTime());
+                blog.setProductID(rs.getInt("ProductID"));
+                blog.setStatus(rs.getInt("BlogStatus"));
+                blog.setBrief_info(rs.getString("Brief_Info"));
+                blog.setAuthor(rs.getString("Author"));
+                blog.setFeatured(rs.getInt("Featured"));
+                list.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Blog> getLastestBlog() {
+        List<Blog> list = new ArrayList<>();
+
+        try {
+            String sql = "Select top 1 * From Blog Order By CreateDate DESC";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setBlogID(rs.getInt("BlogID"));
+                blog.setBlogTitle(rs.getString("BlogTitle"));
+                blog.setThumbnail(rs.getString("Thumbnail"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setCreateDate(rs.getTimestamp("CreateDate").toLocalDateTime());
+                blog.setProductID(rs.getInt("ProductID"));
+                blog.setStatus(rs.getInt("BlogStatus"));
+                blog.setBrief_info(rs.getString("Brief_Info"));
+                blog.setAuthor(rs.getString("Author"));
+                blog.setFeatured(rs.getInt("Featured"));
+                list.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Blog> searchBlogsByTitle(String search) {
+        List<Blog> list = new ArrayList<>();
+        try {
+            String sql = "select * from Blog\n"
+                    + "where blog.BlogTitle like ? ";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + search + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setBlogID(rs.getInt("BlogID"));
+                blog.setBlogTitle(rs.getString("BlogTitle"));
+                blog.setThumbnail(rs.getString("Thumbnail"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setCreateDate(rs.getTimestamp("CreateDate").toLocalDateTime());
+                blog.setProductID(rs.getInt("ProductID"));
+                blog.setStatus(rs.getInt("BlogStatus"));
+                blog.setBrief_info(rs.getString("Brief_Info"));
+                blog.setAuthor(rs.getString("Author"));
+                blog.setFeatured(rs.getInt("Featured"));
+                list.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Product getRelatedProducts(int blogID) {
+        try {
+            String sql = "SELECT p.* ,ct.Name\n"
+                    + "FROM Blog b JOIN Product p ON b.ProductID = p.ProductID \n"
+                    + "join Category ct on ct.CateID = p.CateID\n"
+                    + "where b.BlogID = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, blogID);
+            ResultSet rss = stm.executeQuery();
+            while (rs.next()) {
+
+                Product product = new Product();
+                product.setProductID(rss.getInt("ProductID"));
+                product.setProductName(rss.getString("ProductName"));
+                product.setPrice(rss.getDouble("Price"));
+                product.setThumbnail(rss.getString("ThumbNail"));
+                product.setDescription(rss.getString("Description"));
+                product.setBriefInfomation(rss.getString("BriefInformation"));
+                product.setCreateDate(rss.getTimestamp("CreateDate").toLocalDateTime());
+                product.setUpdateDate(rss.getTimestamp("UpdateDate").toLocalDateTime());
+                product.setCampainID(rss.getInt("CampainID"));
+                // Tạo một đối tượng Category
+                Category category = new Category();
+                category.setCateID(rss.getInt("CateID"));
+                category.setName(rss.getString("name"));
+                product.setCateID(category);
+
+                return product;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Blog> filterBlog(String author, String title, int category, int status) {
@@ -509,6 +634,22 @@ public class BlogDAO extends DBContext {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, status);
             statement.setInt(2, blogID);
+            int updateStatus = statement.executeUpdate();
+            return updateStatus > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateBlogFeature(int featureID, int status) {
+        String sql = "update Blog\n"
+                + "set Featured = ?\n"
+                + "where BlogID = ?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, status);
+            statement.setInt(2, featureID);
             int updateStatus = statement.executeUpdate();
             return updateStatus > 0;
         } catch (Exception e) {

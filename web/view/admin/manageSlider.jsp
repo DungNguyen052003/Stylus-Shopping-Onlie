@@ -32,8 +32,16 @@
                 max-width: 100%;
                 max-height: 100px;
             }
-
-        </style>
+             </style>
+            <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/jquery-ui.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/style.css?id=11" type="text/css">
+       
     </head>
 
     <body>
@@ -115,10 +123,12 @@
                                                                 data: {action: 'updateStatus', id: sliderID, status: newStatus},
                                                                 success: function (response) {
                                                                     console.log('Status updated successfully');
+
                                                                 },
                                                                 error: function (xhr, status, error) {
                                                                     console.error('Error updating status:', error);
                                                                 }
+
                                                             });
                                                         }
                                                     </script>
@@ -170,7 +180,7 @@
                                                     </div>
                                                 </div>
 
-                                                
+
                                                 <!--Status Filter Section--> 
                                                 <hr class="my-3">
                                                 <div value="status">
@@ -329,7 +339,11 @@
                                                         success: function (response) {
                                                             // Xử lý khi cập nhật thành công    
                                                             $('#user-form-modal').modal('hide');
-                                                            location.reload(); // reload page
+
+                                                            // Set delay before reloading the page
+                                                            setTimeout(() => {
+                                                                location.reload();
+                                                            }, 1500); // Delay of 1.5 seconds
 
                                                             // Cập nhật thông tin sản phẩm trong bảng
                                                             let id = $('#idEditInput').val();
@@ -349,6 +363,7 @@
                                                             } else {
                                                                 statusIcon.addClass('fa-toggle-off');
                                                             }
+
                                                         },
                                                         error: function (xhr, status, error) {
                                                             console.error('Error updating product:', error);
@@ -356,7 +371,6 @@
                                                     });
                                                 }
                                             }
-
 
                                             // Hiển thị hình ảnh xem trước
                                             function displayImage2(input) {
@@ -379,7 +393,7 @@
                                                 let campain = $(button).closest('tr').find('td[name="campain"]').text().trim();
                                                 let image = $(button).closest('tr').find('td[name="image"]').find('img').attr('src');
                                                 let status = $(button).closest('tr').find('td[name="status"]').data('status');
-                                       
+
                                                 $('#idEditInput').val(id);
                                                 $('#nameEditInput').val(name);
 
@@ -404,13 +418,23 @@
 
 
 
+
         <script type="text/javascript">
 
         </script>
         <!--Footer-->
         <jsp:include page="../layout/footer.jsp"/>
 
-
+        <script src="asset/js/jquery-3.3.1.min.js"></script>
+        <script src="asset/js/bootstrap.min.js"></script>
+        <script src="asset/js/jquery.magnific-popup.min.js"></script>
+        <script src="asset/js/jquery-ui.min.js"></script>
+        <script src="asset/js/mixitup.min.js"></script>
+        <script src="asset/js/jquery.countdown.min.js"></script>
+        <script src="asset/js/jquery.slicknav.js"></script>
+        <script src="asset/js/owl.carousel.min.js"></script>
+        <script src="asset/js/jquery.nicescroll.min.js"></script>
+        <script src="asset/js/main.js"></script>
 
     </body>
 

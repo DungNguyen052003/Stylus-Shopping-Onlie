@@ -39,7 +39,7 @@ public class FeedBackDAO extends DBContext {
                 feedback.setCreateDate(rs.getTimestamp("CreateDate"));
                 feedback.setRateStar(rs.getInt("RateStar"));
                 feedback.setComment(rs.getString("Comment"));
-                feedback.setStatus(rs.getBoolean("Status"));
+                feedback.setStatus(rs.getInt("Status"));
 
                 feedbacks.add(feedback);
             }
@@ -59,7 +59,8 @@ public class FeedBackDAO extends DBContext {
         List<FeedBack> feedbacks = new ArrayList<>();
         String sql = """
                       select * from Feedback f join Customer c on f.CustomerID  = c.CustomerID
-                                          join Product p on p.ProductID = f.ProductID  OFFSET ? ROWS
+                       join Product p on p.ProductID = f.ProductID  
+                     ORDER BY f.ID OFFSET ? ROWS
                        FETCH NEXT ? ROWS ONLY""";
 
         try {
@@ -77,8 +78,10 @@ public class FeedBackDAO extends DBContext {
                 feedback.setCreateDate(rs.getTimestamp("CreateDate"));
                 feedback.setRateStar(rs.getInt("RateStar"));
                 feedback.setComment(rs.getString("Comment"));
-                feedback.setStatus(rs.getBoolean("Status"));
+                feedback.setStatus(rs.getInt("Status"));
                 feedback.setCustomerName(rs.getString("Name"));
+                feedback.setFeedbackImage(rs.getString("FeedbackImage"));
+                feedback.setProductName(rs.getString("ProductName"));
                 feedbacks.add(feedback);
             }
 
@@ -132,8 +135,9 @@ public class FeedBackDAO extends DBContext {
                 feedback.setCreateDate(rs.getTimestamp("CreateDate"));
                 feedback.setRateStar(rs.getInt("RateStar"));
                 feedback.setComment(rs.getString("Comment"));
-                feedback.setStatus(rs.getBoolean("Status"));
+                feedback.setStatus(rs.getInt("Status"));
                 feedback.setCustomerName(rs.getString("Name"));
+                feedback.setProductName(rs.getString("ProductName"));
                 feedbacks.add(feedback);
             }
 
@@ -173,7 +177,7 @@ public class FeedBackDAO extends DBContext {
                 + "FROM Feedback f "
                 + "INNER JOIN Customer c ON f.CustomerID = c.CustomerID "
                 + "INNER JOIN Product p ON f.ProductID = p.ProductID "
-                + "WHERE f.ProductID = ?";
+                + "WHERE f.ProductID = ? and f.status = 1 ";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, productId);
@@ -187,7 +191,7 @@ public class FeedBackDAO extends DBContext {
                     feedback.setCreateDate(rs.getTimestamp("CreateDate"));
                     feedback.setRateStar(rs.getInt("RateStar"));
                     feedback.setComment(rs.getString("Comment"));
-                    feedback.setStatus(rs.getBoolean("Status"));
+                    feedback.setStatus(rs.getInt("Status"));
                     feedbacks.add(feedback);
                 }
             }
@@ -197,28 +201,23 @@ public class FeedBackDAO extends DBContext {
         return feedbacks;
     }
 
-    public void insertFeedback(int customerID, String productID, String RateStar, String comment, String orderDetailID, String feedbackImage) {
-
+    public void insertFeedback(int customerID, String productID, String rateStar, String comment, String orderDetailID, String feedbackImage) {
         String sql = """
-                     insert into Feedback(CustomerID,ProductID,RateStar
-                     ,Comment,CreateDate,OrderDetailID,FeedbackImage, Status)
-                     value(?,?,?,?,?,?,?,?);""";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+                 INSERT INTO Feedback (CustomerID, ProductID, RateStar, Comment, CreateDate, OrderDetailID, FeedbackImage, Status)
+                 VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?)
+                 """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, customerID);
             ps.setString(2, productID);
-            ps.setString(3, RateStar);
+            ps.setString(3, rateStar);
             ps.setString(4, comment);
-            ps.setString(5, "CURRENT_TIMESTAMP");
-            ps.setString(6, orderDetailID);
-            ps.setString(7, feedbackImage);
-            ps.setString(8, "1");
+            ps.setString(5, orderDetailID);
+            ps.setString(6, feedbackImage);
+            ps.setInt(7, 1);
             ps.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public List<FeedBack> filterFeedback(int page, int pageSize, String productName, String fullName, String content, int rate, int status) {
@@ -280,8 +279,9 @@ public class FeedBackDAO extends DBContext {
                 feedback.setCreateDate(resultSet.getTimestamp("CreateDate"));
                 feedback.setRateStar(resultSet.getInt("RateStar"));
                 feedback.setComment(resultSet.getString("Comment"));
-                feedback.setStatus(resultSet.getBoolean("Status"));
+                feedback.setStatus(resultSet.getInt("Status"));
                 feedback.setCustomerName(resultSet.getString("Name"));
+                feedback.setProductName(resultSet.getString("ProductName"));
                 feedbacks.add(feedback);
             }
 
@@ -294,6 +294,7 @@ public class FeedBackDAO extends DBContext {
 
     public int getTotalFilteredFeedbackRecord(String productName, String fullName, String content, int rate, int status) {
         String sql = "SELECT COUNT(*) FROM Product WHERE 1=1";
+
         List<Object> params = new ArrayList<>();
 
         if (productName != null && !productName.isEmpty()) {
@@ -359,6 +360,7 @@ public class FeedBackDAO extends DBContext {
         FeedBack feedback = new FeedBack();
         try {
             statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 feedback.setId(resultSet.getInt("ID"));
@@ -367,9 +369,10 @@ public class FeedBackDAO extends DBContext {
                 feedback.setCreateDate(resultSet.getTimestamp("CreateDate"));
                 feedback.setRateStar(resultSet.getInt("RateStar"));
                 feedback.setComment(resultSet.getString("Comment"));
-                feedback.setStatus(resultSet.getBoolean("Status"));
+                feedback.setStatus(resultSet.getInt("Status"));
                 feedback.setFeedbackImage(resultSet.getString("FeedbackImage"));
                 feedback.setCustomerName(resultSet.getString("Name"));
+                feedback.setProductName(resultSet.getString("ProductName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

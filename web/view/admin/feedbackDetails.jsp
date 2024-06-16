@@ -48,8 +48,6 @@
     </style>
 
     <body>
-
-
         <div class="breadcrumb-option">
             <div class="container">
                 <div class="row">
@@ -122,18 +120,19 @@
                                             <tr>
                                                 <td><img src="${pageContext.request.contextPath}/${product.thumbnail}" style="width:50px;height:50px;"></td>
                                                 <td>${product.productName}</td>
-                                                <td>${product.productCategory}</td>
                                                 <td>${feedback.rateStar}</td>
                                                 <td>${feedback.comment}</td>
+                                                <td><img src="${pageContext.request.contextPath}/${feedback.feedbackImage}" style="width:50px;height:50px;"></td>
+                                                
                                         <form action="ManageFeedback" method="POST">
-                                            <td class="text-center align-middle" name="status" data-status="${m.status}">
+                                            <td class="text-center align-middle" name="status" data-status="${feedback.status}">
                                                 <i class="fa cursor-pointer
                                                    <c:choose>
-                                                       <c:when test="${m.status eq 1}">fa-toggle-on text-secondary</c:when>
+                                                       <c:when test="${feedback.status eq 1}">fa-toggle-on text-secondary</c:when>
                                                        <c:otherwise>fa-toggle-off</c:otherwise>
                                                    </c:choose>"
-                                                   data-id="${m.id}" 
-                                                   data-status="${m.status}" 
+                                                   data-id="${feedback.id}" 
+                                                   data-status="${feedback.status}" 
                                                    onclick="toggleStatus(this)">
                                                 </i>
                                             </td>
@@ -143,7 +142,7 @@
                                     </table>
                                 </div>
                                 <div class="order-actions">
-                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'ManageFeedback'">Back to order</button>
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'ManageFeedback'">Manage Feedback</button>
                                 </div>
                             </div>
                         </div>
@@ -155,23 +154,44 @@
 
         <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-            <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
-        <script>
-                                        $(document).ready(function () {
-                                            $('#cancelModal').on('show.bs.modal', function (event) {
-                                                var button = $(event.relatedTarget);
-                                                var orderId = button.data('orderid');
-                                                var modal = $(this);
-                                                modal.find('#confirmCancel').data('orderid', orderId);
-                                            });
+            <script src="asset/js/jquery-3.3.1.min.js"></script>
+            <script src="asset/js/bootstrap.min.js"></script>
+            <script src="asset/js/jquery.magnific-popup.min.js"></script>
+            <script src="asset/js/jquery-ui.min.js"></script>
+            <script src="asset/js/mixitup.min.js"></script>
+            <script src="asset/js/jquery.countdown.min.js"></script>
+            <script src="asset/js/jquery.slicknav.js"></script>
+            <script src="asset/js/owl.carousel.min.js"></script>
+            <script src="asset/js/jquery.nicescroll.min.js"></script>
+            <script src="asset/js/main.js"></script>
+            <script>
+                                        function toggleStatus(icon) {
+                                            // Lấy trạng thái hiện tại từ lớp của biểu tượng
+                                            const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
 
-                                            $('#confirmCancel').click(function () {
-                                                var orderId = $(this).data('orderid');
-                                                window.location.href = 'orderInfo?action=cancelOrder&orderId=' + orderId;
+                                            // Chuyển đổi trạng thái
+                                            if (currentClass === 'fa-toggle-on') {
+                                                $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+                                            } else {
+                                                $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+                                            }
+
+                                            // Gửi yêu cầu AJAX để cập nhật trạng thái trên máy chủ
+                                            const feedbackID = $(icon).data('id');
+                                            const newStatus = currentClass === 'fa-toggle-on' ? 0 : 1;
+
+                                            $.ajax({
+                                                url: 'ManageFeedback', // URL để xử lý yêu cầu cập nhật
+                                                type: 'POST',
+                                                data: {action: 'updateStatus', id: feedbackID, status: newStatus},
+                                                success: function (response) {
+                                                    console.log('Status updated successfully');
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error('Error updating status:', error);
+                                                }
                                             });
-                                        });
+                                        }
                                         // Assuming customer.gender holds the value 1, 2, or 3
                                         var customerGender = ${customer.gender}; // Replace with the actual value from the server-side
 

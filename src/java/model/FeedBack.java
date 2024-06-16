@@ -17,13 +17,14 @@ public class FeedBack {
     private Date createDate;
     private int rateStar;
     private String comment;
-    private boolean status;
+    private int status;
     private String customerName;
     private String feedbackImage;
+    private String productName;
     public FeedBack() {
     }
 
-    public FeedBack(int id, int customerID, int productID, Date createDate, int rateStar, String comment, boolean status) {
+    public FeedBack(int id, int customerID, int productID, Date createDate, int rateStar, String comment, int status) {
         this.id = id;
         this.customerID = customerID;
         this.productID = productID;
@@ -47,6 +48,14 @@ public class FeedBack {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getFeedbackImage() {
@@ -89,11 +98,11 @@ public class FeedBack {
         this.comment = comment;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     public String getCustomerName() {
@@ -102,5 +111,10 @@ public class FeedBack {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    @Override
+    public String toString() {
+        return "FeedBack{" + "id=" + id + ", customerID=" + customerID + ", productID=" + productID + ", createDate=" + createDate + ", rateStar=" + rateStar + ", comment=" + comment + ", status=" + status + ", customerName=" + customerName + ", feedbackImage=" + feedbackImage + ", productName=" + productName + '}';
     }
 }

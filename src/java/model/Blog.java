@@ -23,8 +23,6 @@ public class Blog {
     private String brief_info;
     private String author;
     private int featured;
-
-    
     private Category category;
 
     public Blog() {
@@ -136,9 +134,5 @@ public class Blog {
     public String toString() {
         return "Blog{" + "blogID=" + blogID + ", blogTitle=" + blogTitle + ", thumbnail=" + thumbnail + ", description=" + description + ", productID=" + productID + ", status=" + status + ", brief_info=" + brief_info + ", author=" + author + ", featured=" + featured + ", createDate=" + createDate + ", category=" + category + '}';
     }
-    
-    
 
-   
-       
 }

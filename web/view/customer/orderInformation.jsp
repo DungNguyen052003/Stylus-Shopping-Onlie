@@ -319,7 +319,7 @@
                                                             <button type="button" class="btn btn-primary" onclick="window.location.href = 'ProductDetail?productId=${product.productID}'">Re-Buy</button>
                                                             <c:choose>
                                                                 <c:when test="${entry.value[0].checkFeedback}">
-                                                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'ViewFeedback?id=${entry.value[0].id}'">View Feedback</button>
+                                                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?id=${entry.value[0].id}'">View Feedback</button>
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?id=${entry.value[0].id}'">Send Feedback</button>

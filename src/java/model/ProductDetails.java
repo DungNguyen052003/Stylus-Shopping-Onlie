@@ -6,57 +6,56 @@ package model;
 
 /**
  *
- * @author ngock
+ * @author ASUS
  */
 public class ProductDetails {
-    private int productDetailId;
-    private int productId;
-    private int sizeId;
-    private int colorId;
+    private int productDetailID;
+    private Product product;
+    private Size size;
+    private Color color;
     private int quantity;
 
-    // Constructors
     public ProductDetails() {
     }
 
-    public ProductDetails(int productId, int sizeId, int colorId, int quantity) {
-        this.productId = productId;
-        this.sizeId = sizeId;
-        this.colorId = colorId;
+    public ProductDetails(int productDetailID, Product productID, Size sizeID, Color colorID, int quantity) {
+        this.productDetailID = productDetailID;
+        this.product = productID;
+        this.size = sizeID;
+        this.color = colorID;
         this.quantity = quantity;
     }
 
-    // Getters and Setters
-    public int getProductDetailId() {
-        return productDetailId;
+    public int getProductDetailID() {
+        return productDetailID;
     }
 
-    public void setProductDetailId(int productDetailId) {
-        this.productDetailId = productDetailId;
+    public void setProductDetailID(int productDetailID) {
+        this.productDetailID = productDetailID;
     }
 
-    public int getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public int getSizeId() {
-        return sizeId;
+    public Size getSize() {
+        return size;
     }
 
-    public void setSizeId(int sizeId) {
-        this.sizeId = sizeId;
+    public void setSize(Size size) {
+        this.size = size;
     }
 
-    public int getColorId() {
-        return colorId;
+    public Color getColor() {
+        return color;
     }
 
-    public void setColorId(int colorId) {
-        this.colorId = colorId;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public int getQuantity() {
@@ -66,4 +65,11 @@ public class ProductDetails {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    
+    @Override
+    public String toString() {
+        return "ProductDetails{" + "productDetailID=" + productDetailID + ", productID=" + product + ", sizeID=" + size + ", colorID=" + color + ", quantity=" + quantity + '}';
+    }
+    
 }

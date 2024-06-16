@@ -5,7 +5,10 @@
 package controller;
 
 import dao.CategoryDAO;
+import dao.ColorDAO;
 import dao.ProductDAO;
+import dao.ProductDetailsDAO;
+import dao.SizeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +22,10 @@ import model.Category;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.util.Map;
+import model.Color;
 import model.PageControl;
 import model.Product;
+import model.Size;
 
 /**
  *
@@ -31,6 +36,9 @@ public class ManageProduct extends HttpServlet {
 
     ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();
+    ColorDAO colorDAO = new ColorDAO();
+    SizeDAO sizeDAO = new SizeDAO();
+    ProductDetailsDAO detailDAO = new ProductDetailsDAO();
     private static final String UPLOAD_DIR_MEN = "C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\men";
     private static final String UPLOAD_DIR_WOMEN = "C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\women";
 
@@ -75,17 +83,24 @@ public class ManageProduct extends HttpServlet {
         HttpSession session = request.getSession();
         PageControl pagecontrol = new PageControl();
 
+        List<Color> color = colorDAO.getAll();
+        request.setAttribute("color", color);
+
+        List<Size> size = sizeDAO.listAllSize();
+        request.setAttribute("size", size);
+
+        List<Product> listProduct = pageProduct(request, pagecontrol);
+        String sortBy = request.getParameter("sort");
+        if (sortBy != null && !sortBy.isEmpty()) {
+            listProduct = sortProduct(request, pagecontrol);
+
+        }
+        session.setAttribute("manageProduct", listProduct);
+
         String action = request.getParameter("action");
+        System.out.println(action);
         if ("filterProduct".equals(action)) {
             filterProduct(request, pagecontrol);
-        } else {
-            List<Product> listProduct = pageProduct(request, pagecontrol);
-            String sortBy = request.getParameter("sort");
-            if (sortBy != null && !sortBy.isEmpty()) {
-                listProduct = sortProduct(request, pagecontrol);
-
-            }
-            request.setAttribute("manageProduct", listProduct);
         }
 
         List<Category> categoriesWomen = categoryDAO.getCategoriesByParentID(1);
@@ -107,21 +122,27 @@ public class ManageProduct extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        PageControl pagecontrol = new PageControl();
 
         switch (action) {
             case "updateStatus":
                 getStatusProduct(request, response);
                 break;
             case "editProduct":
-                editProduct(request);
+                editProduct(request, response);
                 break;
-//            case "filterProduct":
-//                filterProduct(request, pagecontrol);
-//                break;
+            case "addProduct":
+                addProduct(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
-        request.getRequestDispatcher("/view/admin/manageProduct.jsp").forward(request, response);
+        try {
+            this.doGet(request, response);
+            request.getRequestDispatcher("/view/admin/manageProduct.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
     }
 
@@ -171,11 +192,9 @@ public class ManageProduct extends HttpServlet {
         int status = Integer.parseInt(request.getParameter("status"));
         boolean updated = productDAO.updateProductStatus(productId, status);
         response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().write("{\"success\":" + updated + "}");
     }
 
-    private void editProduct(HttpServletRequest request) {
+    private void editProduct(HttpServletRequest request, HttpServletResponse response) {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
@@ -210,6 +229,7 @@ public class ManageProduct extends HttpServlet {
             if (part != null && part.getSize() > 0) {
                 String fileName = extractFileName(part);
                 imgDir = imgDir + fileName;
+
                 // Đảm bảo fileName không null
                 if (fileName != null && !fileName.isEmpty()) {
                     part.write(fileSaveDir + File.separator + fileName);
@@ -228,7 +248,7 @@ public class ManageProduct extends HttpServlet {
             product.setBriefInfomation(info);
             product.setStatus(status);
             product.setCateID(category);
-
+            
             productDAO.updateProduct(product);
 
         } catch (ServletException | IOException | NumberFormatException e) {
@@ -357,7 +377,7 @@ public class ManageProduct extends HttpServlet {
         try {
             subCategory = Integer.parseInt(request.getParameter("subCategory"));
         } catch (NumberFormatException e) {
-            subCategory = -1;
+            subCategory = 0;
         }
 
         List<Product> listProduct = productDAO.filterProduct(page, pageSize, minPrice, maxPrice, search, status, subCategory);
@@ -369,9 +389,87 @@ public class ManageProduct extends HttpServlet {
         pageControl.setTotalPage(totalPage);
         pageControl.setTotalRecord(totalRecord);
 
-        request.setAttribute("manageProduct", listProduct);
-        request.setAttribute("pageControl", pageControl);
+        session.setAttribute("manageProduct", listProduct);
+        session.setAttribute("pageControl", pageControl);
         System.out.println(pageControl);
 
     }
+
+    private void addProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String name = request.getParameter("name");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int categoryID = Integer.parseInt(request.getParameter("category"));
+            String image = request.getParameter("image");
+            String description = request.getParameter("description");
+            String brief = request.getParameter("brief");
+            int status = Integer.parseInt(request.getParameter("status"));
+            int feature = Integer.parseInt(request.getParameter("feature"));
+            int color = Integer.parseInt(request.getParameter("color"));
+            int size = Integer.parseInt(request.getParameter("size"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            System.out.println("Name: " + name);
+            System.out.println("Price: " + price);
+            System.out.println("img: " + image);
+            System.out.println("status: " + status);
+
+            Category category = categoryDAO.getCategory(categoryID);
+
+            String imgDir;
+            File fileSaveDir;
+            Product product = new Product();
+
+            // Xác định thư mục lưu ảnh và đường dẫn ảnh dựa trên parent ID của category
+            if (category.getParentID() == 1) {
+                imgDir = "asset/image/women/";
+                fileSaveDir = new File(UPLOAD_DIR_WOMEN);
+            } else {
+                imgDir = "asset/image/men/";
+                fileSaveDir = new File(UPLOAD_DIR_MEN);
+            }
+
+            // Đảm bảo thư mục tồn tại
+            if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+
+            // Xử lý file upload từ request
+            Part part = request.getPart("image");
+            if (part != null && part.getSize() > 0) {
+                String fileName = extractFileName(part);
+                imgDir = imgDir + fileName;
+
+                // Đảm bảo fileName không null
+                if (fileName != null && !fileName.isEmpty()) {
+                    part.write(fileSaveDir + File.separator + fileName);
+                    product.setThumbnail(imgDir); // Lưu đường dẫn ảnh vào sản phẩm
+                } else {
+                    product.setThumbnail(""); // Sử dụng ảnh hiện tại nếu không có ảnh mới
+                }
+            } else {
+                product.setThumbnail(""); // Sử dụng ảnh hiện tại nếu không có ảnh mới
+            }
+            product.setProductName(name);
+            product.setBriefInfomation(description);
+            product.setPrice(price);
+            product.setCateID(category);
+            product.setStatus(status);
+            product.setBriefInfomation(brief);
+            product.setFeatured(feature);
+            productDAO.addNewProduct(product);
+
+            int productId = productDAO.addNewProduct(product);
+            if (productId > 0) {
+                // Thêm chi tiết sản phẩm
+                detailDAO.addProductDetails(productId, size, color, quantity);
+            } else {
+                System.out.println("Failed to add product.");
+            }
+
+        } catch (ServletException | IOException | NumberFormatException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }
+
 }

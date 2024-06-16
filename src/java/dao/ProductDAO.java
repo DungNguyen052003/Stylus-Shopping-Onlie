@@ -12,7 +12,6 @@ import java.util.List;
 import model.Category;
 import model.Product;
 import java.sql.ResultSet;
-import model.Campain;
 
 /**
  *
@@ -69,7 +68,7 @@ public class ProductDAO extends DBContext {
                 int sale = resultSet.getInt("SaleStatus");
                 int campainID = resultSet.getInt("CampainID");
                 LocalDateTime createDateString = resultSet.getTimestamp("CreateDate").toLocalDateTime();
-                
+
                 LocalDateTime updateDateString = resultSet.getTimestamp("UpdateDate").toLocalDateTime();
                 Product product;
                 if (campainID != 0 && sale == 1) {
@@ -197,7 +196,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> listHotTrend() {
         List<Product> listFound = new ArrayList<>();
-        
+
         String sql = """
                      SELECT TOP 3 p.ProductID, COUNT(od.orderid) AS order_count
                      FROM product p
@@ -462,50 +461,54 @@ public class ProductDAO extends DBContext {
 
     }
 
-    public Product get(int id) {
-
-        String sql = "SELECT p.ProductID, p.ProductName, p.Price, p.ThumbNail,p.CampainID, p.Description, p.BriefInformation ,p.CreateDate, p.UpdateDate, c.CateID, c.Name AS c_name "
+    public Product getProductById(int id) {
+        String sql = "SELECT p.ProductID, p.ProductName, p.Price, p.ThumbNail, p.CampainID, p.Description, p.BriefInformation, p.CreateDate, p.UpdateDate, p.SaleStatus,p.Status, c.CateID, c.Name AS c_name,p.Featured, p.Total_Quantity "
                 + "FROM Product p "
                 + "INNER JOIN Category c ON p.CateID = c.CateID "
                 + "WHERE p.ProductID = ?";
-        //  Connection con = super.getJDBCConnection();
 
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 // Tạo một đối tượng Product
                 Product product = new Product();
                 product.setProductID(rs.getInt("ProductID"));
                 product.setProductName(rs.getString("ProductName"));
                 product.setPrice(rs.getDouble("Price"));
-                product.setThumbnail(rs.getString("ThumbNail"));
+                product.setThumbnail(rs.getString("Thumbnail"));
                 product.setDescription(rs.getString("Description"));
                 product.setBriefInfomation(rs.getString("BriefInformation"));
                 product.setCreateDate(rs.getTimestamp("CreateDate").toLocalDateTime());
                 product.setUpdateDate(rs.getTimestamp("UpdateDate").toLocalDateTime());
                 product.setCampainID(rs.getInt("CampainID"));
-                // Tạo một đối tượng Category
+                product.setSaleStatus(rs.getInt("SaleStatus"));
+                product.setFeatured(rs.getInt("Featured"));
+                product.setStatus(rs.getInt("Status"));
                 Category category = new Category();
                 category.setCateID(rs.getInt("CateID"));
                 category.setName(rs.getString("c_name"));
+                product.setTotal_quantity(rs.getInt("Total_Quantity"));
 
                 // Thiết lập Category cho Product
                 product.setCateID(category);
+
+                // Tính salePrice nếu có chiến dịch khuyến mãi và SaleStatus bằng 1
+                int campainID = rs.getInt("CampainID");
+                int saleStatus = rs.getInt("SaleStatus");
+
+                if (campainID != 0 && saleStatus == 1) {
+                    int discount = this.getDiscount(campainID);
+                    double salePrice = product.getPrice() - (product.getPrice() * discount / 100.0);
+                    product.setSalePrice(salePrice);
+                }
 
                 return product;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Đóng kết nối
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return null;
     }
@@ -524,10 +527,9 @@ public class ProductDAO extends DBContext {
                 product.setProductName(rs.getString("ProductName"));
                 product.setSaleID(rs.getInt("SaleID"));
                 product.setBrandID(rs.getInt("BrandID"));
-                //     product.setColorID(rs.getInt("ColorID"));
                 Category category = new Category();
                 category.setCateID(rs.getInt("CateID"));
-                category.setName(rs.getString("c_name"));
+                category.setName(rs.getString("Name"));
                 product.setCateID(category);
                 product.setThumbnail(rs.getString("ThumbNail"));
                 product.setPrice(rs.getDouble("Price"));
@@ -888,65 +890,8 @@ public class ProductDAO extends DBContext {
         return productList;
     }
 
-    public List<ProductSaleInfo> getProductsByCampain(int campainId) {
-        List<ProductSaleInfo> productSaleInfos = new ArrayList<>();
-        String sql = "SELECT P.ProductID, P.ProductName, P.Price AS OriginalPrice, "
-                + "C.DiscountPercent AS CampainDiscountPercent, "
-                + "P.Price - (P.Price * (C.DiscountPercent / 100.0)) AS SalePrice "
-                + "FROM Product P JOIN Campain C ON P.CampainID = C.CampainID "
-                + "WHERE P.CampainID = ?";
-        try {
-            statement = connection.prepareStatement(sql);
-            statement.setInt(1, campainId);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Product product = new Product();
-                product.setProductID(rs.getInt("ProductID"));
-                product.setProductName(rs.getString("ProductName"));
-                product.setPrice(rs.getDouble("OriginalPrice"));
+   
 
-                Campain campain = new Campain();
-                campain.setDiscount(rs.getInt("DiscountPercent")); // Chỉnh sửa tên cột
-
-                double salePrice = rs.getDouble("SalePrice");
-
-                ProductSaleInfo productSaleInfo = new ProductSaleInfo(product, salePrice);
-                productSaleInfos.add(productSaleInfo);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return productSaleInfos;
-    }
-
-    public static class ProductSaleInfo {
-
-        private Product product; // Đối tượng Product
-        private double salePrice; // Giá bán sau chiết khấu
-
-        // Constructor
-        public ProductSaleInfo(Product product, double salePrice) {
-            this.product = product;
-            this.salePrice = salePrice;
-        }
-
-        // Getters và setters
-        public Product getProduct() {
-            return product;
-        }
-
-        public void setProduct(Product product) {
-            this.product = product;
-        }
-
-        public double getSalePrice() {
-            return salePrice;
-        }
-
-        public void setSalePrice(double salePrice) {
-            this.salePrice = salePrice;
-        }
-    }
 
     public List<Product> getLatestProductsFromDatabase(int categoryId) {
         List<Product> lasterproducts = new ArrayList<>();
@@ -1243,6 +1188,55 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return totalRecords;
+    }
+
+    public boolean updateProductFeature(int feature, int productID) {
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "SET Featured = ?\n"
+                + " WHERE ProductID = ?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, feature);
+            statement.setInt(2, productID);
+            int updateFeature = statement.executeUpdate();
+            return updateFeature > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int addNewProduct(Product product) {
+        List<Product> list = new ArrayList<>();
+        String sql = " INSERT INTO Product (ProductName, Price, CateID, Thumbnail, BriefInformation, Description, Status, Featured)\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ? ,?)";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, product.getProductName());
+            statement.setDouble(2, product.getPrice());
+            statement.setInt(3, product.getCateID().getCateID());
+            statement.setString(4, product.getThumbnail());
+            statement.setString(5, product.getBriefInfomation());
+            statement.setString(6, product.getDescription());
+            statement.setInt(7, product.getStatus());
+            statement.setInt(8, product.getFeatured());
+
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return -1;
+    }
+
+    public void updateProductDetails() {
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "   SET [ProductName] = ?\n"
+                + "      ,[Price] = ?\n"
+                + "      ,[Description] = ?\n"
+                + "      ,[BriefInformation] = ?\n"
+                + " WHERE ProductID = ?";
+
     }
 
 }

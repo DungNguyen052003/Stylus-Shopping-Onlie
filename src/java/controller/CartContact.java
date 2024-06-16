@@ -14,8 +14,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.CartList;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import jakarta.servlet.http.HttpSession;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import model.OrderDetail;
 
 /**
  *
@@ -77,9 +81,33 @@ public class CartContact extends HttpServlet {
         String selectedProductsJson = request.getParameter("selectedProducts");
         double subtotal = Double.parseDouble(request.getParameter("subtotal"));
         Gson gson = new Gson();
-        List<HashMap<String, String>> selectedProducts = gson.fromJson(selectedProductsJson, List.class);
+        Type listType = new TypeToken<List<HashMap<String, String>>>() {}.getType();
+        List<HashMap<String, String>> selectedProducts = gson.fromJson(selectedProductsJson, listType);
 
-        request.setAttribute("selectedProducts", selectedProducts);
+        // Tạo danh sách OrderDetail từ selectedProducts
+        List<OrderDetail> orderDetailsList = new ArrayList<>();
+        for (HashMap<String, String> productMap : selectedProducts) {
+            try {
+                int productDetailID = Integer.parseInt(String.valueOf(productMap.get("productDetailID")));
+                int quantity = Integer.parseInt(String.valueOf(productMap.get("quantity")));
+                BigDecimal price = new BigDecimal((String) productMap.get("price"));
+                BigDecimal totalPrice = new BigDecimal((String) productMap.get("total"));
+
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setProductDetailID(productDetailID);
+                orderDetail.setQuantity(quantity);
+                orderDetail.setPrice(price);
+                orderDetail.setTotalPrice(totalPrice);
+
+                orderDetailsList.add(orderDetail);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("orderDetails", orderDetailsList);
+        sesion.setAttribute("selectedProducts", selectedProducts);
         request.setAttribute("subtotal", subtotal);
         request.getRequestDispatcher("view/customer/cartContact.jsp").forward(request, response);
     }

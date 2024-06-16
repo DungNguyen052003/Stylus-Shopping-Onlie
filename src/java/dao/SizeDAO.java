@@ -64,4 +64,23 @@ public class SizeDAO extends DBContext{
              System.out.println(size1.getName());
         }
     }
+    public List<Size> listAllSize() {
+        List<Size> sizes = new ArrayList<>();
+        String sql = "SELECT *\n"
+                + "FROM [dbo].[Size]";
+        try {
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Size size = new Size();
+                size.setId(resultSet.getInt("SizeID"));
+                size.setName(resultSet.getString("Name"));
+                sizes.add(size);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sizes;
+    }
+
 }

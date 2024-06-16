@@ -10,6 +10,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Cart Contact</title>
+        <link href="../../asset/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Custom styles for this template -->
+        <link href="../../asset/jumbotron-narrow.css" rel="stylesheet">      
+        <script src="../../asset/jquery-1.11.3.min.js"></script>
 
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -39,7 +43,7 @@
             var totalElements = document.querySelectorAll('.total');
             var grandTotal = 0;
 
-            totalElements.forEach(function(element) {
+            totalElements.forEach(function (element) {
                 var totalText = element.textContent.replace('$', '').trim();
                 grandTotal += parseFloat(totalText);
             });
@@ -64,6 +68,50 @@
         .gender-options label {
             font-size: 1rem; /* Giảm kích thước font của label */
         }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table tbody + tbody {
+            border-top: 2px solid #dee2e6;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .site-btn:hover {
+            background-color: #e67e22;
+        }
+
     </style>
 
     <body>
@@ -84,77 +132,106 @@
 
             <section class="checkout spad">
                 <div class="container">
+                    <div class="checkout__form">
+                        <form action="/ProjectStylus/vnpayajax" id="frmCreateOrder" method="post">
+                            <div class="row">
+                                <div class="col-lg-5">
 
-                    <form action="#" class="checkout__form">
-                        <div class="row">
-                        <jsp:include page="../layout/sliderSearch.jsp"></jsp:include>
-                            <div class="col-lg-4">
-                                <h5>Billing detail</h5>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="checkout__form__input">
-                                            <p>Full name <span>*</span></p>
-                                            <input type="text" name="fullname" value="${sessionScope.account.getName()}" required="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="checkout__form__input">
-                                        <p>Gender <span>*</span></p>
-                                        <div class="gender-options">
-                                            <input type="radio" name="gender" id="unknown" value="0" ${account.gender == 0 ? 'checked' : ''}>
-                                            <label for="unknown">Unknown</label>
-                                            <input type="radio" name="gender" id="male" value="1" ${account.gender == 1 ? 'checked' : ''}>
-                                            <label for="male">Male</label>
-                                            <input type="radio" name="gender" id="female" value="2" ${account.gender == 2 ? 'checked' : ''}>
-                                            <label for="female">Female</label>
+                                    <h5>Billing detail</h5>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="checkout__form__input">
+                                                <p>Full name <span>*</span></p>
+                                                <input type="text" name="fullname" value="${sessionScope.account.getName()}" required="">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="checkout__form__input">
-                                        <p>Email <span>*</span></p>
-                                        <input type="text" name="email" placeholder="Enter email ID" value="${sessionScope.account.getEmail()}" readonly="">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="checkout__form__input">
+                                            <p>Gender <span>*</span></p>
+                                            <div class="gender-options">
+                                                <input type="radio" name="gender" id="unknown" value="0" ${account.gender == 0 ? 'checked' : ''}>
+                                                <label for="unknown">Unknown</label>
+                                                <input type="radio" name="gender" id="male" value="1" ${account.gender == 1 ? 'checked' : ''}>
+                                                <label for="male">Male</label>
+                                                <input type="radio" name="gender" id="female" value="2" ${account.gender == 2 ? 'checked' : ''}>
+                                                <label for="female">Female</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="checkout__form__input">
-                                        <p>Address <span>*</span></p>
-                                        <input type="text" name="address" placeholder="Address" value="${sessionScope.account.getAddress()}" required="">
+                                    <div class="col-lg-12">
+                                        <div class="checkout__form__input">
+                                            <p>Email <span>*</span></p>
+                                            <input type="text" name="email" placeholder="Enter email ID" value="${sessionScope.account.getEmail()}" readonly="">
+                                        </div>
+                                        <div class="checkout__form__input">
+                                            <p>Address <span>*</span></p>
+                                            <input type="text" name="address" placeholder="Address" value="${sessionScope.account.getAddress()}" required="">
+                                        </div>
+                                        <div class="checkout__form__input">
+                                            <p>Phone Number <span>*</span></p>
+                                            <input type="text" name="phone" placeholder="Enter phone number" value="${sessionScope.account.getPhone()}" required="">
+                                        </div>
+                                        <div class="checkout__form__input">
+                                            <p>Note</p>
+                                            <input type="text">
+                                        </div>
+                                        <div class="cart__btn">
+                                            <a href="cartDetails?id=${sessionScope.account.customerID}">Continue Shopping</a>
+                                        </div>
                                     </div>
-                                    <div class="checkout__form__input">
-                                        <p>Phone Number <span>*</span></p>
-                                        <input type="text" name="phone" placeholder="Enter phone number" value="${sessionScope.account.getPhone()}" required="">
-                                    </div>
-                                    <div class="checkout__form__input">
-                                        <p>Note</p>
-                                        <input type="text">
-                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="checkout__order">
-                                <h5>Your order</h5>
-                                <div class="checkout__order__product">
-                                    <ul>
-                                        <li>
-                                            <span class="top__text">Product</span>
-                                            <span class="top__text__right">Total</span>
-                                        </li>
-                                            <c:forEach var="product" items="${selectedProducts}">
-                                                <li>${product.productName}<span>$ ${product.total}</span></li>
+                            <div class="col-lg-7">
+                                <div class="checkout__order">
+                                    <h5>Your order</h5>
+                                    <div class="checkout__order__product">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="product" items="${sessionScope.selectedProducts}">
+                                                    <tr>
+                                                        <td>${product.productName}</td>
+                                                        <td>$ ${product.price}</td>
+                                                        <td>${product.quantity}</td>
+                                                        <td>$ ${product.total}</td>
+                                                    </tr>
                                                 </c:forEach>
-                                    </ul>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="checkout__order__total">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Subtotal 
+                                                <span id="subtotal">$ ${subtotal}</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Total 
+                                                <span id="grandTotal">$ ${subtotal}</span>
+                                                <input type="hidden" id="amount" name="amount" value="${subtotal}">  
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <input type="radio" checked="true" id="bankCode" name="bankCode" value="">
+                                    <label for="bankCode">Cổng thanh toán VNPAYQR</label><br>
+
+                                    <button type="submit" class="site-btn">Place order</button>
+
+
                                 </div>
-                                <div class="checkout__order__total">
-                                    <ul>
-                                        <li>Subtotal <span id="subtotal">$ ${subtotal}</span></li>
-                                        <li>Total <span id="grandTotal">$ ${subtotal}</span></li>
-                                    </ul>
-                                </div>
-                                <button type="submit" class="site-btn">Place oder</button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </section>
         <jsp:include page="../layout/footer.jsp"></jsp:include>
@@ -176,6 +253,39 @@
         <script src="${pageContext.request.contextPath}/asset/js/owl.carousel.min.js"></script>
         <script src="${pageContext.request.contextPath}/asset/js/jquery.nicescroll.min.js"></script>
         <script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
+        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+        <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frmCreateOrder").submit(function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                var postData = $(this).serialize();
+                var submitUrl = $(this).attr("action");
+
+                $.ajax({
+                    type: "POST",
+                    url: submitUrl,
+                    data: postData,
+                    dataType: 'JSON',
+                    success: function (x) {
+                        if (x.code === '00') {
+                            if (window.vnpay) {
+                                vnpay.open({width: 768, height: 600, url: x.data});
+                            } else {
+                                location.href = x.data;
+                            }
+                        } else {
+                            alert(x.Message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX error: ", status, error);
+                        alert("There was an error processing your request. Please try again.");
+                    }
+                });
+            });
+        });
+        </script>      
     </body>
 
 </html>

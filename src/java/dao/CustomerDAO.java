@@ -1,15 +1,15 @@
 package dao;
 
 import context.DBContext;
-import java.security.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Account;
+import model.ChangeHistory;
 import model.Customer;
-import model.FeedBack;
 
 public class CustomerDAO extends DBContext {
 
@@ -301,7 +301,6 @@ public class CustomerDAO extends DBContext {
         List<Customer> customers = new ArrayList<>();
         String sql = """
                      select * from Customer where verify_Status != 0""";
-
         switch (sortBy) {
             case "fullName":
                 sql += " ORDER BY Name";
@@ -319,7 +318,6 @@ public class CustomerDAO extends DBContext {
                 sql += " ORDER BY CustomerID";
                 break;
         }
-
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -335,8 +333,6 @@ public class CustomerDAO extends DBContext {
                 customer.setPassword(rs.getString("Password"));
                 customer.setRoleID(rs.getInt("RoleID"));
                 customer.setStatus(rs.getInt("status"));
-                //    customer.setVerifiedStatus(rs.getInt("Status"));
-
                 customers.add(customer);
             }
         } catch (SQLException e) {
@@ -396,7 +392,6 @@ public class CustomerDAO extends DBContext {
                 customer.setPassword(rs.getString("Password"));
                 customer.setRoleID(rs.getInt("RoleID"));
                 customer.setStatus(rs.getInt("status"));
-                //    customer.setVerifiedStatus(rs.getInt("Status"));
 
                 customers.add(customer);
             }
@@ -405,6 +400,138 @@ public class CustomerDAO extends DBContext {
         }
         return customers;
     }
+    PreparedStatement stm; //thực hiện câu lệnh sql
+    ResultSet rs; //lưu trữ dữ liệu l
+
+    public List<ChangeHistory> getChangeHistory(int customerID) {
+        List<ChangeHistory> historyList = new ArrayList<>();
+        try {
+            String sql
+                    = "SELECT * FROM ChangeHistory WHERE CustomerID = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, customerID);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                ChangeHistory history = new ChangeHistory(
+                        rs.getInt("ChangeID"),
+                        rs.getInt("CustomerID"),
+                        rs.getString("Email"),
+                        rs.getString("Name"),
+                        rs.getString("Gender"),
+                        rs.getString("Phone"),
+                        rs.getString("Address"),
+                        rs.getString("UpdatedBy"),
+                        rs.getTimestamp("UpdatedDate").toLocalDateTime()
+                );
+                historyList.add(history);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return historyList;
+    }
+
+    public void updateCustomer(Customer customer) {
+        try {
+            String sql = "UPDATE Customer SET Name =?, Gender =?, Email =?, Phone =?, Address =? WHERE CustomerID =?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, customer.getName());
+            stm.setInt(2, Integer.valueOf(customer.getGender()));
+            stm.setString(3, customer.getEmail());
+            stm.setString(4, customer.getPhone());
+            stm.setString(5, customer.getAddress());
+            stm.setInt(6, customer.getCustomerID());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertChangeHistory(Customer customer, Account acc) {
+        try {
+            String sql = "INSERT INTO ChangeHistory (CustomerID, Email, Name, Gender, Phone, Address, UpdatedBy, UpdatedDate) VALUES (?,?,?,?,?,?,?,?)";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, customer.getCustomerID());
+            stm.setString(2, customer.getEmail());
+            stm.setString(3, customer.getName());
+            stm.setString(4, String.valueOf(customer.getGender()));
+            stm.setString(5, customer.getPhone());
+            stm.setString(6, customer.getAddress());
+            stm.setString(7, acc.getName()); // Assuming "Admin" is the updater
+            stm.setString(8, "CURRENT_TIMESTAMP");
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editCustomer(int customerID, String phone, String gender, String image, String name, String address, String email) {
+        String sql = "UPDATE [dbo].[Customer]\n"
+                + "   SET [Name] = ?,\n"
+                + "       [Phone] = ?,\n"
+                + "       [gender] = ?,\n"
+                + "       [Image] = ?,\n"
+                + "       [Address] = ?,\n"
+                + "       [Email] = ?\n"
+                + " WHERE [CustomerID] = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, phone);
+            st.setString(3, gender);
+            st.setString(4, image);
+            st.setString(5, address);
+            st.setString(6, email);
+            st.setInt(7, customerID);
+            // assuming you have the customer ID somewhere in your code
+            //  st.setInt(7, id);
+
+            st.executeUpdate();
+        } catch (Exception e) {
+            // handle exception
+        }
+    }
+
+    public void insert(String address, String email, String phone, int roleID, int gender,
+            String name, String image, int verifiedStatus, Date createdDate) {
+        String sql = "INSERT INTO [dbo].[Customer] ([Address], [Email], [Phone], [RoleID],  [Name], [Image], [gender], [verify_Status], [CreatedDate]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, address);
+            st.setString(2, email);
+            st.setString(3, phone);
+            st.setInt(4, 5);
+            // st.setString(5, password);
+            st.setString(5, name); // Đây là vị trí của trường 'name' trong câu lệnh SQL
+            st.setString(6, image);
+            st.setInt(7, gender);
+            st.setInt(8, verifiedStatus);
+            st.setDate(9, new java.sql.Date(createdDate.getTime()));
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean updateCustomerStatus(int CustomerID, int status) {
+        String sql = "UPDATE [dbo].[Customer]\n"
+                + "   SET [Status] = ?\n"
+                + "   WHERE CustomerID =?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, status);
+            statement.setInt(2, CustomerID);
+            int updateStatus = statement.executeUpdate();
+            return updateStatus > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+  
 
 }
-

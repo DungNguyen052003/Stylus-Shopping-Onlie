@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,10 +58,11 @@ public class orderDAO extends DBContext {
             while (rs.next()) {
                 Order o = new Order();
                 o.setOrderId(rs.getInt("OrderID"));
-                o.setOrderDate(rs.getDate("OrderDate"));
+                LocalDateTime OrderDate = rs.getTimestamp("OrderDate").toLocalDateTime();
+                o.setOrderDate(OrderDate);
                 o.setProductName(rs.getString("ProductNames")); // Lấy giá trị từ cột "ProductNames"
                 o.setTotalAmount(rs.getBigDecimal("TotalAmount"));
-                o.setStatus(rs.getString("Status"));
+                o.setStatus(rs.getInt("Status"));
                 o.setCountOtherproduct(rs.getInt("NumberOfOtherProducts"));
 
                 orders.add(o);
@@ -79,7 +81,7 @@ public class orderDAO extends DBContext {
             System.out.println(or.getCountOtherproduct());
         }
     }
-  
+
     public List<OrderDetail> getOrderDetails(int orderId) {
         List<OrderDetail> orderDetails = new ArrayList<>();
         try {
@@ -115,9 +117,10 @@ public class orderDAO extends DBContext {
 
             while (rs.next()) {
                 int orderID = rs.getInt("OrderID");
-                Date orderDate = rs.getDate("OrderDate");
+                LocalDateTime orderDate = rs.getTimestamp("OrderDate").toLocalDateTime();
+               
                 BigDecimal totalAmount = rs.getBigDecimal("TotalAmount");
-                String status = rs.getString("Status");
+                int status = rs.getInt("Status");
                 String fullName = rs.getString("FullName");
                 String gender = rs.getString("gender");
                 String email = rs.getString("Email");
@@ -176,4 +179,3 @@ public class orderDAO extends DBContext {
     }
 
 }
-

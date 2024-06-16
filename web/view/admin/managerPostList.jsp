@@ -166,7 +166,7 @@
                                                             <i class="fa cursor-pointer ${b.featured eq 1 ? 'fa-toggle-on text-secondary' : 'fa-toggle-off'}" 
                                                                data-id="${b.blogID}" 
                                                                data-status="${b.featured}" 
-                                                               onclick="toggleStatus(this)">
+                                                               onclick="toggleStatus2(this)">
                                                             </i>
                                                         </td>
                                                     </form>
@@ -184,10 +184,10 @@
                                                     </form>
                                                     <td class="align-middle">
                                                         <div class="btn-group">
-                                                            <a href="editpostlist?blogID=${b.blogID}">
+                                                            <a href="EditPostList?blogID=${b.blogID}">
                                                                 <button class="btn btn-sm btn-outline-secondary" type="button"  data-target="#user-form-modal">Edit</button>
                                                             </a>
-                                                            <a href="viewpostlist?blogID=${b.blogID}">
+                                                            <a href="ViewPostList?blogID=${b.blogID}">
                                                                 <button class="btn btn-sm btn-outline-secondary" type="button"  data-target="#user-form-modal">Show</button>
                                                             </a>
                                                         </div>
@@ -383,7 +383,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="py-1">
-                                    <form class="form" action="addpost" method="post" enctype="multipart/form-data" >
+                                    <form class="form" action="AddNewPost" method="post" enctype="multipart/form-data" >
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -482,6 +482,33 @@
                 url: 'ManagerPostList', // URL để xử lý yêu cầu cập nhật
                 type: 'POST',
                 data: {action: 'updateStatus', id: blogID, status: newStatus},
+                success: function (response) {
+                    console.log('Status updated successfully');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating status:', error);
+                }
+            });
+        }
+        function toggleStatus2(icon) {
+            // Lấy trạng thái hiện tại từ lớp của biểu tượng
+            const currentClass = $(icon).hasClass('fa-toggle-on') ? 'fa-toggle-on' : 'fa-toggle-off';
+
+            // Chuyển đổi trạng thái
+            if (currentClass === 'fa-toggle-on') {
+                $(icon).removeClass('fa-toggle-on text-secondary').addClass('fa-toggle-off');
+            } else {
+                $(icon).removeClass('fa-toggle-off').addClass('fa-toggle-on text-secondary');
+            }
+
+            // Gửi yêu cầu AJAX để cập nhật trạng thái trên máy chủ
+            const blogID = $(icon).data('id');
+            const newStatus = currentClass === 'fa-toggle-on' ? 0 : 1;
+
+            $.ajax({
+                url: 'ManagerPostList', // URL để xử lý yêu cầu cập nhật
+                type: 'POST',
+                data: {action: 'updateFeature', id: blogID, status: newStatus},
                 success: function (response) {
                     console.log('Status updated successfully');
                 },

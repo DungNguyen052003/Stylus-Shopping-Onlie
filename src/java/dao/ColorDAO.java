@@ -61,4 +61,31 @@ public class ColorDAO extends DBContext {
         }
         return colors;
     }
+    public List<Color> getColorsByProductIDAndSizeID(int productID, int sizeID) {
+        List<Color> colors = new ArrayList<>();
+        String sql = """
+                     SELECT pd.ProductID, c.ColorID, c.Name
+                     FROM ProductDetails pd
+                     JOIN Color c ON pd.ColorID = c.ColorID
+                     WHERE pd.ProductID = ?  AND pd.SizeID = ?""";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, productID);
+            ps.setInt(2, sizeID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Color color = new Color();
+                color.setId(rs.getInt("ColorID"));
+                color.setName(rs.getString("Name"));
+                colors.add(color);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return colors;
+    }
+
+
 }
