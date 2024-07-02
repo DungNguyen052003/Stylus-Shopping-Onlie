@@ -29,6 +29,7 @@ public class ProductImageDAO extends DBContext {
 
             while (rs.next()) {
                 ProductImage productImage = new ProductImage();
+                productImage.setId(rs.getInt("ImageId"));
                 productImage.setProductID(rs.getInt("productID"));
                 productImage.setProductImages(rs.getString("image"));
                 productImages.add(productImage);
@@ -56,12 +57,27 @@ public class ProductImageDAO extends DBContext {
             e.printStackTrace();
         }
         return productImages;
-        
-}
+
+    }
+
     public static void main(String[] args) {
-         List<ProductImage> productImages = new ProductImageDAO().get(1);
-         for (ProductImage productImage : productImages) {
-             System.out.println(productImage.getProductImages());
+        List<ProductImage> productImages = new ProductImageDAO().get(1);
+        for (ProductImage productImage : productImages) {
+            System.out.println(productImage.getProductImages());
+        }
+    }
+
+    public void updateImage(String productImageID, String imgDir) {
+        String sql = "update ProductImage\n"
+                + "set image = ? where ImageId = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, imgDir);
+            ps.setString(2, productImageID);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

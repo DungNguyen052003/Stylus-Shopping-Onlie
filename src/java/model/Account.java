@@ -3,26 +3,69 @@ package model;
 public class Account {
     private int accountID;
     private String password;
-    private int role;
+    private Role role;
     private int phone;
     private int gender;
     private String email;
     private String image;
     private String name;
-
+    private int status;
+    private String address;
+    private int totalOrder;
     public Account() {
     }
 
-    public Account(int accountID, String password, int role, int phone, int gender, String email, String image, String name) {
+    public Account(int accountID, String password, Role role, int phone, int gender, String email, String image, String name, int status) {
         this.accountID = accountID;
-        this.gender = gender;
         this.password = password;
         this.role = role;
         this.phone = phone;
+        this.gender = gender;
         this.email = email;
         this.image = image;
         this.name = name;
+        this.status = status;
     }
+    public Account(int accountID, Role role, int phone, int gender, String email, String image, String name, int status) {
+        this.accountID = accountID;
+       
+        this.role = role;
+        this.phone = phone;
+        this.gender = gender;
+        this.email = email;
+        this.image = image;
+        this.name = name;
+        this.status = status;
+    }
+
+    public int getTotalOrder() {
+        return totalOrder;
+    }
+
+    public void setTotalOrder(int totalOrder) {
+        this.totalOrder = totalOrder;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    
+
+    
 
     public int getAccountID() {
         return accountID;
@@ -42,13 +85,7 @@ public class Account {
         this.password = password;
     }
 
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
+   
 
     public int getGender() {
         return gender;
@@ -88,6 +125,14 @@ public class Account {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override

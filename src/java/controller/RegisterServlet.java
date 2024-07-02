@@ -79,7 +79,6 @@ public class RegisterServlet extends HttpServlet {
         String message = "Something wrong";
         int slUPrev = ac.getNumberAccounts();
         boolean isDup = ac.checkEmailDuplicate(email);
-
         if (isDup) {
             message = "Email already exists!";
             request.setAttribute("error", message);
@@ -93,9 +92,9 @@ public class RegisterServlet extends HttpServlet {
             cs.setPhone(request.getParameter("phone"));
             cs.setGender(Integer.parseInt(request.getParameter("gender")));
             cs.setRoleID(5);
-            cs.setImage("asset/img/default_avatar.jpg");
+            cs.setImage("asset/image/default_avatar.jpg");
             cs.setVerifiedStatus(0); // Not verified           
-            ac.insert(cs);
+            ac.insertNew(cs);
             EmailService es = new EmailService();   
 //          String verifyCode = es.generateOTP();
             es.send(email, "register");

@@ -65,7 +65,7 @@ public class HomeController extends HttpServlet {
         ProductDAO pd = new ProductDAO();
         SliderDAO sd = new SliderDAO();
         BlogDAO bd = new BlogDAO();
-        List<Product> listbyAll = pd.listTop8Cate(0);
+        List<Product> listbyAll = pd.listTop6Cate(0);
 //        List<Product> listbyMen = pd.listTop8Cate(1);
 //        List<Product> listbyWomen = pd.listTop8Cate(2);
 //        List<Product> listHot = pd.listHotTrend();
@@ -85,23 +85,7 @@ public class HomeController extends HttpServlet {
         request.setAttribute("blog", blog);       
         request.getRequestDispatcher("/view/customer/home.jsp").forward(request, response);
     } 
-    public static void main(String[] args){
-        
-        ProductDAO pd = new ProductDAO();
-        SliderDAO sd = new SliderDAO();
-        BlogDAO bd = new BlogDAO();
-        List<Product> listbyAll = pd.listTop8Cate(0);
-        List<Product> listbyMen = pd.listTop8Cate(1);
-        List<Product> listbyWomen = pd.listTop8Cate(2);
-//        List<Product> listHot = pd.listHotTrend();
-        List<Product> listFeature = pd.listFeature();
-        List<Product> listSale = pd.listSale();
-        List<Slider> listSlider = sd.listSlider();
-        List<Blog> blogList = bd.getAllBlogs();
-        for(Blog p : blogList){
-            System.out.println(p.toString());
-        }
-    }
+
 
     /** 
      * Handles the HTTP <code>POST</code> method.

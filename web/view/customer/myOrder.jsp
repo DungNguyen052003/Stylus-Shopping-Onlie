@@ -6,7 +6,7 @@
     <jsp:include page="../layout/header.jsp"></jsp:include><br>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/css/jquery-ui.min.css" type="text/css">
@@ -17,18 +17,17 @@
 </head>
 <style>
     body {
-        overflow-x: hidden; 
+        overflow-x: hidden;
     }
 </style>
 
 <body>
 
     <div class="breadcrumb-option">
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links" style="margin-left: 48px;">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <a href="HomeController"><i class="fa fa-home"></i> Home</a>
                     <span>My Order</span>
                 </div>
             </div>
@@ -131,7 +130,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th style="padding-right: 20px;">ID</th>
                                                 <th>Order Date</th>
                                                 <th>Product</th>
                                                 <th>Price</th>
@@ -149,7 +148,31 @@
                                                         </c:if>
                                                     </td>
                                                     <td>${order.totalAmount}</td>
-                                                    <td>${order.status}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${order.status == 1}">
+                                                                Pending
+                                                            </c:when>
+                                                            <c:when test="${order.status == 2}">
+                                                                Confirm
+                                                            </c:when>
+                                                            <c:when test="${order.status == 3}">
+                                                                Packing
+                                                            </c:when>
+                                                            <c:when test="${order.status == 4}">
+                                                                Shipping
+                                                            </c:when>
+                                                            <c:when test="${order.status == 5}">
+                                                                Delivered
+                                                            </c:when>
+                                                            <c:when test="${order.status == 6}">
+                                                                Cancel
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                Unknown Status
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -160,7 +183,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="cart__btn">
-                                    <a href="#">Continue Shopping</a>
+                                    <a href="ProductServlet">Continue Shopping</a>
                                 </div>
                             </div>
                         </div>

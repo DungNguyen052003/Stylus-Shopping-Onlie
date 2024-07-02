@@ -229,35 +229,5 @@
             <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         </form>
     </body>
-<!--    <body>
-         <div id="logreg-forms">
-        <form class="form-signin" id="formChange" action="changePass" method="post">
-            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Change Password</h1>
-          <input name="username" type="text" id="inputEmail" class="form-control mb-2" readonly
-                   value="${sessionScope.username}" > 
-            <input name="oldpass" type="password" id="inputPasswordOld" class="form-control mb-2" placeholder="Old Password" required=""
-                   value="" >
-            <input name="newpass" type="password" id="inputPasswordNew" class="form-control" placeholder="New Password" required=""
-                   value="" >
-            <p class="text-danger" id="mess">${requestScope.mess}</p>
 
-            <button class="btn btn-success btn-block mt-2" type="submit"><i class="fa-regular fa-pen-to-square"></i>Change Password</button>
-        </form>
-    </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script>
-//            const oldPass = document.getElementById("inputPasswordOld");
-//            const newPass = document.getElementById("inputPasswordNew");
-//            const formChange = document.getElementById("formChange");
-//            const mess = document.getElementById("mess");
-//            formChange.addEventListener("submit",(e) =>{
-//                e.preventDefault();
-//                if(newPass.value != oldPass.value){
-//                    mess.innerHTML = "Old Password incor";
-//                }
-//            });
-        </script>
-        
-    </body>-->
 </html>

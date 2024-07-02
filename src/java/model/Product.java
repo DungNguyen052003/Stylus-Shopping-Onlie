@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 /**
@@ -14,11 +16,11 @@ public class Product {
 
     private int productID;
     private String productName;
-    private int saleID;
-    private int brandID;
+    private int marketerID;
+    private Brand brand;
     private Category cateID;
     private String thumbnail;
-    private double price;
+    private BigDecimal price;
     private int total_quantity;
     private int status;
     private String description;
@@ -29,81 +31,16 @@ public class Product {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private int CampainID;
-    private double salePrice;
-
-    public int getFeatured() {
-        return featured;
-    }
-
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int featured, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, double salePrice) {
-        this.productID = productID;
-        this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbnail = thumbnail;
-        this.price = price;
-        this.total_quantity = total_quantity;
-        this.status = status;
-        this.description = description;
-        this.briefInfomation = briefInfomation;
-        this.starRating = starRating;
-        this.saleStatus = saleStatus;
-        this.featured = featured;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.CampainID = CampainID;
-        this.salePrice = salePrice;
-    }
-
-    public void setFeatured(int featured) {
-        this.featured = featured;
-    }
-
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, double salePrice) {
-        this.productID = productID;
-        this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbnail = thumbnail;
-        this.price = price;
-        this.total_quantity = total_quantity;
-        this.status = status;
-        this.description = description;
-        this.briefInfomation = briefInfomation;
-        this.starRating = starRating;
-        this.saleStatus = saleStatus;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.CampainID = CampainID;
-        this.salePrice = salePrice;
-    }
-
-    public int getCampainID() {
-        return CampainID;
-    }
-
-    public void setCampainID(int CampainID) {
-        this.CampainID = CampainID;
-    }
-
-    public double getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
-    }
+    private BigDecimal salePrice;
 
     public Product() {
     }
 
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int CampainID) {
+    public Product(int productID, String productName, int marketerID, Brand brandID, Category cateID, String thumbnail, BigDecimal price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int featured, LocalDateTime createDate, LocalDateTime updateDate, int CampainID, BigDecimal salePrice) {
         this.productID = productID;
         this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
+        this.marketerID = marketerID;
+        this.brand = brandID;
         this.cateID = cateID;
         this.thumbnail = thumbnail;
         this.price = price;
@@ -113,68 +50,11 @@ public class Product {
         this.briefInfomation = briefInfomation;
         this.starRating = starRating;
         this.saleStatus = saleStatus;
-        this.CampainID = CampainID;
-    }
-
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, int CampainID, double salePrice) {
-        this.productID = productID;
-        this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbnail = thumbnail;
-        this.price = price;
-        this.total_quantity = total_quantity;
-        this.status = status;
-        this.description = description;
-        this.briefInfomation = briefInfomation;
-        this.starRating = starRating;
-        this.saleStatus = saleStatus;
+        this.featured = featured;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
         this.CampainID = CampainID;
         this.salePrice = salePrice;
-    }
-
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate) {
-        this.productID = productID;
-        this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbnail = thumbnail;
-        this.price = price;
-        this.total_quantity = total_quantity;
-        this.status = status;
-        this.description = description;
-        this.briefInfomation = briefInfomation;
-        this.starRating = starRating;
-        this.saleStatus = saleStatus;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-
-    }
-
-    public Product(int productID, String productName, int saleID, int brandID, Category cateID, String thumbnail, double price, int total_quantity, int status, String description, String briefInfomation, int starRating, int saleStatus, LocalDateTime createDate, LocalDateTime updateDate, int campainId) {
-        this.productID = productID;
-        this.productName = productName;
-        this.saleID = saleID;
-        this.brandID = brandID;
-        this.cateID = cateID;
-        this.thumbnail = thumbnail;
-        this.price = price;
-        this.total_quantity = total_quantity;
-        this.status = status;
-        this.description = description;
-        this.briefInfomation = briefInfomation;
-        this.starRating = starRating;
-        this.saleStatus = saleStatus;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.CampainID = campainId;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + "productID=" + productID + ", productName=" + productName + ", saleID=" + saleID + ", brandID=" + brandID + ", cateID=" + cateID + ", thumbnail=" + thumbnail + ", price=" + price + ", total_quantity=" + total_quantity + ", status=" + status + ", description=" + description + ", briefInfomation=" + briefInfomation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + ", createDate=" + createDate + ", updateDate=" + updateDate + ", CampainID=" + CampainID + ", salePrice=" + salePrice + '}';
     }
 
     public int getProductID() {
@@ -193,20 +73,20 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getSaleID() {
-        return saleID;
+    public int getMarketerID() {
+        return marketerID;
     }
 
-    public void setSaleID(int saleID) {
-        this.saleID = saleID;
+    public void setMarketerID(int marketerID) {
+        this.marketerID = marketerID;
     }
 
-    public int getBrandID() {
-        return brandID;
+    public Brand getBrandID() {
+        return brand;
     }
 
-    public void setBrandID(int brandID) {
-        this.brandID = brandID;
+    public void setBrandID(Brand brandID) {
+        this.brand = brandID;
     }
 
     public Category getCateID() {
@@ -223,14 +103,6 @@ public class Product {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public int getTotal_quantity() {
@@ -281,6 +153,14 @@ public class Product {
         this.saleStatus = saleStatus;
     }
 
+    public int getFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(int featured) {
+        this.featured = featured;
+    }
+
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -295,6 +175,38 @@ public class Product {
 
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getCampainID() {
+        return CampainID;
+    }
+
+    public void setCampainID(int CampainID) {
+        this.CampainID = CampainID;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(BigDecimal price, int discount) {
+        BigDecimal discountPercentage = BigDecimal.valueOf(discount);
+        BigDecimal discountAmount = price.multiply(discountPercentage).divide(BigDecimal.valueOf(100));
+        BigDecimal salePrice = price.subtract(discountAmount);
+        this.salePrice = salePrice.setScale(2, RoundingMode.HALF_UP);;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" + "productID=" + productID + ", productName=" + productName + ", marketerID=" + marketerID + ", brand=" + brand + ", cateID=" + cateID + ", thumbnail=" + thumbnail + ", price=" + price + ", total_quantity=" + total_quantity + ", status=" + status + ", description=" + description + ", briefInfomation=" + briefInfomation + ", starRating=" + starRating + ", saleStatus=" + saleStatus + ", featured=" + featured + ", createDate=" + createDate + ", updateDate=" + updateDate + ", CampainID=" + CampainID + ", salePrice=" + salePrice + '}';
     }
 
 }

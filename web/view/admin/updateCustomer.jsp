@@ -110,7 +110,7 @@
 
     </style>
     <body>
-        <jsp:include page="../layout/header.jsp"></jsp:include><br>
+        
         <c:if test="${not empty sessionScope.successMessage}">
             <div class="alert alert-success" role="alert">
                 ${sessionScope.successMessage}

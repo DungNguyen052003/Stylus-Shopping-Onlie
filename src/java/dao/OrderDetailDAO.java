@@ -11,9 +11,10 @@ import java.sql.SQLException;
  *
  * @author TienP
  */
-public class OrderDetailDAO extends DBContext{
-    public String getProduct(String id){
-        String sql ="""
+public class OrderDetailDAO extends DBContext {
+
+    public String getProduct(String id) {
+        String sql = """
                     select * from OrderDetail od 
                     join ProductDetails pd on pd.Product_Detail_id = od.Product_Detail_Id
                     where od.ID = ?""";
@@ -21,7 +22,7 @@ public class OrderDetailDAO extends DBContext{
             statement = connection.prepareStatement(sql);
             statement.setString(1, id);
             resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getString("ProductID");
             }
         } catch (SQLException e) {
@@ -29,11 +30,12 @@ public class OrderDetailDAO extends DBContext{
         }
         return null;
     }
-    public boolean checkFeedback(int orderDetailID){
-        String sql="select * from OrderDetail od join Feedback f on od.ID = f.OrderDetailID";
+
+    public boolean checkFeedback(int orderDetailID) {
+        String sql = "select * from OrderDetail od join Feedback f on od.ID = f.OrderDetailID where od.ID = ? ";
         try {
             statement = connection.prepareStatement(sql);
-    
+            statement.setInt(1, orderDetailID);
             resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -41,5 +43,25 @@ public class OrderDetailDAO extends DBContext{
         }
         return false;
     }
-    
+
+    public int totalProductsOrdered() {
+        int totalProductsOrdered = 0;
+
+        try {
+            String sql = "SELECT SUM(od.Quantity) AS TotalProductsOrdered "
+                    + "FROM [dbo].[OrderDetail] od "
+                    + "JOIN [dbo].[ProductDetails] pd ON od.Product_Detail_Id = pd.Product_Detail_id "
+                    + "JOIN [dbo].[Product] p ON pd.ProductID = p.ProductID";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                totalProductsOrdered = resultSet.getInt("TotalProductsOrdered");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalProductsOrdered;
+    }
+
 }

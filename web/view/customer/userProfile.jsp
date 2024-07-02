@@ -131,6 +131,7 @@
                     border-radius: 100px;
                     z-index: 0;
                 }
+
                 .profile-pic .-label {
                     cursor: pointer;
                     height: 165px;
@@ -164,6 +165,22 @@
                     text-decoration: none;
                 }
             }
+            .userProfile2{
+                .profile-pic label {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: rgba(0,0,0,0.5);
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
         </style>
 
     </head>
@@ -190,7 +207,7 @@
 
                     <!-- Modal Body -->
                     <div class="modal-body">
-                        <form id="profileForm" action="ChangeProfile" method="post">
+                        <form id="profileForm" action="ChangeProfile" method="post" enctype="multipart/form-data">
                             <div class="container">
                                 <div class="row gutters">
                                     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
@@ -203,6 +220,7 @@
                                                                 <span class="glyphicon glyphicon-camera"></span>
                                                                 <span>Change Image</span>
                                                             </label>
+                                                            <input type=hidden name="currentImage2" value="${account.image}"/>
                                                             <input id="file" type="file" onchange="loadFile(event)" name="image" value="${account.image}"/>
                                                             <img src="${account.image}" id="output" width="200" />
                                                         </div>
@@ -293,23 +311,6 @@
                 var image = document.getElementById("output");
                 image.src = URL.createObjectURL(event.target.files[0]);
             };
-
-            //            function openModal() {
-            //                document.getElementById('profileModal').style.display = 'block';
-            //            }
-            //
-            //            function closeModal() {
-            //                document.getElementById('profileModal').style.display = 'none';
-            //            }
-            //
-            //            // Close the modal if the user clicks outside of it
-            //            window.onclick = function (event) {
-            //                var modal = document.getElementById('profileModal');
-            //                if (event.target == modal) {
-            //                    modal.style.display = "none";
-            //                }
-            //            }
-
         </script>
 
 

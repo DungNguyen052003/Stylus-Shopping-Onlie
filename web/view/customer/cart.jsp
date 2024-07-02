@@ -176,13 +176,29 @@
                                             </td>
                                             <td class="cart__size">${c.productDetails.size.name}</td>
                                             <td class="cart__color">${c.productDetails.color.name}</td>
-                                            <td class="cart__price" id="price-${status.index}">$ ${c.productDetails.product.price}</td>
+                                            <c:choose>
+                                                <c:when test="${c.productDetails.product.saleStatus eq 1}">
+                                                    <td class="cart__price" id="price-${status.index}">$ ${c.productDetails.product.salePrice}</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="cart__price" id="price-${status.index}">$ ${c.productDetails.product.price}</td>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                             <td class="cart__quantity">
                                                 <div class="pro-qty">
                                                     <input type="number" id="quantity-${status.index}" name="quantity" value="${c.quantity}" min="1" max="${c.productDetails.quantity}" onchange="updateQuantity(${status.index}, ${c.cartID}, this.value)">
                                                 </div>
                                             </td>
-                                            <td class="cart__total" id="total-${status.index}">$ <c:out value="${c.productDetails.product.price * c.quantity}" /></td>
+                                            <c:choose>
+                                                <c:when test="${c.productDetails.product.saleStatus eq 1}">
+                                                    <td class="cart__total" id="total-${status.index}">$ <c:out value="${c.productDetails.product.salePrice * c.quantity}" /></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="cart__total" id="total-${status.index}">$ <c:out value="${c.productDetails.product.price * c.quantity}" /></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            
                                             <td class="cart__close">
                                                 <a href="deleteCartDetail?cartID=${c.cartID}">
                                                     <span class="icon_close"></span>
@@ -196,7 +212,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="cart__btn">
-                                    <a href="Home">Continue Shopping</a>
+                                    <a href="ProductServlet">Continue Shopping</a>
                                 </div>
                             </div>
                         </div>

@@ -1,12 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    <!--    <filter>
+    <!--        <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>filter.AdminFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/AccountDetail</url-pattern>
+        <url-pattern>/AccountList</url-pattern>
+        <url-pattern>/AddAccount</url-pattern>
+        <url-pattern>/AdminDashBoard</url-pattern>
+        <url-pattern>/CustomerList</url-pattern>
+        <url-pattern>/ViewCustomer</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>MarketerFilter</filter-name>
+        <filter-class>filter.MarketerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>MarketerFilter</filter-name>
+        <url-pattern>/AddCustomer</url-pattern>
+        <url-pattern>/AddNewPost</url-pattern>
+        <url-pattern>/AddProduct</url-pattern>
+        <url-pattern>/CustomerDetail</url-pattern>
+        <url-pattern>/EditPostList</url-pattern>
+        <url-pattern>/FeedbackDetails</url-pattern>
+        <url-pattern>/InfoDetails</url-pattern>
+        <url-pattern>/InfoProduct</url-pattern>
+        <url-pattern>/ManageFeedback</url-pattern>
+        <url-pattern>/ManageProduct</url-pattern>
+        <url-pattern>/ManageSliders</url-pattern>
+        <url-pattern>/ManagerCustomerList</url-pattern>
+        <url-pattern>/ManagerPostList</url-pattern>
+        <url-pattern>/MktDashboard</url-pattern>
+        <url-pattern>/SliderDetail</url-pattern>
+        <url-pattern>/UpdateCustomer</url-pattern>
+        <url-pattern>/ViewPostList</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>CustomerFilter</filter-name>
+        <filter-class>filter.CustomerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CustomerFilter</filter-name>
+        <url-pattern>/AddToCart</url-pattern>
+        <url-pattern>/CartContact</url-pattern>
+        <url-pattern>/CartDetails</url-pattern>
+        <url-pattern>/DeleteCartDetail</url-pattern>
+        <url-pattern>/FeedBack</url-pattern>
+        <url-pattern>/UpdateCartQuantity</url-pattern>
+        <url-pattern>/VnpayReturn</url-pattern>
+        <url-pattern>/myOrder</url-pattern>
+        <url-pattern>/orderInfo</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SaleFilter</filter-name>
+        <filter-class>filter.SaleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SaleFilter</filter-name>
+        <url-pattern>/OrderDetailOfSale</url-pattern>
+        <url-pattern>/OrderListOfSale</url-pattern>
+        <url-pattern>/SaleDashBoard</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SaleManagerFilter</filter-name>
+        <filter-class>filter.SaleManagerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SaleManagerFilter</filter-name>
+        <url-pattern>/OrderDetailsForSaleManager</url-pattern>
+        <url-pattern>/OrderListOfSaleAdmin</url-pattern>
+        <url-pattern>/SearchBySale</url-pattern>
+        <url-pattern>/SearchByStatus</url-pattern>
+        <url-pattern>/SearchByString</url-pattern>
+        <url-pattern>/UpdateSale</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>StaffFilter</filter-name>
+        <filter-class>filter.StaffFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>StaffFilter</filter-name>
+        <url-pattern>/OrderDetailForStaff</url-pattern>
+        <url-pattern>/OrderListForStaff</url-pattern>
     </filter-mapping>-->
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -78,71 +155,71 @@
     </servlet>
     <servlet>
         <servlet-name>FeedBack</servlet-name>
-        <servlet-class>controller.FeedBack</servlet-class>
+        <servlet-class>controller.customer.FeedBack</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManageProduct</servlet-name>
-        <servlet-class>controller.ManageProduct</servlet-class>
+        <servlet-class>controller.marketer.ManageProduct</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CartDetails</servlet-name>
-        <servlet-class>controller.CartDetails</servlet-class>
+        <servlet-class>controller.customer.CartDetails</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteCartDetail</servlet-name>
-        <servlet-class>controller.DeleteCartDetail</servlet-class>
+        <servlet-class>controller.customer.DeleteCartDetail</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateCartQuantity</servlet-name>
-        <servlet-class>controller.UpdateCartQuantity</servlet-class>
+        <servlet-class>controller.customer.UpdateCartQuantity</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CartContact</servlet-name>
-        <servlet-class>controller.CartContact</servlet-class>
+        <servlet-class>controller.customer.CartContact</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManagerPostList</servlet-name>
-        <servlet-class>controller.ManagerPostList</servlet-class>
+        <servlet-class>controller.marketer.ManagerPostList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManagerCustomerList</servlet-name>
-        <servlet-class>controller.ManagerCustomerList</servlet-class>
+        <servlet-class>controller.marketer.ManagerCustomerList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewPostList</servlet-name>
-        <servlet-class>controller.ViewPostList</servlet-class>
+        <servlet-class>controller.marketer.ViewPostList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditPostList</servlet-name>
-        <servlet-class>controller.EditPostList</servlet-class>
+        <servlet-class>controller.marketer.EditPostList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateCustomer</servlet-name>
-        <servlet-class>controller.UpdateCustomer</servlet-class>
+        <servlet-class>controller.marketer.UpdateCustomer</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>myOrder</servlet-name>
-        <servlet-class>controller.myOrder</servlet-class>
+        <servlet-class>controller.customer.myOrder</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManageFeedback</servlet-name>
-        <servlet-class>controller.ManageFeedback</servlet-class>
+        <servlet-class>controller.marketer.ManageFeedback</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>FeedbackDetails</servlet-name>
-        <servlet-class>controller.FeedbackDetails</servlet-class>
+        <servlet-class>controller.marketer.FeedbackDetails</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VnpayReturn</servlet-name>
-        <servlet-class>controller.VnpayReturn</servlet-class>
+        <servlet-class>controller.customer.VnpayReturn</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InfoProduct</servlet-name>
-        <servlet-class>controller.InfoProduct</servlet-class>
+        <servlet-class>controller.marketer.InfoProduct</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CustomerDetail</servlet-name>
-        <servlet-class>controller.CustomerDetail</servlet-class>
+        <servlet-class>controller.marketer.CustomerDetail</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Config</servlet-name>
@@ -162,19 +239,115 @@
     </servlet>
     <servlet>
         <servlet-name>ManageSliders</servlet-name>
-        <servlet-class>controller.ManageSliders</servlet-class>
+        <servlet-class>controller.marketer.ManageSliders</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddCustomer</servlet-name>
-        <servlet-class>controller.AddCustomer</servlet-class>
+        <servlet-class>controller.marketer.AddCustomer</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddNewPost</servlet-name>
-        <servlet-class>controller.AddNewPost</servlet-class>
+        <servlet-class>controller.marketer.AddNewPost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddToCart</servlet-name>
-        <servlet-class>controller.AddToCart</servlet-class>
+        <servlet-class>controller.customer.AddToCart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProduct</servlet-name>
+        <servlet-class>controller.marketer.AddProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InfoDetails</servlet-name>
+        <servlet-class>controller.marketer.InfoDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserList</servlet-name>
+        <servlet-class>controller.UserList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MktDashboard</servlet-name>
+        <servlet-class>controller.marketer.MktDashboard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDashBoard</servlet-name>
+        <servlet-class>controller.admin.AdminDashBoard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaleDashBoard</servlet-name>
+        <servlet-class>controller.sale.SaleDashBoard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountDetail</servlet-name>
+        <servlet-class>controller.admin.AccountDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailOfSale</servlet-name>
+        <servlet-class>controller.sale.OrderDetailOfSale</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailsForSaleManager</servlet-name>
+        <servlet-class>controller.sale.OrderDetailsForSaleManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderListOfSale</servlet-name>
+        <servlet-class>controller.sale.OrderListOfSale</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderListOfSaleAdmin</servlet-name>
+        <servlet-class>controller.sale.OrderListOfSaleAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchBySale</servlet-name>
+        <servlet-class>controller.sale.SearchBySale</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchByStatus</servlet-name>
+        <servlet-class>controller.sale.SearchByStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchByString</servlet-name>
+        <servlet-class>controller.sale.SearchByString</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateSale</servlet-name>
+        <servlet-class>controller.sale.UpdateSale</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SliderDetail</servlet-name>
+        <servlet-class>controller.marketer.SliderDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerList</servlet-name>
+        <servlet-class>controller.admin.CustomerList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddAccount</servlet-name>
+        <servlet-class>controller.admin.AddAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCustomer</servlet-name>
+        <servlet-class>controller.admin.ViewCustomer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountList</servlet-name>
+        <servlet-class>controller.admin.AccountList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderListForStaff</servlet-name>
+        <servlet-class>controller.sale.OrderListForStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailForStaff</servlet-name>
+        <servlet-class>controller.sale.OrderDetailForStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SettingList</servlet-name>
+        <servlet-class>controller.admin.SettingList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <servlet-class>controller.sale.UpdateOrderStatus</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -222,7 +395,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogDetail</servlet-name>
-        <url-pattern>/blogdetail</url-pattern>
+        <url-pattern>/BlogDetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlogServlet</servlet-name>
@@ -339,6 +512,102 @@
     <servlet-mapping>
         <servlet-name>AddToCart</servlet-name>
         <url-pattern>/AddToCart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProduct</servlet-name>
+        <url-pattern>/AddProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InfoDetails</servlet-name>
+        <url-pattern>/InfoDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserList</servlet-name>
+        <url-pattern>/UserList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MktDashboard</servlet-name>
+        <url-pattern>/MktDashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoard</servlet-name>
+        <url-pattern>/AdminDashBoard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaleDashBoard</servlet-name>
+        <url-pattern>/SaleDashBoard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountDetail</servlet-name>
+        <url-pattern>/AccountDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailOfSale</servlet-name>
+        <url-pattern>/OrderDetailOfSale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailsForSaleManager</servlet-name>
+        <url-pattern>/OrderDetailsForSaleManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderListOfSale</servlet-name>
+        <url-pattern>/OrderListOfSale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderListOfSaleAdmin</servlet-name>
+        <url-pattern>/OrderListOfSaleAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchBySale</servlet-name>
+        <url-pattern>/SearchBySale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByStatus</servlet-name>
+        <url-pattern>/SearchByStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchByString</servlet-name>
+        <url-pattern>/SearchByString</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateSale</servlet-name>
+        <url-pattern>/UpdateSale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SliderDetail</servlet-name>
+        <url-pattern>/SliderDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerList</servlet-name>
+        <url-pattern>/CustomerList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAccount</servlet-name>
+        <url-pattern>/AddAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCustomer</servlet-name>
+        <url-pattern>/ViewCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountList</servlet-name>
+        <url-pattern>/AccountList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderListForStaff</servlet-name>
+        <url-pattern>/OrderListForStaff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailForStaff</servlet-name>
+        <url-pattern>/OrderDetailForStaff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SettingList</servlet-name>
+        <url-pattern>/SettingList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <url-pattern>/UpdateOrderStatus</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>Home</welcome-file>

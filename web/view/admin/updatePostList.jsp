@@ -107,7 +107,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="../layout/header.jsp"></jsp:include><br>
+    
         <c:if test="${not empty sessionScope.successMessage}">
             <div class="alert alert-success" role="alert">
                 ${sessionScope.successMessage}
@@ -171,48 +171,17 @@
                 <div class="row">
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description" rows="7" required>${blog.description}</textarea>
+                        <textarea style="width:100%;"class="form-control" name="description" rows="7" required>${blog.description}</textarea>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
                         <label>Brief Info</label>
-                        <textarea class="form-control" name="brief_info" rows="5" required>${blog.brief_info}</textarea>
+                        <textarea style="width:100%;"class="form-control" name="brief_info" rows="5" required>${blog.brief_info}</textarea>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="form-group">
-                        <label>Status</label>
-                        <div class="custom-controls-stacked">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="status-blog"  value="1" name="status" ${blog.status == 1 ? 'checked' : ''}>
-                                <label class="custom-control-label" for="status-blog">On</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="status-news" value="0" name="status" ${blog.status == 0 ? 'checked' : ''}>
-                                <label class="custom-control-label" for="status-news">Off</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label>Featured</label> 
-                        <div class="custom-controls-stacked">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="featured-male" value="1" name="featured" ${blog.featured == 1 ? 'checked' : ''}>
-                                <label class="custom-control-label" for="featured-male">On</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="featured-female"  value="0"name="featured" ${blog.featured == 0 ? 'checked' : ''}>
-                                <label class="custom-control-label" for="featured-female">Off</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <button class="btn btn-primary" type="submit">Edit</button>
                 <a class="btn btn-secondary" href="ManagerPostList">Back to Manager Post List</a>
             </form>
@@ -235,7 +204,7 @@
         <script src="asset/js/jquery.nicescroll.min.js"></script>
         <script src="asset/js/main.js"></script>
     </script>
-    <jsp:include page="../layout/footer.jsp"></jsp:include><br>
+  
 </body>
 
 </html>

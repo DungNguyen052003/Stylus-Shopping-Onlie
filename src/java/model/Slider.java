@@ -13,16 +13,23 @@ public class Slider {
     private String title;
     private String image;
     private int Status;
-    private int CampainID;
+    private Category CategoryId;
     private String note;
+    private String backlink;
 
-    public String getNote() {
-        return note;
+    public Slider() {
     }
 
-    public void setNote(String note) {
+    public Slider(int id, String title, String image, int Status, Category CategoryId, String note, String backlink) {
+        this.id = id;
+        this.title = title;
+        this.image = image;
+        this.Status = Status;
+        this.CategoryId = CategoryId;
         this.note = note;
+        this.backlink = backlink;
     }
+
     public int getId() {
         return id;
     }
@@ -35,7 +42,7 @@ public class Slider {
         return title;
     }
 
-        public void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -55,30 +62,30 @@ public class Slider {
         this.Status = Status;
     }
 
-    public Slider(int id, String title, String image, int Status, int CampainID, String note) {
-        this.id = id;
-        this.title = title;
-        this.image = image;
-        this.Status = Status;
-        this.CampainID = CampainID;
+    public Category getCategoryId() {
+        return CategoryId;
+    }
+
+    public void setCategoryId(Category CategoryId) {
+        this.CategoryId = CategoryId;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
         this.note = note;
     }
 
-    public Slider() {
+    public String getBacklink() {
+        return backlink;
     }
 
-    public int getCampainID() {
-        return CampainID;
+    public void setBacklink(String backlink) {
+        this.backlink = backlink;
     }
 
-    public void setCampainID(int CampainID) {
-        this.CampainID = CampainID;
-    }
-
-    @Override
-    public String toString() {
-        return "Slider{" + "id=" + id + ", title=" + title + ", image=" + image + ", Status=" + Status + ", CampainID=" + CampainID + ", note=" + note + '}';
-    }
-    
+   
     
 }

@@ -82,7 +82,7 @@ public class ProductServlet extends HttpServlet {
                     listProduct = findProduct(request, pagecontrol);
                     break;
                 case "sortByPrice":
-                    listProduct = listProductByPrice(request);
+                    listProduct = listProductByPrice(request, pagecontrol);
                     break;
                 case "newest":
                     listProduct = listNewestProduct(request, pagecontrol);
@@ -91,11 +91,10 @@ public class ProductServlet extends HttpServlet {
                     listProduct = pageProduct(request, pagecontrol);
                     session.setAttribute("listProduct", listProduct);
                     request.setAttribute("pageControl", pagecontrol);
-            }session.setAttribute("listProduct", listProduct);
+            }
+            session.setAttribute("listProduct", listProduct);
             request.setAttribute("pageControl", pagecontrol);
         }
-        
-        
 
         request.getRequestDispatcher("view/customer/shop.jsp").forward(request, response);
     }
@@ -138,7 +137,7 @@ public class ProductServlet extends HttpServlet {
         pagecontrol.setUrlPattern(requestURL + "?action=search&keyword=" + keyword + "&");
         System.out.println(pagecontrol.getUrlPattern());
         //total page
-        totalPage = (totalRecord % 3) == 0 ? (totalRecord / 3) : ((totalRecord / 3) + 1);
+        totalPage = (totalRecord % 6) == 0 ? (totalRecord / 6) : ((totalRecord / 6) + 1);
         //set total record, total page, page and pageControl
         pagecontrol.setPage(page);
         pagecontrol.setTotalPage(totalPage);
@@ -183,12 +182,40 @@ public class ProductServlet extends HttpServlet {
         return productList;
     }
 
-    private List<Product> listProductByPrice(HttpServletRequest request) {
+    private List<Product> listProductByPrice(HttpServletRequest request, PageControl pagecontrol) {
+
+        String pageRaw = request.getParameter("page");
+        int page;
+        try {
+            page = Integer.parseInt(pageRaw);
+            if (page <= 0) {
+                page = 1;
+            }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
+        int pageSize = 9;
+        //total record
+        int totalRecord;
+        int totalPage;
+        //get về URL
+        String requestURL = request.getRequestURL().toString();
+
         double mini = Double.parseDouble(request.getParameter("mini").replace("$", ""));
         double max = Double.parseDouble(request.getParameter("max").replace("$", ""));
-        List<Product> listProduct = productDAO.findProductsByPriceRange(mini, max);
-        return listProduct;
+        List<Product> listProduct = productDAO.findProductsByPriceRange(mini, max, page, pageSize);
+        System.out.println(listProduct);
+        totalRecord = productDAO.findTotalRecordByPriceRange(mini, max);
+        pagecontrol.setUrlPattern(requestURL + "?action=sortByPrice&mini=" 
+                + request.getParameter("mini") + "&max=" +request.getParameter("max")+"&");
+        //total page
+        totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : ((totalRecord / pageSize) + 1);
+        //set total record, total page, page and pageControl
+        pagecontrol.setPage(page);
+        pagecontrol.setTotalPage(totalPage);
+        pagecontrol.setTotalRecord(totalRecord);
 
+        return listProduct;
     }
 
     private List<Product> pageProduct(HttpServletRequest request, PageControl pagecontrol) {
@@ -208,7 +235,7 @@ public class ProductServlet extends HttpServlet {
         pagecontrol.setUrlPattern(requestURL + "?");
 
         int totalRecord = productDAO.getTotalRecord();
-        List<Product> productList = productDAO.listAll(page, pageSize);
+        List<Product> productList = productDAO.listAllProduct(page, pageSize);
 
         int totalPage = (totalRecord % pageSize) == 0 ? (totalRecord / pageSize) : ((totalRecord / pageSize) + 1);
 
@@ -217,7 +244,6 @@ public class ProductServlet extends HttpServlet {
         pagecontrol.setTotalRecord(totalRecord);
 
         request.setAttribute("pageControl", pagecontrol);
-
         return productList;
 
     }

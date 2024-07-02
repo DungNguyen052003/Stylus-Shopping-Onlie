@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
+            throws ServletException, IOException {
         response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
     }
 
@@ -78,32 +78,52 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(60 * 60); 
+        session.setMaxInactiveInterval(60 * 60);
         Account account = new Account();
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
         account.setEmail(email);
         account.setPassword(pass);
         Account findAccount = accountDAO.findAccount(account);
-        
+
         Customer customer = new Customer();
         customer.setEmail(email);
         customer.setPassword(pass);
         Customer findCustomer = customerDAO.findCustomer(customer);
         
         if (findAccount != null) {
+            int role = findAccount.getRole().getRoleID();
+
             session.removeAttribute("error");
             session.setAttribute("email", email);
             session.setAttribute("account", findAccount);
-            
-            response.sendRedirect("Home");
-        }else if(findCustomer != null){
+            session.setAttribute("role", role);
+            session.setAttribute("accID", findAccount.getAccountID());
+            switch (role) {
+                case 1:
+                    response.sendRedirect("AdminDashBoard");
+                    break;
+                case 2:
+                    response.sendRedirect("MktDashboard");
+                    break;
+                case 3:
+                    response.sendRedirect("OrderListOfSaleAdmin");
+                    break;
+                case 4:
+                    response.sendRedirect("OrderListOfSale");
+                    break;
+                case 6:
+                    response.sendRedirect("OrderListForStaff");
+                    break;    
+            }
+        } else if (findCustomer != null) {
             Customer cs = customerDAO.findCustomer(findCustomer);
             session.removeAttribute("error");
             session.setAttribute("email", email);
             session.setAttribute("account", cs);
+            session.setAttribute("role", findCustomer.getRoleID());
             response.sendRedirect("Home");
-        }else {
+        } else {
             session.setAttribute("error", "Username or password incorrect");
             response.sendRedirect("Home?error=true");
         }

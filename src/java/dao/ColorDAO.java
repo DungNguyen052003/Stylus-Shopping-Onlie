@@ -19,7 +19,6 @@ import model.Color;
  */
 public class ColorDAO extends DBContext {
 
-
     public List<Color> getColorsByProductID(int productID) {
         List<Color> colors = new ArrayList<>();
         String sql = "SELECT c.* FROM ProductDetails ps  JOIN Product p ON ps.productID = p.ProductID \n"
@@ -61,6 +60,7 @@ public class ColorDAO extends DBContext {
         }
         return colors;
     }
+
     public List<Color> getColorsByProductIDAndSizeID(int productID, int sizeID) {
         List<Color> colors = new ArrayList<>();
         String sql = """
@@ -87,5 +87,32 @@ public class ColorDAO extends DBContext {
         return colors;
     }
 
+    public void addNewColor(Color color) {
+        String sql = "INSERT INTO [dbo].[Color] ([Name])\n"
+                + "VALUES (?)";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, color.getName());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isColorDuplicate(String colorName) {
+        String sql = "SELECT COUNT(*) FROM Color WHERE Name = ?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, colorName);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

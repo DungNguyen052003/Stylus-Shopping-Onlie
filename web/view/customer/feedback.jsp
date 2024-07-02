@@ -22,7 +22,7 @@
             .contact__form form input{
                 margin-bottom: 0;
             }
-            
+
             .userProfile{
                 .profile-pic {
                     color: transparent;
@@ -155,7 +155,7 @@
                 color: #c59b08;
             }
         </style>
-       
+
     </head>
     <body>
         <jsp:include page="../layout/header.jsp"></jsp:include><br>
@@ -335,7 +335,7 @@
                             <center>
                                 <h5>SEND FEEDBACK</h5>
                             </center>
-                            <form action="FeedBack" method="post">
+                            <form action="FeedBack" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="orderDetailID" value="${orderDetailID}"/>
                                 <div class="form-row">
                                     <div class="form-group">
@@ -348,24 +348,29 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="gender">Gender:</label>
-                                        <input type="text" id="gender" 
-                                                   value="<c:choose><c:when test='${account.gender == 1}'>Male</c:when>
-                                                   <c:when test='${account.gender == 2}'>Female</c:when>
-                                                   <c:otherwise>Unknown</c:otherwise>
-                                               </c:choose>" readonly>
-                                    </div>
+
                                     <div class="form-group">
                                         <label>Mobile:</label>
                                         <input type="text" value="${account.phone}" readonly>
                                     </div>
                                 </div>
                                 <label>Add Image:</label>
-                                <input type='file' id="imgInp" name="image" />
-                             
+                                <input type='file' id="imgInp"  name="image"  onchange="displaySelectedImage(this)"/>
+                                <img id="selectedImage" src="" alt="Selected Image" style="max-width: 300px; max-height: 300px;">
                                 <br>
+                                <script>
+                                    function displaySelectedImage(input) {
+                                        if (input.files && input.files[0]) {
+                                            var reader = new FileReader();
 
+                                            reader.onload = function (e) {
+                                                document.getElementById('selectedImage').src = e.target.result;
+                                            }
+
+                                            reader.readAsDataURL(input.files[0]); // Đọc tệp hình ảnh dưới dạng URL dữ liệu
+                                        }
+                                    }
+                                </script>
                                 <label>Rating</label>
                                 <br>
                                 <div class="rate">

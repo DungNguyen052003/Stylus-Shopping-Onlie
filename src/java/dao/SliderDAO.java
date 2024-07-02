@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Category;
 import model.Slider;
 
 /**
@@ -19,9 +20,10 @@ public class SliderDAO extends DBContext {
 
     public List<Slider> listSlider() {
         List<Slider> listFound = new ArrayList<>();
-        String sql = "select * from Slider sl\n"
-                + "join Campain c on c.CampainID = sl.SliderCampainID\n"
-                + "where c.Status = 1 ";
+        String sql = """
+                     select * from slider sl join Category ct 
+                     on sl.CategoryID = ct.CateID
+                     where sl.status = 1""";
 
         try {
             statement = connection.prepareStatement(sql);
@@ -32,8 +34,12 @@ public class SliderDAO extends DBContext {
                 slider.setImage(resultSet.getString("Image"));
                 slider.setTitle(resultSet.getString("Title"));
                 slider.setStatus(resultSet.getInt("Status"));
-                slider.setCampainID(resultSet.getInt("SliderCampainID"));
                 slider.setNote(resultSet.getString("Note"));
+                Category ct = new Category();
+                ct.setCateID(resultSet.getInt("CateID"));
+                ct.setName(resultSet.getString("Name"));
+                slider.setCategoryId(ct);
+                slider.setBacklink(resultSet.getString("Backlink"));
                 listFound.add(slider);
             }
         } catch (SQLException e) {
@@ -44,11 +50,13 @@ public class SliderDAO extends DBContext {
 
     public List<Slider> listAllSlider(int page, int pageSize) {
         List<Slider> listSlider = new ArrayList<>();
-        String sql = "SELECT *\n"
-                + "FROM [Slider]\n"
-                + "ORDER BY SliderID\n"
-                + "OFFSET ? ROWS\n"
-                + "FETCH NEXT ? ROWS ONLY";
+        String sql = """
+                     SELECT *
+                     FROM [Slider] sl join Category ct
+                     on sl.SliderID = ct.CateID
+                     ORDER BY SliderID 
+                     OFFSET ? ROWS
+                     FETCH NEXT ? ROWS ONLY""";
         try {
             statement = connection.prepareStatement(sql);
             int offset = (page - 1) * pageSize;
@@ -61,8 +69,12 @@ public class SliderDAO extends DBContext {
                 slider.setImage(resultSet.getString("Image"));
                 slider.setTitle(resultSet.getString("Title"));
                 slider.setStatus(resultSet.getInt("Status"));
-                slider.setCampainID(resultSet.getInt("SliderCampainID"));
                 slider.setNote(resultSet.getString("Note"));
+                Category ct = new Category();
+                ct.setCateID(resultSet.getInt("CateID"));
+                ct.setName(resultSet.getString("Name"));
+                slider.setCategoryId(ct);
+                slider.setBacklink(resultSet.getString("Backlink"));
                 listSlider.add(slider);
             }
 
@@ -88,9 +100,10 @@ public class SliderDAO extends DBContext {
     }
 
     public boolean updateSliderStatus(int sliderID, int status) {
-        String sql = "UPDATE [dbo].[Slider]\n"
-                + "   SET [Status] = ?\n"
-                + "   WHERE SliderID =?";
+        String sql = """
+                     UPDATE [dbo].[Slider]
+                        SET [Status] = ?
+                        WHERE SliderID =?""";
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, status);
@@ -103,47 +116,20 @@ public class SliderDAO extends DBContext {
         return false;
     }
 
-    public static void main(String[] args) {
-        SliderDAO sliderDAO = new SliderDAO();
-
-        // Khai báo các tham số cần thiết
-        String search = ""; // Thay thế bằng chuỗi tìm kiếm mong muốn
-        int status = 0; // Thay thế bằng trạng thái mong muốn
-        int page = 1; // Thay thế bằng trang mong muốn
-        int pageSize = 5; // Thay thế bằng kích thước trang mong muốn
-
-        try {
-            // Gọi phương thức filterSliders từ SliderDAO
-            List<Slider> filteredSliders = sliderDAO.filterSliders(search, status, page, pageSize);
-
-            // In thông tin các slider đã lọc được
-            for (Slider slider : filteredSliders) {
-                System.out.println("ID: " + slider.getId());
-                System.out.println("Title: " + slider.getTitle());
-                System.out.println("Image: " + slider.getImage());
-                System.out.println("Status: " + slider.getStatus());
-                System.out.println("Campaign ID: " + slider.getCampainID());
-                System.out.println("Note: " + slider.getNote());
-                System.out.println();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void updateSlider(Slider slider) {
-        String sql = "UPDATE [dbo].[Slider]\n"
-                + "   SET [Title] = ?\n"
-                + "      ,[Image] = ?\n"
-                + "      ,[Status] =?\n"
-                + "      ,[SliderCampainID] = ?\n"
-                + " WHERE SliderID = ?";
+        String sql = """
+                     UPDATE [dbo].[Slider]
+                        SET [Title] = ?
+                           ,[Image] = ?
+                           ,[Status] =?
+                           ,[Backlink] = ?
+                      WHERE SliderID = ?""";
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, slider.getTitle());
             statement.setString(2, slider.getImage());
             statement.setInt(3, slider.getStatus());
-            statement.setInt(4, slider.getCampainID());
+            statement.setString(4, slider.getBacklink());
             statement.setInt(5, slider.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -153,9 +139,10 @@ public class SliderDAO extends DBContext {
 
     public List<Slider> filterSliders(String search, int status, int page, int pageSize) {
         List<Slider> listSlider = new ArrayList<>();
-        String sql1 = "SELECT * \n"
-                + "  FROM Slider\n"
-                + "  WHERE 1 = 1";
+        String sql1 = """
+                      SELECT * 
+                        FROM Slider
+                        WHERE 1 = 1""";
 
         if (search != null && !search.isEmpty()) {
             sql1 += " AND Title LIKE ?";
@@ -189,8 +176,8 @@ public class SliderDAO extends DBContext {
                 slider.setImage(resultSet.getString("Image"));
                 slider.setTitle(resultSet.getString("Title"));
                 slider.setStatus(resultSet.getInt("Status"));
-                slider.setCampainID(resultSet.getInt("SliderCampainID"));
                 slider.setNote(resultSet.getString("Note"));
+
                 listSlider.add(slider);
             }
 
@@ -229,5 +216,34 @@ public class SliderDAO extends DBContext {
             e.printStackTrace();
         }
         return totalRecords;
+    }
+
+    public Slider getSliderById(String id) {
+        Slider slider = new Slider();
+        String sql = """
+                     select * from slider sl join Category ct 
+                     on sl.CategoryID = ct.CateID
+                     where SliderID = ?
+                    """;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, id);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                slider.setId(resultSet.getInt("SliderID"));
+                slider.setImage(resultSet.getString("Image"));
+                slider.setTitle(resultSet.getString("Title"));
+                slider.setStatus(resultSet.getInt("Status"));
+                slider.setNote(resultSet.getString("Note"));
+                Category ct = new Category();
+                ct.setCateID(resultSet.getInt("CateID"));
+                ct.setName(resultSet.getString("Name"));
+                slider.setCategoryId(ct);
+                slider.setBacklink(resultSet.getString("Backlink"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return slider;
     }
 }

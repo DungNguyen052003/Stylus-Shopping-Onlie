@@ -18,6 +18,22 @@ public class Customer {
     private int verifiedStatus;
     private LocalDateTime createdDate;
 
+
+    public Customer(int customerID, String address, String email, String phone, int roleID, String password, int gender, String name, String image, int status, int verifiedStatus, LocalDateTime createdDate) {
+        this.customerID = customerID;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.roleID = roleID;
+        this.password = password;
+        this.gender = gender;
+        this.name = name;
+        this.image = image;
+        this.status = status;
+        this.verifiedStatus = verifiedStatus;
+        this.createdDate = createdDate;
+    }
+
     public Customer(int customerID, String address, String email, String phone, int gender, String name) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

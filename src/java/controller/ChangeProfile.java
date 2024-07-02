@@ -8,16 +8,20 @@ import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import model.Customer;
 
 /**
  *
  * @author TienP
  */
+@MultipartConfig
 public class ChangeProfile extends HttpServlet {
 
     /**
@@ -79,17 +83,43 @@ public class ChangeProfile extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
-        String image ="asset/image/cus/"+ request.getParameter("image");
+        String imgDir = "asset/image/cus/";
+        File fileSaveDir = new File("C:\\Users\\TienP\\Documents\\NetBeansProjects\\ProjectStylus\\web\\asset\\image\\cus");
+        String currentImg = request.getParameter("currentImage2");
+        if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+        Part part = request.getPart("image");
+        if (part != null && part.getSize() > 0) {
+            String fileName = extractFileName(part);
+            currentImg = imgDir + fileName;
+            if (fileName != null && !fileName.isEmpty()) {
+                part.write(fileSaveDir + File.separator + fileName);
+            } 
+        } 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         CustomerDAO cd = new CustomerDAO();
-        cd.update(phone, gender, image, name, address, email);
+        cd.update(phone, gender, currentImg, name, address, email);
         HttpSession session = request.getSession();
         CustomerDAO cs = new CustomerDAO();
         Customer acc = cs.CustomerbyEmail(email);
         session.setAttribute("account", acc);
         String message = "Profile updated successfully!";
-        response.sendRedirect("Home?update=success&message=" + message);
+         response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().append("<!DOCTYPE html>")
+                .append("<html>")
+                .append("<head>")
+                .append("<title>Blog Update</title>")
+                .append("<script type=\"text/javascript\">")
+                .append("setTimeout(function(){ window.location.href = 'Home'; }, 1500);")
+                .append("</script>")
+                .append("</head>")
+                .append("<body>")
+                .append("</body>")
+                .append("</html>");
+   
     }
 
     /**
@@ -102,4 +132,14 @@ public class ChangeProfile extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
 }

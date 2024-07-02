@@ -9,10 +9,10 @@ package model;
  * @author ngock
  */
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class OrderDetail {
+
     private int id;
     private int orderID;
     private LocalDateTime orderDate;
@@ -36,7 +36,6 @@ public class OrderDetail {
     private String productThumbnail;
     private boolean checkFeedback;
     private LocalDateTime deliveredDate;
-   
 
     public OrderDetail() {
     }

@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="checkout__form__input">
-                                                <p>Status: <span>${entry.value[0].status}</span></p>
+                                                <p>Status: <span>${orderStatus}</span></p>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -317,14 +317,16 @@
                                                         <td>${product.totalPrice}</td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary" onclick="window.location.href = 'ProductDetail?productId=${product.productID}'">Re-Buy</button>
-                                                            <c:choose>
-                                                                <c:when test="${entry.value[0].checkFeedback}">
-                                                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?id=${entry.value[0].id}'">View Feedback</button>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?id=${entry.value[0].id}'">Send Feedback</button>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                            <c:if test="${orderStatus == 'Delivered'}">
+                                                                <c:choose>
+                                                                    <c:when test="${entry.value[0].checkFeedback}">
+                                                                        <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?action=view&id=${entry.value[0].id}'">View Feedback</button>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <button type="button" class="btn btn-secondary" onclick="window.location.href = 'FeedBack?id=${entry.value[0].id}'">Send Feedback</button>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:if>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -333,7 +335,7 @@
                                     </div>
                                     <div class="order-actions">
                                         <button type="button" class="btn btn-secondary" onclick="window.location.href = 'order?orderId=${entry.key}'">Back to order</button>
-                                        <c:if test="${entry.value[0].status == 'Pending' }">
+                                        <c:if test="${entry.value[0].status == '1' }">
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelModal" data-orderid="${entry.key}">Cancel Order</button>
                                         </c:if>
                                     </div>

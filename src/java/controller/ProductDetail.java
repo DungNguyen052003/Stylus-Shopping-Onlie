@@ -68,36 +68,20 @@ public class ProductDetail extends HttpServlet {
 
         int productId = Integer.parseInt(request.getParameter("productId"));
         Product products = new ProductDAO().getProductById(productId);
-        Category category = new CategoryDAO().get(products.getCateID().getCateID());
-        List<FeedBack> feedBack = new FeedBackDAO().getFeedbacksByProductId(products.getProductID());
-        List<FeedBack> listFB = new FeedBackDAO().get(products.getProductID());
-        List<Product> listProduct = new ProductDAO().getProductByCategory(products.getCateID().getCateID());
+        List<FeedBack> feedBack = new FeedBackDAO().getFeedbacksByProductId(productId);
         List<ProductImage> productimg = new ProductImageDAO().get(products.getProductID());
         List<Product> latestProducts = new ProductDAO().getLatestProductsFromDatabase(products.getCateID().getCateID());
         request.setAttribute("categoriesWomen", new CategoryDAO().getCategoriesByParentID(1));
         request.setAttribute("categoriesMen", new CategoryDAO().getCategoriesByParentID(2));
         request.setAttribute("products", products);
         request.setAttribute("productList", productimg);
-        request.setAttribute("listFB", listFB);
-        request.setAttribute("listProduct", listProduct);
-        request.setAttribute("category", category);
-        request.setAttribute("feedback", feedBack);
+        request.setAttribute("listFB", feedBack);
         request.setAttribute(("latestProducts"), latestProducts);
         ProductDetailsDAO pdDAO = new ProductDetailsDAO();
         List<ProductDetails> detailList = pdDAO.getDetailByProductID(productId);
         request.setAttribute("detailList", detailList);
         request.getRequestDispatcher("/view/customer/productDetail.jsp").forward(request, response);
 
-    }
-
-//    public ProductDetail() {
-//    }
-    public static void main(String[] args) {
-        Product products = new ProductDAO().getProductById(1);
-        List<Product> latestProducts = new ProductDAO().getLatestProductsFromDatabase(products.getCateID().getCateID());
-        for (Product pd : latestProducts) {
-            System.out.println(pd);
-        }
     }
 
     /**

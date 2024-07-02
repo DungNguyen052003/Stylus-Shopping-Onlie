@@ -11,30 +11,132 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Ashion | Template</title>
+        <jsp:include page="../layout/header4ad.jsp"></jsp:include>
+            <!-- Google Font -->
+            <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+                  rel="stylesheet">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" media="screen" href="search_box.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/jquery-ui.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
+            <link rel="stylesheet" href="asset/css/style.css?id=11" type="text/css">
+<style>
+            .modal-content {
+                border-radius: 10px;
+                overflow: hidden;
+            }
 
-        <!-- Google Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-              rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" media="screen" href="search_box.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="asset/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/magnific-popup.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="asset/css/style.css?id=11" type="text/css">
-    </head>
+            .modal-header {
+                background-color: #007bff;
+                color: #fff;
+                border-bottom: none;
+            }
 
-    <body>
+            .modal-header .close {
+                color: #fff;
+                opacity: 1;
+            }
 
-        <!-- Header -->
-        <jsp:include page="../layout/header.jsp"></jsp:include>
+            .modal-body {
+                padding: 20px;
+            }
+
+            /* Form styles */
+            #profileForm .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            #profileForm .card {
+                border: none;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            #profileForm .card-body {
+                padding: 20px;
+            }
+
+            #profileForm .form-group {
+                margin-bottom: 20px;
+            }
+
+            #profileForm .form-group label {
+                font-weight: 600;
+            }
+
+            #profileForm .form-control {
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            #profileForm .form-control:focus {
+                border-color: #007bff;
+                box-shadow: none;
+            }
+
+            #profileForm .text-primary {
+                color: #007bff !important;
+            }
+
+            /* Gender radio buttons */
+            #profileForm .form-check-inline {
+                margin-right: 10px;
+            }
+
+            #profileForm .form-check-label {
+                font-weight: 400;
+                margin-left: 5px;
+            }
+
+            /* Buttons */
+            #profileForm .btn {
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            #profileForm .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            #profileForm .btn-secondary {
+                background-color: #6c757d;
+                border-color: #6c757d;
+            }
+
+            /* Media Queries */
+            @media (max-width: 767.98px) {
+                #profileForm .row.gutters {
+                    flex-direction: column;
+                }
+
+                #profileForm .col-xl-3,
+                #profileForm .col-xl-9 {
+                    max-width: 100%;
+                    flex: 0 0 100%;
+                }
+            }
+            
+        </style>
+        </head>
+
+        <body>
+
+            <!-- Header -->
+
 
             <!-- Breadcrumb Begin -->
             <div class="breadcrumb-option">
@@ -43,93 +145,93 @@
                         <div class="col-lg-12">
                             <div class="breadcrumb__links">
                                 <a href="index"><i class="fa fa-home"></i> Home</a>
-                                <a href="#">${product.cateID.name} </a>
+                                <a href="ManageProduct">Manage Product </a>
                             <span>${product.productName}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Breadcrumb End -->
-
-        <!-- Product Details Section Begin -->
-        <form action="InfoProduct?action=updateProduct" method="POST">
+        <form action="InfoProduct?action=updateProduct" method="POST" enctype="multipart/form-data">
             <section class="product-details spad">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="product__details__pic">
                                 <div class="product__details__pic__left product__thumb nice-scroll">
-                                    <c:forEach var="productImage" items="${productList}">
-                                        <a class="pt" href="${productImage.productImages}" data-fancybox="gallery">
-                                            <img src="${productImage.productImages}" alt="">
-                                        </a>
+                                    <c:forEach var="productImage" items="${productList}" varStatus="status">
+                                        <div class="userProfile">
+                                            <div class="profile-pic">
+                                                <label class="-label" for="file${status.index}">
+                                                    <span class="glyphicon glyphicon-camera"></span>
+                                                    <span>Change Image</span>
+                                                </label>
+                                                <input id="file${status.index}" type="file" 
+                                                       onchange="updateImage(event, ${status.index}, '${productImage.id}', '${productImage.productImages}')" />
+                                                <img src="${productImage.productImages}" alt="" id="output${status.index}" style="border-radius: 0;">
+                                            </div>
+                                        </div>
                                     </c:forEach>
                                 </div>
-
-                                <div class="product__details__slider__content">
+                                <div class="product__details__slider__content"> 
                                     <div class="product__details__pic__slider owl-carousel">
-                                        <c:forEach var="product" items="${productList}">
-                                            <a href="${product.productImages}" data-fancybox="gallery">
-                                                <img class="product__big__img" src="${product.productImages}" alt="">
-                                            </a>
-                                        </c:forEach>
+                                        <div class="userProfile">
+                                            <div class="userProfile2">
+                                                <div class="profile-pic">
+                                                    <label class="-label" for="fileTN">
+                                                        <span class="glyphicon glyphicon-camera"></span>    
+                                                        <span>Change Thumbnail</span>
+                                                    </label>
+                                                    <input id="fileTN" type="file" onchange="loadFile2(event)" name="thumbnail" " />
+
+                                                    <img src="${product.thumbnail}" alt="" id="outputTN" style="border-radius: 0; position: static; height: auto;" class="product__big__img_">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- FancyBox CSS -->
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
-
-                        <!-- FancyBox JS -->
-                        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                // FancyBox configuration
-                                Fancybox.bind("[data-fancybox='gallery']", {
-                                    Toolbar: {
-                                        display: [
-                                            "close"
-                                        ],
-                                    },
-                                    Thumbs: {
-                                        autoStart: true,
-                                    },
-                                });
-                            });
-                        </script>
-
-
-
                         <div class="col-lg-6">
                             <div class="product__details__text">
-                                <div name="name">
-                                    <input type="text" id="productNameInput" value="${product.productName}" style="color: #C0392B; border: none; background: none; font-size: 25px; width: 100%;font-weight: bold;">
+                                <input type="hidden" value="${product.productID}" name="productID">
+                                <input type="hidden" value="${product.thumbnail}" name="currentThumbnail">
+                                <div >
+                                    <input type="text" name="name" id="productNameInput" value="${product.productName}" style="color: #C0392B; border: none; background: none; font-size: 25px; width: 100%;font-weight: bold;">
                                 </div>
                                 <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>( 138 reviews )</span>
+                                    <c:forEach var="i" begin="1" end="5">
+                                        <i class="fa fa-star" style="color: <c:out value='${i <= product.starRating ? "#FFD700" : "#CCCCCC"}'/>;"></i>
+                                    </c:forEach>
                                 </div>
-                                <div class="product__details__price" name="price">
+                                <div class="product__details__price" >
                                     <span style="color: #C0392B">$</span>
-                                    <input type="text" id="salePriceInput" value="${product.salePrice}" style="border: none; background: none; font-size: inherit; width: 100px;color: #C0392B;">
-                                    <span>$</span> <span>${product.price}</span>
+                                    <input type="text" id="priceInput" value="${product.price}" name="price" style="border: none; background: none; font-size: inherit; width: 100px;color: #C0392B;">
                                 </div>
-
-                                <p name="brief">
+                                <p >
                                     <strong>Brief Information:</strong>
-                                    <input type="text" id="briefInfoInput" value="${product.briefInfomation}" style="border: none; background: none; font-size: inherit; width: 100%;">
+                                    <input type="text" id="briefInfoInput" name="brief" value="${product.briefInfomation}" style="border: none; background: none; font-size: inherit; width: 100%;">
                                 </p>
-                                <p name="description">
+                                <p >
                                     <strong>Description:</strong>
-                                    <textarea id="descriptionInput" style="border: none; background: none; font-size: inherit; width: 100%; height: 150px; resize: vertical;">${product.description}</textarea>
+                                    <textarea id="descriptionInput" name="description" style="border: none; background: none; font-size: inherit; width: 100%; height: 150px; resize: vertical;">${product.description}</textarea>
                                 </p>
 
+                                <label for="category">Category:</label>
+                                <div class="form-group">
+                                    <select class="custom-select" name="category" id="cateInput">
+                                        <optgroup label="Women">
+                                            <c:forEach items="${categoriesWomen}" var="category">
+                                                <option value="${category.cateID}" <c:if test="${category.cateID == product.cateID.cateID}">selected</c:if>>${category.name}</option>
+                                            </c:forEach>
+                                        </optgroup>
+                                        <optgroup label="Men">
+                                            <c:forEach items="${categoriesMen}" var="category">
+                                                <option value="${category.cateID}" <c:if test="${category.cateID == product.cateID.cateID}">selected</c:if>>${category.name}</option>
+                                            </c:forEach>
+                                        </optgroup>
+                                    </select>
+                                </div>
                                 <form action="UpdateProductDetails" method="post">
                                     <table class="table table-bordered">
                                         <thead>
@@ -181,7 +283,6 @@
                                                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                                                 xhr.onreadystatechange = function () {
                                                     if (xhr.readyState === 4 && xhr.status === 200) {
-
                                                     }
                                                 };
                                                 xhr.send("detailId=" + detailId + "&quantity=" + newQuantity + "&action=" + action);
@@ -286,67 +387,20 @@
 
                                     </div>
 
-                                    <button type="button" onclick="updateProduct()" style="background-color: #C0392B; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Update</button>
+                                    <button type="submit"  style="background-color: #C0392B; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Update</button>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            function updateProduct() {
-                                const productName = document.getElementById('productNameInput').value;
-                                const salePrice = document.getElementById('salePriceInput').value;
-                                const briefInfo = document.getElementById('briefInfoInput').value;
-                                const description = document.getElementById('descriptionInput').value;
-                                const productId = ${product.productID};
-                                const quantities = Array.from(document.getElementsByClassName('quantityInput')).map(input => ({
-                                        colorId: input.getAttribute('data-color-id'),
-                                        quantity: input.value
-                                    }));
-
-                                $.ajax({
-                                    url: 'InfoProduct',
-                                    type: 'POST',
-                                    data: {
-                                        action: 'updateProduct',
-                                        id: productId,
-                                        productName: productName,
-                                        salePrice: salePrice,
-                                        briefInfomation: briefInfo,
-                                        description: description,
-                                        quantities: JSON.stringify(quantities)
-                                    },
-                                    success: function (response) {
-                                        alert('Product updated successfully');
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error updating product:', error);
-                                    }
-                                });
-                            }
-                        </script>
-
 
                     </div>
                 </div>
-
                 <!-- Cropper.js CSS -->
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"/>
-
                 <!-- Cropper.js JS -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-
             </section>
         </form>
-        <!-- Product Details Section End -->
-
-
-
-
-
-
-
-
-
         <!-- Footer Section Begin -->
         <jsp:include page="../layout/footer.jsp"/>
         <!-- Footer Section End -->
@@ -367,4 +421,42 @@
     <script src="asset/js/owl.carousel.min.js"></script>
     <script src="asset/js/jquery.nicescroll.min.js"></script>
     <script src="asset/js/main.js"></script>
+    <script>
+                                            function updateImage(event, index, productImageId, currentImage) {
+                                                var image = document.getElementById("output" + index);
+                                                image.src = URL.createObjectURL(event.target.files[0]);
+                                                const category = ${product.cateID.cateID};
+                                                // Gửi form bằng JavaScript
+                                                var formData = new FormData();
+                                                formData.append('image', event.target.files[0]);
+                                                formData.append('productImageId', productImageId);
+                                                formData.append('category', category);
+                                                formData.append('currentImage', currentImage);
+                                                formData.append('action', "updateImage");
+                                                fetch('InfoProduct', {
+                                                    method: 'POST',
+                                                    body: formData
+                                                }).then(response => response.text())
+                                                        .then(result => {
+                                                            console.log('Success:', result);
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Error:', error);
+                                                        });
+                                            }
+                                            var loadFile2 = function (event) {
+                                                var image = document.getElementById("outputTN");
+                                                image.src = URL.createObjectURL(event.target.files[0]);
+                                            };
+    </script>
+    <script src="${pageContext.request.contextPath}/asset/js/jquery-3.3.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/jquery.magnific-popup.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/mixitup.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/jquery.countdown.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/jquery.slicknav.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/owl.carousel.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/jquery.nicescroll.min.js"></script>
+<script src="${pageContext.request.contextPath}/asset/js/main.js"></script>
 </html>

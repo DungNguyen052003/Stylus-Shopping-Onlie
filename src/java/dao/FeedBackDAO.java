@@ -20,41 +20,6 @@ import model.Product;
  * @author 84976
  */
 public class FeedBackDAO extends DBContext {
-
-    public List<FeedBack> get(int id) {
-        List<FeedBack> feedbacks = new ArrayList<>();
-        String sql = "SELECT f.* FROM Feedback f INNER JOIN Product p ON f.ProductID = p.ProductID WHERE p.ProductID = ?";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                FeedBack feedback = new FeedBack();
-
-                feedback.setId(rs.getInt("ID"));
-                feedback.setCustomerID(rs.getInt("CustomerID"));
-                feedback.setProductID(rs.getInt("ProductID"));
-                feedback.setCreateDate(rs.getTimestamp("CreateDate"));
-                feedback.setRateStar(rs.getInt("RateStar"));
-                feedback.setComment(rs.getString("Comment"));
-                feedback.setStatus(rs.getInt("Status"));
-
-                feedbacks.add(feedback);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                connection.close(); // Close the connection (if needed)
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return feedbacks;
-    }
-
     public List<FeedBack> getAll(int page, int pageSize) {
         List<FeedBack> feedbacks = new ArrayList<>();
         String sql = """
@@ -173,7 +138,8 @@ public class FeedBackDAO extends DBContext {
                 + "f.CreateDate, "
                 + "f.Status, "
                 + "f.CustomerID, "
-                + "f.ProductID "
+                + "f.ProductID, "
+                + "f.FeedbackImage "
                 + "FROM Feedback f "
                 + "INNER JOIN Customer c ON f.CustomerID = c.CustomerID "
                 + "INNER JOIN Product p ON f.ProductID = p.ProductID "
@@ -186,10 +152,11 @@ public class FeedBackDAO extends DBContext {
                     FeedBack feedback = new FeedBack();
                     feedback.setId(rs.getInt("FeedbackID"));
                     feedback.setCustomerID(rs.getInt("CustomerID"));
-                    feedback.setCustomerName(rs.getString("CustomerName")); // Thiết lập tên khách hàng
+                    feedback.setCustomerName(rs.getString("CustomerName")); 
                     feedback.setProductID(rs.getInt("ProductID"));
                     feedback.setCreateDate(rs.getTimestamp("CreateDate"));
                     feedback.setRateStar(rs.getInt("RateStar"));
+                    feedback.setFeedbackImage(rs.getString("FeedbackImage"));
                     feedback.setComment(rs.getString("Comment"));
                     feedback.setStatus(rs.getInt("Status"));
                     feedbacks.add(feedback);

@@ -145,7 +145,7 @@
                                         <div class="dropdown">   
                                             <c:set var="acc" value="${sessionScope.account}" />
                                             <span><img src="${acc.getImage()}" id="user_image" class="dropbtn" style="width: 50px; height: 50px;"/></span>
-                                            <div class="dropdown-content">
+                                            <div class="dropdown-content" style="z-index: 2;">
                                                 <a> <span style="cursor:pointer" data-toggle="modal" data-target="#profileModal" id="button_show">Change Profile</span></a>
                                                 <a> <span style="cursor:pointer" data-toggle="modal" data-target="#myModal3" id="button_show">Change Password</span></a>
                                                 <a href="myOrder">My Orders</a>

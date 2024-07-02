@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author acer
@@ -14,13 +16,13 @@ public class CartList {
     private String colorName;
     private String sizeName;
     private int quantity;
-    private double price;
+    private BigDecimal price;
     private int remainingAmount;
 
     public CartList() {
     }
 
-    public CartList(int cartID, String productName, String colorName, String sizeName, int quantity, double price, int remainingAmount) {
+    public CartList(int cartID, String productName, String colorName, String sizeName, int quantity, BigDecimal price, int remainingAmount) {
         this.cartID = cartID;
         this.productName = productName;
         this.colorName = colorName;
@@ -70,11 +72,11 @@ public class CartList {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

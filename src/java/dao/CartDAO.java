@@ -6,6 +6,7 @@ package dao;
 
 import context.DBContext;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,14 +27,17 @@ import model.Size;
  */
 public class CartDAO extends DBContext {
 
+    ProductDAO productDAO = new ProductDAO();
+
     public List<Cart> getCartProductDetails(int customerId) {
         List<Cart> detailsList = new ArrayList<>();
 
-        String sql = "select c.CartID,pd.Product_Detail_id, p.ProductID, p.ProductName, cl.ColorID,cl.Name as ColorName,s.SizeID,s.Name  as SizeName,p.Price,c.Quantity,pd.Quantity as RemainAmount from Cart c	\n"
-                + "join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id\n"
-                + "join Product p on p.ProductID = pd.ProductID\n"
-                + "join Size s on s.SizeID = pd.SizeID\n"
-                + "join Color cl on pd.ColorID = cl.ColorID where c.CustomerID = ?";
+        String sql = """
+                     select c.CartID,pd.Product_Detail_id, p.ProductID, p.ProductName, cl.ColorID,cl.Name as ColorName,s.SizeID,s.Name  as SizeName,p.Price,c.Quantity,pd.Quantity as RemainAmount from Cart c\t
+                     join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id
+                     join Product p on p.ProductID = pd.ProductID
+                     join Size s on s.SizeID = pd.SizeID
+                     join Color cl on pd.ColorID = cl.ColorID where c.CustomerID = ?""";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, customerId);
@@ -51,10 +55,7 @@ public class CartDAO extends DBContext {
                     cl.setId(rs.getInt("ColorID"));
                     cl.setName(rs.getString("ColorName"));
                     pd.setColor(cl);
-                    Product p = new Product();
-                    p.setProductID(rs.getInt("ProductID"));
-                    p.setProductName(rs.getString("ProductName"));
-                    p.setPrice(rs.getDouble("Price"));
+                    Product p = productDAO.getProductById(rs.getInt("ProductID"));
                     pd.setProduct(p);
                     pd.setQuantity(rs.getInt("RemainAmount"));
                     cart.setQuantity(rs.getInt("Quantity"));
@@ -71,11 +72,12 @@ public class CartDAO extends DBContext {
 
     public Cart getCartProductDetailsByCartID(int id) {
 
-        String sql = "select c.CartID,pd.Product_Detail_id, p.ProductID, p.ProductName, cl.ColorID,cl.Name as ColorName,s.SizeID,s.Name  as SizeName,p.Price,c.Quantity,pd.Quantity as RemainAmount from Cart c	\n"
-                + "join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id\n"
-                + "join Product p on p.ProductID = pd.ProductID\n"
-                + "join Size s on s.SizeID = pd.SizeID\n"
-                + "join Color cl on pd.ColorID = cl.ColorID where c.CartID = ?";
+        String sql = """
+                     select c.CartID,pd.Product_Detail_id, p.ProductID, p.ProductName, cl.ColorID,cl.Name as ColorName,s.SizeID,s.Name  as SizeName,p.Price,c.Quantity,pd.Quantity as RemainAmount from Cart c\t
+                     join ProductDetails pd on c.Product_Detail_ID = pd.Product_Detail_id
+                     join Product p on p.ProductID = pd.ProductID
+                     join Size s on s.SizeID = pd.SizeID
+                     join Color cl on pd.ColorID = cl.ColorID where c.CartID = ?""";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, id);
@@ -96,7 +98,8 @@ public class CartDAO extends DBContext {
                     Product p = new Product();
                     p.setProductID(rs.getInt("ProductID"));
                     p.setProductName(rs.getString("ProductName"));
-                    p.setPrice(rs.getDouble("Price"));
+                    BigDecimal price = rs.getBigDecimal("Price").setScale(2, RoundingMode.HALF_UP);
+                    p.setPrice(price);
                     pd.setProduct(p);
                     pd.setQuantity(rs.getInt("RemainAmount"));
                     cart.setQuantity(rs.getInt("Quantity"));
@@ -133,36 +136,38 @@ public class CartDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        int i = new CartDAO().insertOrder(1, "t", "t", "t", 1, BigDecimal.ONE);
-    }
+  
 
-    public int insertOrder(int customerid, String fullname, String phone, String address, int status, BigDecimal totalAmount) {
+    public int insertOrder(int customerid, String fullname, String phone, String address, int status, BigDecimal totalAmount, int saleID, int method) {
+        String sql = """
+                     INSERT INTO [dbo].[Order]
+                                ([CustomerID]
+                                ,[FullName]
+                                ,[Phone]
+                                ,[Address]
+                                ,[OrderDate]
+                                ,[Status]
+                                ,[TotalAmount]
+                                ,[SaleID]
+                                ,[MethodID])
+                          VALUES
+                                (?,?,?,?,CURRENT_TIMESTAMP,?,?,?,?)""";
 
-        String sql = "INSERT INTO [dbo].[Order]\n"
-                + "           ([CustomerID]\n"
-                + "           ,[FullName]\n"
-                + "           ,[Phone]\n"
-                + "           ,[Address]\n"
-                + "           ,[OrderDate]\n"
-                + "           ,[Status]\n"
-                + "           ,[TotalAmount])\n"
-                + "     VALUES\n"
-                + "           (?,?,?,?,CURRENT_TIMESTAMP,?,?)";
         try (PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setInt(1, customerid);
             st.setString(2, fullname);
             st.setString(3, phone);
             st.setString(4, address);
-
             st.setInt(5, status);
             st.setBigDecimal(6, totalAmount);
+            st.setInt(7, saleID);
+            st.setInt(8, method);
             st.executeUpdate();
 
-            // Lấy ra orderID được tạo tự động
+            // Retrieve the generated orderID
             try (ResultSet generatedKeys = st.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Trả về orderID
+                    return generatedKeys.getInt(1); // Return the generated orderID
                 }
             }
         } catch (SQLException e) {
@@ -170,6 +175,8 @@ public class CartDAO extends DBContext {
         }
         return -1;
     }
+
+
 
     public void insertOrderDetails(int orderID, int productDetailID, int quantity, BigDecimal price, BigDecimal totalPrice, String saleNote, LocalDate deliveredDate) {
         String sql = "INSERT INTO [dbo].[OrderDetail]\n"
@@ -232,6 +239,26 @@ public class CartDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<String> getAddress(int customerID) {
+        List<String> addresses = new ArrayList<>();
+        String sql = "SELECT DISTINCT o.Address\n"
+                + "FROM [Order] o\n"
+                + "WHERE o.CustomerID = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, customerID);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    String address = rs.getString("Address");
+                    addresses.add(address);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return addresses;
     }
 
 }

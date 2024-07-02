@@ -60,7 +60,7 @@
                         <div class="shop__sidebar">
                             <div class="sidebar__categories">
                                 <div class="section-title">
-                                    <form action="ProductServlet" method="get" style="display: inline;">
+                                    <form action="ProductServlet" method="get" style="display: inline;">    
                                         <input type="hidden" name="action" value="newest">
                                         <button type="submit" style="background: none; border: none; color: black; font-size: 1.25em;">
                                             <h4>New</h4>
@@ -240,7 +240,14 @@
                                         </div>
                                         <div class="product__item__text">
                                             <h5><a href="ProductDetail?productId=${p.productID}">${p.productName}</a></h5>
-                                            <h6 style="word-break: break-word">${p.briefInfomation}</h6>
+                                            <p class="card-text" style="overflow: hidden;
+                                                       display: -webkit-box;
+                                                       -webkit-line-clamp: 3;
+                                                       -webkit-box-orient: vertical;
+                                                       width: 250px;
+                                                       word-wrap: break-word;">
+                                                        ${p.briefInfomation}
+                                                    </p>
                                             <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -250,7 +257,7 @@
                                             </div>
                                             <c:choose>
                                                 <c:when test="${p.saleStatus eq 1}">
-                                                    <div class="product__price">$ ${p.price} <span>$ ${p.salePrice}</span></div>
+                                                    <div class="product__price">$ ${p.salePrice} <span>$${p.price} </span></div>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="product__price">$ ${p.price}</div>

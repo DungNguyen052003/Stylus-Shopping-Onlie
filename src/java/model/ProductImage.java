@@ -9,6 +9,7 @@ package model;
  * @author 84976
  */
 public class ProductImage {
+    private int id;
     private int productID;
     private String productImages;
 
@@ -20,8 +21,22 @@ public class ProductImage {
         this.productImages = productImages;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getProductID() {
         return productID;
+    }
+
+    public ProductImage(int id, int productID, String productImages) {
+        this.id = id;
+        this.productID = productID;
+        this.productImages = productImages;
     }
 
     public void setProductID(int productID) {

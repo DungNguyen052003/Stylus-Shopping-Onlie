@@ -17,18 +17,19 @@ import java.util.List;
 public class CategoryDAO extends DBContext {
 
     public Category getCategory(int id) {
-        String sql = "SELECT *\n"
-                + "  FROM [dbo].[Category]\n"
-                + "  WHERE CateID = ?";
+        String sql = """
+                     SELECT *
+                       FROM [dbo].[Category]
+                       WHERE CateID = ?""";
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int cateID = resultSet.getInt("CateID");
-                String name = resultSet.getString("Name");
-                int status = resultSet.getInt("Status");
-                int parentID = resultSet.getInt("ParentID");
+            ResultSet rsCate = statement.executeQuery();
+            while (rsCate.next()) {
+                int cateID = rsCate.getInt("CateID");
+                String name = rsCate.getString("Name");
+                int status = rsCate.getInt("Status");
+                int parentID = rsCate.getInt("ParentID");
                 Category category = new Category(cateID, name, status, parentID);
                 return category;
             }

@@ -59,17 +59,19 @@ public class VerifyOTP extends HttpServlet {
     throws ServletException, IOException {
         String email = request.getParameter("email");
         CustomerDAO cs = new CustomerDAO();
+        boolean bl = cs.checkEmailRegister(email);
+        System.out.println(bl);
         if(cs.checkEmailRegister(email)){
             cs.changeVerifyStatus(email, 1);
             request.setAttribute("status",1 );
             HttpSession session = request.getSession();
-            session.setAttribute("account", email);
+            session.setAttribute("email", email);
         }else{
             request.setAttribute("status",2 );
         }
         request.getRequestDispatcher("view/authen/verify.jsp").forward(request, response);
     } 
-
+    
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request

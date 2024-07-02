@@ -165,8 +165,28 @@
                                         </div>
                                         <div class="checkout__form__input">
                                             <p>Address <span>*</span></p>
-                                            <input type="text" name="address" placeholder="Address" value="${sessionScope.account.getAddress()}" required="">
+                                            <input type="text" name="addressInput" id="addressInput" value="${sessionScope.account.address}" required>
+                                            <select name="addressSelect" id="addressSelect" onchange="updateAddressInput()">
+                                                <option value="">Select an address</option>
+                                                <c:forEach var="addr" items="${address}">
+                                                    <option value="${addr}">${addr}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
+
+                                        <script>
+                                            function updateAddressInput() {
+                                                var selectElement = document.getElementById("addressSelect");
+                                                var inputElement = document.getElementById("addressInput");
+                                                var selectedValue = selectElement.value;
+
+                                                if (selectedValue) {
+                                                    inputElement.value = selectedValue;
+                                                }
+                                            }
+                                        </script>
+
+
                                         <div class="checkout__form__input">
                                             <p>Phone Number <span>*</span></p>
                                             <input type="text" name="phone" placeholder="Enter phone number" value="${sessionScope.account.getPhone()}" required="">
@@ -210,10 +230,7 @@
 
                                     <div class="checkout__order__total">
                                         <ul class="list-group">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                Subtotal 
-                                                <span id="subtotal">$ ${subtotal}</span>
-                                            </li>
+
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 Total 
                                                 <span id="grandTotal">$ ${subtotal}</span>
@@ -221,12 +238,13 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <input type="radio" checked="true" id="bankCode" name="bankCode" value="">
-                                    <label for="bankCode">Cổng thanh toán VNPAYQR</label><br>
-
+                                    <input type="radio" checked="true" id="vnpayqr" name="paymentMethod" value="vnpayqr">
+                                    <label for="vnpayqr"><img src="asset/image/vnpay.jpg" style="height: 80px"></label><br>
+                                        <c:if test = "${subtotal < 1000}">
+                                        <input type="radio" id="shipcod" name="paymentMethod" value="shipcod">
+                                        <label for="shipcod"><img src="asset/image/shipcod.jpg" style="height: 77px"></label><br>
+                                        </c:if>
                                     <button type="submit" class="site-btn">Place order</button>
-
-
                                 </div>
                             </div>
                         </div>
@@ -256,36 +274,44 @@
         <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
         <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
         <script type="text/javascript">
-        $(document).ready(function () {
-            $("#frmCreateOrder").submit(function (event) {
-                event.preventDefault(); // Prevent the form from submitting normally
-                var postData = $(this).serialize();
-                var submitUrl = $(this).attr("action");
+                                            $(document).ready(function () {
+                                                $("#frmCreateOrder").submit(function (event) {
+                                                    event.preventDefault(); // Prevent the form from submitting normally
 
-                $.ajax({
-                    type: "POST",
-                    url: submitUrl,
-                    data: postData,
-                    dataType: 'JSON',
-                    success: function (x) {
-                        if (x.code === '00') {
-                            if (window.vnpay) {
-                                vnpay.open({width: 768, height: 600, url: x.data});
-                            } else {
-                                location.href = x.data;
-                            }
-                        } else {
-                            alert(x.Message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX error: ", status, error);
-                        alert("There was an error processing your request. Please try again.");
-                    }
-                });
-            });
-        });
-        </script>      
+                                                    var paymentMethod = $("input[name='paymentMethod']:checked").val();
+                                                    var postData = $(this).serialize();
+                                                    var submitUrl = $(this).attr("action");
+
+                                                    if (paymentMethod === "vnpayqr") {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: submitUrl,
+                                                            data: postData,
+                                                            dataType: 'json',
+                                                            success: function (response) {
+                                                                if (response.code === '00') {
+                                                                    if (window.vnpay) {
+                                                                        vnpay.open({width: 768, height: 600, url: response.data});
+                                                                    } else {
+                                                                        location.href = response.data;
+                                                                    }
+                                                                } else {
+                                                                    alert(response.message);
+                                                                }
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                console.error("AJAX error: ", status, error);
+                                                                alert("There was an error processing your request. Please try again.");
+                                                            }
+                                                        });
+                                                    } else if (paymentMethod === "shipcod") {
+                                                        this.submit();
+                                                    } else {
+                                                        alert("Invalid payment method selected.");
+                                                    }
+                                                });
+                                            });
+        </script>   
     </body>
 
 </html>

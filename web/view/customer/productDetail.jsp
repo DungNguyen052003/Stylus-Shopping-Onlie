@@ -338,12 +338,14 @@
                     <div class="product__details__text">
                         <div class="product__details__name"> <h5>${product.productName}</h5></div>
                         <div class="product__details__price" style="margin-top: 10px; margin-bottom: 10px;">
-                            <c:forEach items="${productSaleInfos}" var="productSaleInfo" varStatus="status">
-                                <c:if test="${status.index == 0}">
-                                    $${productSaleInfo.salePrice}
-                                    <span>$${productSaleInfo.product.price}</span><br>
-                                </c:if>
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${product.saleStatus eq 1}">
+                                    <div class="product__price">$ ${product.salePrice} <span>$ ${product.price}</span></div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="product__price">$ ${product.price}</div>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <h5></span></h5>
                         <div class="rating">
@@ -521,7 +523,7 @@
                         });
                     }
                     function addToCart(productId) {
-                        const productID = productId;
+
                         const selectedSizeInput = document.querySelector('input[name="size__radio"]:checked');
                         if (!selectedSizeInput) {
                             alert('Please select a size.');
@@ -537,19 +539,17 @@
                                 productDetailID = detail.getAttribute('data-product-detail-id');
                             }
                         });
-
                         if (!productDetailID) {
                             alert('Selected product detail not found.');
                             return;
                         }
-
                         // Send AJAX request to AddToCart servlet
                         fetch('AddToCart', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
                             },
-                            body: `productID=${productID}&productDetailID=${productDetailID}&quantity=${quantity}`
+                            body: `productID=` + productId + `&productDetailID=` + productDetailID + `&quantity=` + quantity
                         })
                                 .then(response => {
                                     if (!response.ok) {
@@ -598,6 +598,7 @@
                                     <div class="feedback-item">
                                         <h6>UserName: ${feedback.customerName}</h6>
                                         <h6>Date: ${feedback.createDate}</h6>
+                                        <h6>Image:  <img style="height: 100px;" src="${feedback.feedbackImage}"/></h6>
                                         <div>
                                             <h6>Star Rating</h6>
                                             <div class="rating">
@@ -627,7 +628,6 @@
                     </div>
                 </div>
                 <c:forEach var="product" items="${latestProducts}" varStatus="loop">
-
                     <c:if test="${loop.index < 4}">
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="product__item">

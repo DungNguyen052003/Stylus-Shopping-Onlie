@@ -6,7 +6,6 @@ package dao;
 
 import context.DBContext;
 import model.Size;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,6 +80,34 @@ public class SizeDAO extends DBContext{
             e.printStackTrace();
         }
         return sizes;
+    }
+  
+    public boolean isSizeDuplicate(String sizeName) {
+        String sql = "SELECT COUNT(*) FROM Size WHERE Name = ?";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, sizeName);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addNewSize(Size size) {
+        String sql = "INSERT INTO [dbo].[Size] ([Name])\n"
+                + "VALUES (?)";
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, size.getName());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
