@@ -377,6 +377,22 @@ public class OrderDaoForSale extends DBContext {
     }
 
     public void updateStatus(int orderID, int status) {
+        if (status == 7 || status == 8) {
+            try {
+                String sql2 = """
+                              select * from dbo.[Order] o join OrderDetail od on
+                              o.OrderID=od.OrderID
+                              where o.OrderID = ?""";
+                PreparedStatement pre = connection.prepareStatement(sql2);
+                pre.setInt(1, orderID);
+                ResultSet rst = pre.executeQuery();
+                   CartDAO cd = new CartDAO();
+                while(rst.next()){
+                    cd.updateQuantityAfterOrder(rst.getInt("Product_Detail_id"), -rst.getInt("Quantity"));
+                }
+            } catch (SQLException e) {
+            }
+        }
         String sql = "UPDATE [dbo].[Order] SET Status = ? WHERE OrderID = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -880,23 +896,23 @@ public class OrderDaoForSale extends DBContext {
         String sql = "select * from OrderStatus\n"
                 + "where (OrderStatusID between 1 and 5) or OrderStatusID = 8";
         try {
-             statement = connection.prepareStatement(sql);
-             resultSet = statement.executeQuery();
-             while(resultSet.next()){
-                 OrderStatus os = new OrderStatus();
-                 os.setId(resultSet.getInt("OrderStatusID"));
-                 os.setName(resultSet.getString("StatusDetail"));
-                 list.add(os);
-             }
-            
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderStatus os = new OrderStatus();
+                os.setId(resultSet.getInt("OrderStatusID"));
+                os.setName(resultSet.getString("StatusDetail"));
+                list.add(os);
+            }
+
         } catch (Exception e) {
         }
-       
+
         return list;
     }
 
     public List<Order> getOrdersByOrderId(String orderId) {
- List<Order> detailsList = new ArrayList<>();
+        List<Order> detailsList = new ArrayList<>();
 
         String sql = """
                      SELECT 
@@ -945,7 +961,7 @@ public class OrderDaoForSale extends DBContext {
                      \t\t\t\t\t\t pm.Method""";
 
         try (PreparedStatement st = connection.prepareStatement(sql)) {
-            
+
             st.setString(1, "%" + orderId + "%");
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -978,6 +994,6 @@ public class OrderDaoForSale extends DBContext {
         }
 
         return detailsList;
-    }    
+    }
 
 }
